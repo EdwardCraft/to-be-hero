@@ -7,12 +7,13 @@
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+
 
 	<title>To be hero</title>
 
 	<!-- Boostrap core CSS -->
 	<link href="dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="dist/css/game.css" rel="stylesheet">
 
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
@@ -20,19 +21,22 @@
 </head>
 <body>
 
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="#">To be hero</a>
-			</div>
-		</div>
-	</nav>
+	 <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+      </div>
+     </nav>
 
 
 	<div class="container">
-		
+     	<div class="game-tamplate">
+     		<canvas id="canvas" width="960" height="560"></canvas>
+     	</div>
+     	<div id="fpsDisplay" style="position: absolute; top: 70px; left: 10px;"></div>
 	</div>
-	
+
 
 
 
@@ -42,7 +46,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="dist/js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="dist/js/Entity.js"></script>
+    <script src="dist/js/engine.js"></script>
+
 </body>
 </html>
