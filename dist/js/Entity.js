@@ -1,8 +1,10 @@
 class Entity{
 
-	constructor(postionX, postionY, asset){
+	constructor(postionX, postionY,  width, height, asset){
 		this.postionX = postionX;
 		this.postionY = postionY;
+		this.width = width;
+		this.height = height;
 		this.asset = asset;
 
 	}
@@ -16,8 +18,8 @@ class Entity{
 			this.asset, 
 			this.postionX, 
 			this.postionY,
-			canvas.width,  
-			canvas.height 
+			this.width,  
+			this.height 
 			);
 	}
 
