@@ -20,20 +20,38 @@ var running = false;
 var started = false;
 var frameID = 0;
 
+var startGame = false;
+
 // We want to simulate  1000 ms / 60 FPS  = 16.667 ms per frame, every time 
 // we run  update()
 var timestep = 1000 / FPS;
 
 
 
-//Entities objects
-
+//World objects
 let background;
 let floor;
 let building;
-
 let lowerBackWindow;
 let uperBackWindow;
+
+//Entity Objects
+var papaLoaded = false;
+var perLoaded = false;
+
+var papaAssets = [
+	'assets/papa-1.png',
+	'assets/papa-2.png',
+    'assets/papa-3.png'
+];
+let papa;
+
+var guyPervAssets = [
+	'assets/perv-1.png',
+	'assets/perv-2.png'
+];
+let guyPerv;
+
 
 
 
@@ -43,10 +61,12 @@ window.onload = function() {
 	canvas = document.getElementById('canvas');
 	canvasctx = canvas.getContext('2d');
 
-
 	getAssets();
 	start();	
+	canvas.addEventListener("click", onClick, false);
 
+	
+	
 
 
 
@@ -55,23 +75,21 @@ window.onload = function() {
 function getAssets(){
 	img = new Image();
 	img.onload = function(){
-		console.log("background loaded");
+		
 		background = new Entity( 0 , 0,  canvas.width,  canvas.height, img);
 
 	}
 
 	var hour = (new Date()).getHours();
-	if(hour >= 19){  // if the time is around  7pm use the night background
+	if(hour >= 19){  // if the time is around 7pm,  use the night background
 		img.src = 'assets/backgroundNight.jpg';
 	}else{
 		img.src = 'assets/backgroundDay.jpg';
 	}
 	
-	
-
 	floorImg = new Image();
 	floorImg.onload = function(){
-		console.log("floor loaded");
+		
 		floor = new  Entity( 0 , canvas.height - 50, 960, 50, floorImg);
 
 	}
@@ -79,14 +97,14 @@ function getAssets(){
 
 	buildingImg = new Image();
 	buildingImg.onload = function(){
-		console.log('building loaded');
+		
 		building = new Entity(canvas.width - 294, 0, 294, 560, buildingImg);
 	}
 	buildingImg.src = 'assets/building.png';
 
 	backWindowImg = new Image();
 	backWindowImg.onload = function(){
-		console.log('backWindow loaded');
+		
 		lowerBackWindow = new Entity(
 			canvas.width - 126, 42, 
 			85, 81, backWindowImg);
@@ -97,8 +115,69 @@ function getAssets(){
 	}
 	backWindowImg.src = 'assets/backWindow.png';
 
+	
+	getAnimationsAssets();
+
+
 
 }
+
+function getAnimationsAssets(){
+
+	loadAnimationAssets(papaAssets, 'papa');
+	loadAnimationAssets(guyPervAssets, 'perv');
+	
+
+}
+
+
+function loadAnimationAssets(assets, object){
+	var assetsFrames = [];
+	var loaded = 0;
+	for(var i = 0; i < assets.length; i++){
+		var img = new Image();
+		img.onload = function(){
+			++loaded;
+			if(loaded >= assets.length){
+				console.log("all images loaded papa: " ,loaded);
+				createObject(object, assetsFrames);
+				//return true;
+			}
+		}
+		img.src = assets[i];
+		assetsFrames.push(img);
+	}
+}
+
+
+function createObject(object, assetsFrames){
+	switch(object){
+		case 'papa':  
+		 	papa = new Entity(0 , canvas.height - 140, 0, 0, assetsFrames, 20, [0.1,0]);
+			papa.loopingAnimation();
+			break;
+		case 'perv':
+			guyPerv = new Entity( -200 , canvas.height - 140, 0, 0, assetsFrames, 10, [0.05,0]);
+			break;
+	}
+}
+
+
+function onClick(e){
+
+	console.log("Start Animation");
+	startGame = !startGame;
+	
+
+	
+}
+
+
+onImageLoad = function(){
+	
+}
+
+
 
 
 
@@ -167,7 +246,14 @@ function mainLoop(timestamp){
 
 function update(delta){
 
-	if(background !== undefined)background.update(delta);	
+	
+
+	if(startGame){
+		if(papa !== undefined) papa.updateAnimation(delta, canvas);
+		if(guyPerv !== undefined) guyPerv.updateAnimation(delta, canvas);
+	}
+	
+
 
 }
 
@@ -178,12 +264,20 @@ function render(){
 	//clear background
 	clearScreen(0, 0, canvas.width, canvas.height, 'black');
 	
+	// World Objects
 	if(background !== undefined)background.render( canvas, canvasctx);
 	if(lowerBackWindow !== undefined)lowerBackWindow.render(canvas, canvasctx);
 	if(uperBackWindow !== undefined)uperBackWindow.render(canvas, canvasctx);
 	if(building !== undefined)building.render(canvas, canvasctx);
 	if(floor !== undefined)floor.render(canvas, canvasctx);
 
+	// Entities Objects
+
+	
+	if(papa !== undefined) papa.renderAnimation(canvas, canvasctx);
+	if(guyPerv !== undefined) guyPerv.renderAnimation(canvas, canvasctx);
+	
+	
 
 
 
