@@ -25,7 +25,8 @@ var startGame = false;
 // We want to simulate  1000 ms / 60 FPS  = 16.667 ms per frame, every time 
 // we run  update()
 var timestep = 1000 / FPS;
-
+var check = false;
+var landscape = false;
 
 
 //World objects
@@ -79,7 +80,8 @@ window.onload = function() {
 	canvas = document.getElementById('canvas');
 	canvasctx = canvas.getContext('2d');
 
-	isMobile();
+	window.addEventListener('orientationchange', doOnOrientationChange);
+	isMobile()
 	if(check){
 		resize();
 	}
@@ -93,9 +95,25 @@ window.onload = function() {
 
 function isMobile(){
 	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
- 		check = true;
+		// Initial execution if needed
+		doOnOrientationChange();
+ 		if(landscape)check = true;
 	}
 	check = false;
+}
+
+
+function doOnOrientationChange() {
+    switch(window.orientation) {  
+      case -90 || 90:
+        alert('landscape');
+        landscape = true; 
+        break;
+      default:
+        alert('portrait');
+        landscape = false;
+        break;
+    }
 }
 
 
