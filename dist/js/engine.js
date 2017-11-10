@@ -79,19 +79,24 @@ window.onload = function() {
 	canvas = document.getElementById('canvas');
 	canvasctx = canvas.getContext('2d');
 
+	isMobile();
+	if(check){
+		resize();
+	}
 	
-	resize();
 	getAssets();
 	start();	
 	canvas.addEventListener("click", onClick, false);
 
-	
-	
-
-
 
 }
 
+function isMobile(){
+	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+ 		check = true;
+	}
+	check = false;
+}
 
 
 function resize(){
