@@ -79,12 +79,13 @@ window.onload = function() {
 	canvas = document.getElementById('canvas');
 	canvasctx = canvas.getContext('2d');
 
-	onMobile();
 	window.addEventListener('orientationchange', doOnOrientationChange);
-	doOnOrientationChange();
+	canvas.addEventListener("click", onClick, false);
+	
+	onMobile();
 	getAssets();
 	start();	
-	canvas.addEventListener("click", onClick, false);
+	
 
 
 }
@@ -93,7 +94,7 @@ window.onload = function() {
 function doOnOrientationChange() {
 	switch(window.orientation) {  
       	case -90 || 90:
-     
+     	resize();
         break;
       	default: break;
     }
@@ -103,7 +104,9 @@ function doOnOrientationChange() {
 function onMobile(){
 	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
  		var mobile = document.getElementById("desktop");
- 		mobile.style.display = "none";	
+ 		mobile.style.display = "none";
+ 		screen.orientation.lock('landscape');
+ 		doOnOrientationChange();	
 	}else{
 		var desktop = document.getElementById("mobile");
 		desktop.style.display = "none";	
