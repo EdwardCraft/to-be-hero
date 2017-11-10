@@ -93,11 +93,10 @@ function doOnOrientationChange() {
 	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
 		switch(window.orientation) {  
       		case -90 || 90:
-        	//alert('landscape');
         	resize();
         	break;
       		default:
-       	 	//alert('portrait');
+       	 	
         	break;
     	}
 	}
