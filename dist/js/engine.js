@@ -81,7 +81,7 @@ window.onload = function() {
 
 	window.addEventListener('orientationchange', doOnOrientationChange);
 	canvas.addEventListener("click", onClick, false);
-	
+
 	onMobile();
 	getAssets();
 	start();	
@@ -106,7 +106,8 @@ function onMobile(){
  		var mobile = document.getElementById("desktop");
  		mobile.style.display = "none";
  		screen.orientation.lock('landscape');
- 		doOnOrientationChange();	
+ 		doOnOrientationChange();
+ 		alert("Hello! I am an alert box!");	
 	}else{
 		var desktop = document.getElementById("mobile");
 		desktop.style.display = "none";	
