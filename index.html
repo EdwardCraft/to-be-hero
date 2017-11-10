@@ -21,18 +21,29 @@
 </head>
 <body>
 
-	 <nav id="navbarId"class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">Project name</a>
+    <div id="desktop" class="showBorder">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Project name</a>
+                </div>
+            </div>
+        </nav>
+        
+     <div class="container col-centered showBorder">
+       <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop    </canvas>                  -->
+        <div class="row center-child">
+            <canvas id="canvas" width="960" height="560">
         </div>
-      </div>
-     </nav>
+     </div>
+    </div>
 
+    
+	 <div id="mobile">
+         <canvas id="canvas" width="960" height="560">
+     </div>
 
-	
-     	
-     <canvas id="canvas" width="960" height="560"></canvas>
+     
      	
 	
 

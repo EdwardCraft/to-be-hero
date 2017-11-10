@@ -79,6 +79,7 @@ window.onload = function() {
 	canvas = document.getElementById('canvas');
 	canvasctx = canvas.getContext('2d');
 
+	onMobile();
 	window.addEventListener('orientationchange', doOnOrientationChange);
 	doOnOrientationChange();
 	getAssets();
@@ -99,6 +100,15 @@ function doOnOrientationChange() {
 	
 }
 
+function onMobile(){
+	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+ 		var mobile = document.getElementById("desktop");
+ 		mobile.style.display = "none";	
+	}else{
+		var desktop = document.getElementById("mobile");
+		desktop.style.display = "none";	
+	}
+}
 
 function resize(){
 	//check for window aspect ratio.

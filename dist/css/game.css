@@ -3,7 +3,18 @@ body {
   
 }
 
-.game-tamplate {
-  padding: 40px 15px;
-  text-align: center;
+
+
+.col-centered{
+	padding-top: 50px;
+    
 }
+
+.showBorder{
+	border:1px solid black;
+}
+
+.center-child{
+	margin-left: 9%;
+}
+
