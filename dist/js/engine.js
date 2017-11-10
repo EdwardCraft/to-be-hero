@@ -90,15 +90,13 @@ window.onload = function() {
 
 
 function doOnOrientationChange() {
-	//if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-		switch(window.orientation) {  
-      		case -90 || 90:
-        	//resize();
-        	break;
-      		default:
-        	break;
-    	}
-	//}
+	switch(window.orientation) {  
+      	case -90 || 90:
+     
+        break;
+      	default: break;
+    }
+	
 }
 
 
