@@ -7,7 +7,7 @@ var img;
 
 var FPS = 60;
 var fps = 60;
-var fpsDisplay = document.getElementById('fpsDisplay');
+//var fpsDisplay = document.getElementById('fpsDisplay');
 
 var lastFrameTimeMs = 0; // last time the was run
 var maxFPS = FPS; // the maximun FPS we want to allow
@@ -38,21 +38,39 @@ let uperBackWindow;
 //Entity Objects
 var papaLoaded = false;
 var perLoaded = false;
+var papaTwoLoaded = false;
+var boosAlienLoaded = false;
 
 var papaAssets = [
 	'assets/papa-1.png',
 	'assets/papa-2.png',
     'assets/papa-3.png'
 ];
-let papa;
-
 var guyPervAssets = [
 	'assets/perv-1.png',
 	'assets/perv-2.png'
 ];
+var papaTwoAssets = [
+	'assets/papaTwo-1.png',
+	'assets/papaTwo-2.png',
+	'assets/papaTwo-3.png'
+];
+var boosAlienAssets = [
+	'assets/boosalien-1.png',
+	'assets/boosalien-2.png',
+	'assets/boosalien-3.png',
+	'assets/boosalien-4.png'
+];
+var flyGuyAssets = [
+	'assets/fly-1.png',
+	'assets/fly-2.png',
+	'assets/fly-3.png'
+];
+let papa;
 let guyPerv;
-
-
+let papaTwo;
+let boosAlien;
+let flyGuy;
 
 
 
@@ -126,7 +144,9 @@ function getAnimationsAssets(){
 
 	loadAnimationAssets(papaAssets, 'papa');
 	loadAnimationAssets(guyPervAssets, 'perv');
-	
+	loadAnimationAssets(papaTwoAssets, 'papaTwo');
+	loadAnimationAssets(boosAlienAssets, 'boos');
+	loadAnimationAssets(flyGuyAssets, 'fly');
 
 }
 
@@ -159,6 +179,17 @@ function createObject(object, assetsFrames){
 		case 'perv':
 			guyPerv = new Entity( -200 , canvas.height - 140, 0, 0, assetsFrames, 10, [0.05,0]);
 			break;
+		case 'papaTwo': 
+			papaTwo = new Entity(
+				canvas.width + 100, canvas.height - 135, 0, 0, 
+				assetsFrames, 10,  [0.03,0] );
+			break;
+		case 'boos':
+			boosAlien = new Entity( -200, canvas.height - 155, 0, 0,assetsFrames, 5,  [0.2,0] );
+			break;
+		case 'fly': 
+			flyGuy = new Entity( -200, 45, 0, 0, assetsFrames, 5, [0.3,0]);
+			break;
 	}
 }
 
@@ -167,7 +198,6 @@ function onClick(e){
 
 	console.log("Start Animation");
 	startGame = !startGame;
-	
 
 	
 }
@@ -247,10 +277,17 @@ function mainLoop(timestamp){
 function update(delta){
 
 	
-
+	/*
+		@params
+		@delta: delta value for everything that updates;
+		@canvas: the canvas if 
+	*/
 	if(startGame){
-		if(papa !== undefined) papa.updateAnimation(delta, canvas);
-		if(guyPerv !== undefined) guyPerv.updateAnimation(delta, canvas);
+		if(papa !== undefined) papa.updateAnimation(delta, canvas, 'right','xAxis');
+		if(guyPerv !== undefined) guyPerv.updateAnimation(delta, canvas, 'right','xAxis');
+		if(papaTwo !== undefined) papaTwo.updateAnimation(delta, canvas, 'left','xAxis');
+		if(boosAlien !== undefined) boosAlien.updateAnimation(delta, canvas, 'right','xAxis');
+		if(flyGuy !== undefined)flyGuy.updateAnimation(delta, canvas, 'right','yAxis');
 	}
 	
 
@@ -259,13 +296,14 @@ function update(delta){
 
 
 function render(){
-	fpsDisplay.textContent = Math.round(fps) + ' FPS'; // display the FPS
+	//fpsDisplay.textContent = Math.round(fps) + ' FPS'; // display the FPS
 
 	//clear background
 	clearScreen(0, 0, canvas.width, canvas.height, 'black');
 	
 	// World Objects
 	if(background !== undefined)background.render( canvas, canvasctx);
+	if(flyGuy !== undefined)flyGuy.renderAnimation(canvas, canvasctx);
 	if(lowerBackWindow !== undefined)lowerBackWindow.render(canvas, canvasctx);
 	if(uperBackWindow !== undefined)uperBackWindow.render(canvas, canvasctx);
 	if(building !== undefined)building.render(canvas, canvasctx);
@@ -274,8 +312,11 @@ function render(){
 	// Entities Objects
 
 	
-	if(papa !== undefined) papa.renderAnimation(canvas, canvasctx);
+
 	if(guyPerv !== undefined) guyPerv.renderAnimation(canvas, canvasctx);
+	if(papa !== undefined) papa.renderAnimation(canvas, canvasctx);
+	if(boosAlien !== undefined) boosAlien.renderAnimation(canvas, canvasctx);
+	if(papaTwo !== undefined) papaTwo.renderAnimation(canvas, canvasctx);
 	
 	
 

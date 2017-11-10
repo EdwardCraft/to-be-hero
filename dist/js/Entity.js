@@ -50,10 +50,13 @@ class Entity{
 		this.count = 0;
 		this.speed = animationSpeed;;
 		this.currentImg = new Image();
+		this.ofScreen = false;
 		this.movementVelocity = velocity;
 		this.offscreenXPosition = -100;
 		this.frames = asset.length;
 		this.currentImg = asset[0];
+		this.direction = ['TOP', 'MIDDLE', 'DOWN'];
+		this.directionIndex = 0;
 		//this.currentImg = asset[0];
 		for(var i = 0; i < this.frames; i++){
 			console.log(asset[i]);
@@ -73,21 +76,69 @@ class Entity{
 	}
 
 
-	updateAnimation(delta, canvas){
-	
-		this.movementX(delta, canvas);
+	updateAnimation(delta, canvas, direction, orientantion){
+		
+		if(orientantion === 'xAxis'){
+			switch(direction){
+				case 'left' : this.movementXLeft(delta, canvas); break;
+				case 'right': this.movementXRight(delta, canvas); break;
+			}
+		}else{
+			this.movementY(delta, canvas);
+		}
+		
+
+		
 		this.runAnimation();
 
 	}
 
-	movementX(delta, canvas){
+	movementXRight(delta, canvas){
 
 		this.postionX += this.movementVelocity[0] * delta;
 
 		if(this.postionX - 100 > canvas.width){
 			this.postionX = this.offscreenXPosition;
+			this.ofScreen = true;
 		}
 
+	}
+
+	movementXLeft(delta, canvas){
+
+		this.postionX -= this.movementVelocity[0] * delta;
+
+		if(this.postionX  < -100 ){
+			this.postionX = canvas.width + 100;
+		}
+
+	}
+
+	movementY(delta, canvas){
+		this.getNewPosition(canvas);
+		this.movementXRight(delta, canvas);
+	}
+
+	getNewPosition(canvas){
+		if(this.ofScreen){
+			switch(this.direction[this.checkPosition(Math.floor(Math.random() * 3), this.directionIndex)]){
+				case'TOP':   this.postionY = 45; break;
+				case'MIDDLE': this.postionY = (canvas.height / 2) - 70;  break;
+				case'DOWN':  this.postionY = canvas.height - 190;  break;
+				default: break;
+			}
+			
+			this.ofScreen = false;
+		}
+	}
+
+	checkPosition(value, index){
+		if(value !== index ){
+			this.directionIndex = value;
+			return value ;
+		}else{
+			return this.checkPosition(Math.floor(Math.random() * 3), index);
+		}
 	}
 
 	runAnimation(){
