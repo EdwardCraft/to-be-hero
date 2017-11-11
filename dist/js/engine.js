@@ -85,16 +85,17 @@ window.onload = function() {
 
 
 function startEngine(device){
-	
+
 	console.log("hero from page loaded function");
 	canvas = document.getElementById(device);
 	canvasctx = canvas.getContext('2d');
 	window.addEventListener('orientationchange', doOnOrientationChange);
 	canvas.addEventListener("click", onClick, false);
 	if(device == 'canvasMobile'){
-		alert("hello");
+		resize();
 		doOnOrientationChange();
 	}
+	
 	getAssets();
 	start();
 
@@ -117,6 +118,8 @@ function onMobile(){
 	}else{
 		document.getElementById('desktop').style.display = 'block';
 		startEngine('canvas');
+		/*document.getElementById('mobile').style.display = 'block';
+		startEngine('canvasMobile');*/
 	}
 }
 
@@ -130,9 +133,11 @@ function resize(){
 	//regardles of the resolution.
 	var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 	
-
 	//Calculate the height with the value of the width.
 	var height = (canvas.height * width) / canvas.width;
+	if(width >= 1920){
+		height -= 111;
+	}
 	console.log("window width : ", width);
 	console.log("window height: ", height);
 	canvas.style.width = width+'px';
