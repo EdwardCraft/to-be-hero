@@ -74,7 +74,7 @@ class Entity{
 	}
 
 
-	updateAnimation(delta, canvas, direction, orientantion){
+	updateAnimation(delta, canvas, direction, orientantion, mixMove){
 		
 		if(orientantion === 'xAxis'){
 			switch(direction){
@@ -82,7 +82,11 @@ class Entity{
 				case 'right': this.movementXRight(delta, canvas); break;
 			}
 		}else{
-			this.movementY(delta, canvas);
+			switch(mixMove){
+				case 'one': this.movementY(delta, canvas);break;
+				case 'two': this.movementYDown(delta, canvas); break;
+			}
+			
 		}
 		
 
@@ -111,6 +115,17 @@ class Entity{
 		}
 
 	}
+
+
+	movementYDown(delta, canvas){
+		
+		if(this.postionY >= (canvas.height - 165)){
+			this.movementXRight(delta, canvas);
+		}else{
+			this.postionY += this.movementVelocity[1] * delta;
+		}
+	}
+
 
 	movementY(delta, canvas){
 		this.getNewPosition(canvas);

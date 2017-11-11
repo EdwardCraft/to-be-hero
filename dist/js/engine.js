@@ -66,11 +66,18 @@ var flyGuyAssets = [
 	'assets/fly-2.png',
 	'assets/fly-3.png'
 ];
+var toiletAssets = [
+	'assets/toilet-1.png',
+	'assets/toilet-2.png',
+	'assets/toilet-3.png',
+	'assets/toilet-4.png',
+];
 let papa;
 let guyPerv;
 let papaTwo;
 let boosAlien;
 let flyGuy;
+let toilet;
 
 
 
@@ -195,6 +202,7 @@ function getAnimationsAssets(){
 	loadAnimationAssets(papaTwoAssets, 'papaTwo');
 	loadAnimationAssets(boosAlienAssets, 'boos');
 	loadAnimationAssets(flyGuyAssets, 'fly');
+	loadAnimationAssets(toiletAssets, 'toiletGuy');
 
 }
 
@@ -236,6 +244,9 @@ function createObject(object, assetsFrames){
 			break;
 		case 'fly': 
 			flyGuy = new Entity( -200, 45, 0, 0, assetsFrames, 5, [0.3,0]);
+			break;
+		case 'toiletGuy':
+			toilet = new Entity( 100, -100, 0, 0, assetsFrames, 5,  [ 0.1, 0.1]);
 			break;
 	}
 }
@@ -328,11 +339,12 @@ function update(delta){
 		@canvas: the canvas if 
 	*/
 	if(startGame){
-		if(papa !== undefined) papa.updateAnimation(delta, canvas, 'right','xAxis');
-		if(guyPerv !== undefined) guyPerv.updateAnimation(delta, canvas, 'right','xAxis');
-		if(papaTwo !== undefined) papaTwo.updateAnimation(delta, canvas, 'left','xAxis');
-		if(boosAlien !== undefined) boosAlien.updateAnimation(delta, canvas, 'right','xAxis');
-		if(flyGuy !== undefined)flyGuy.updateAnimation(delta, canvas, 'right','yAxis');
+		if(papa !== undefined) papa.updateAnimation(delta, canvas, 'right','xAxis', 'one');
+		if(guyPerv !== undefined) guyPerv.updateAnimation(delta, canvas, 'right','xAxis', 'one');
+		if(papaTwo !== undefined) papaTwo.updateAnimation(delta, canvas, 'left','xAxis','one');
+		if(boosAlien !== undefined) boosAlien.updateAnimation(delta, canvas, 'right','xAxis','one');
+		if(flyGuy !== undefined)flyGuy.updateAnimation(delta, canvas, 'right','yAxis', 'one');
+		if(toilet !== undefined)toilet.updateAnimation(delta, canvas, 'right','yAxis', 'two');
 	}
 	
 
@@ -357,7 +369,7 @@ function render(){
 	// Entities Objects
 
 	
-
+	if(toilet !== undefined)toilet.renderAnimation(canvas, canvasctx);
 	if(guyPerv !== undefined) guyPerv.renderAnimation(canvas, canvasctx);
 	if(papa !== undefined) papa.renderAnimation(canvas, canvasctx);
 	if(boosAlien !== undefined) boosAlien.renderAnimation(canvas, canvasctx);
