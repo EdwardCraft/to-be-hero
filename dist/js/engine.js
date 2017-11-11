@@ -74,22 +74,26 @@ let flyGuy;
 
 
 
+
+
 window.onload = function() {
+	
+	onMobile();
+	
+
+}
+
+
+function startEngine(device){
 	console.log("hero from page loaded function");
-	canvas = document.getElementById('canvas');
+	canvas = document.getElementById(device);
 	canvasctx = canvas.getContext('2d');
 
 	window.addEventListener('orientationchange', doOnOrientationChange);
 	canvas.addEventListener("click", onClick, false);
-
-	onMobile();
 	getAssets();
-	start();	
-	
-
-
+	start();
 }
-
 
 function doOnOrientationChange() {
 	switch(window.orientation) {  
@@ -103,16 +107,17 @@ function doOnOrientationChange() {
 
 function onMobile(){
 	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
- 		var mobile = document.getElementById("desktop");
- 		mobile.style.display = "none";
- 		screen.orientation.lock('landscape');
- 		doOnOrientationChange();
- 		alert("Hello! I am an alert box!");	
+		document.getElementById('mobile').style.display = 'block';
+		startEngine('canvasMobile');
 	}else{
-		var desktop = document.getElementById("mobile");
-		desktop.style.display = "none";	
+		document.getElementById('desktop').style.display = 'block';
+		startEngine('canvas');
 	}
 }
+
+
+
+
 
 function resize(){
 	//check for window aspect ratio.
@@ -136,9 +141,7 @@ function resize(){
 function getAssets(){
 	img = new Image();
 	img.onload = function(){
-		
 		background = new Entity( 0 , 0,  canvas.width,  canvas.height, img);
-
 	}
 
 	var hour = (new Date()).getHours();
@@ -150,9 +153,7 @@ function getAssets(){
 	
 	floorImg = new Image();
 	floorImg.onload = function(){
-		
 		floor = new  Entity( 0 , canvas.height - 50, 960, 50, floorImg);
-
 	}
 	floorImg.src = 'assets/flor.png';
 
@@ -202,7 +203,6 @@ function loadAnimationAssets(assets, object){
 		img.onload = function(){
 			++loaded;
 			if(loaded >= assets.length){
-				console.log("all images loaded papa: " ,loaded);
 				createObject(object, assetsFrames);
 				//return true;
 			}
@@ -239,10 +239,8 @@ function createObject(object, assetsFrames){
 
 function onClick(e){
 
-	console.log("Start Animation");
 	startGame = !startGame;
-
-	
+		
 }
 
 

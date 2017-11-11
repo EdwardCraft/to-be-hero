@@ -58,9 +58,7 @@ class Entity{
 		this.direction = ['TOP', 'MIDDLE', 'DOWN'];
 		this.directionIndex = 0;
 		//this.currentImg = asset[0];
-		for(var i = 0; i < this.frames; i++){
-			console.log(asset[i]);
-		}
+		
 
 	}
 
