@@ -88,11 +88,12 @@ function startEngine(device){
 	console.log("hero from page loaded function");
 	canvas = document.getElementById(device);
 	canvasctx = canvas.getContext('2d');
-
 	window.addEventListener('orientationchange', doOnOrientationChange);
 	canvas.addEventListener("click", onClick, false);
+	if(device == 'canvasMobile')doOnOrientationChange();
 	getAssets();
 	start();
+
 }
 
 function doOnOrientationChange() {
@@ -112,7 +113,6 @@ function onMobile(){
 	}else{
 		document.getElementById('desktop').style.display = 'block';
 		startEngine('canvas');
-		doOnOrientationChange();
 	}
 }
 
