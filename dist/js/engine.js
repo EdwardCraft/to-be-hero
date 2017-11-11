@@ -85,12 +85,16 @@ window.onload = function() {
 
 
 function startEngine(device){
+	
 	console.log("hero from page loaded function");
 	canvas = document.getElementById(device);
 	canvasctx = canvas.getContext('2d');
 	window.addEventListener('orientationchange', doOnOrientationChange);
 	canvas.addEventListener("click", onClick, false);
-	if(device == 'canvasMobile')doOnOrientationChange();
+	if(device == 'canvasMobile'){
+		alert("hello");
+		doOnOrientationChange();
+	}
 	getAssets();
 	start();
 
