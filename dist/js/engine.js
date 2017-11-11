@@ -136,6 +136,7 @@ function resize(){
 	//Calculate the height with the value of the width.
 	var height = (canvas.height * width) / canvas.width;
 	if(width >= 1920){
+		alert("hello");
 		height -= 111;
 	}
 	console.log("window width : ", width);
