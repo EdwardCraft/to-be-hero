@@ -112,6 +112,7 @@ function onMobile(){
 	}else{
 		document.getElementById('desktop').style.display = 'block';
 		startEngine('canvas');
+		doOnOrientationChange();
 	}
 }
 
