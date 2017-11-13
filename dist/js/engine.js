@@ -72,12 +72,31 @@ var toiletAssets = [
 	'assets/toilet-3.png',
 	'assets/toilet-4.png',
 ];
+var cloudToiletAssets = [
+	'assets/pop-cloud-3.png',
+	'assets/pop-cloud-1.png',
+	'assets/pop-cloud-2.png',
+	'assets/pop-cloud-1.png',
+];
+var alienAssets = [
+	'assets/alien-1.png',
+	'assets/alien-2.png',
+];
+var alienGirlAssets = [
+	'assets/aliengirl-1.png',
+	'assets/aliengirl-2.png',
+	'assets/aliengirl-3.png',
+	'assets/aliengirl-4.png'
+];
 let papa;
 let guyPerv;
 let papaTwo;
 let boosAlien;
 let flyGuy;
 let toilet;
+let cloudToilet;
+let alien;
+let alienGirl;
 
 
 
@@ -203,6 +222,9 @@ function getAnimationsAssets(){
 	loadAnimationAssets(boosAlienAssets, 'boos');
 	loadAnimationAssets(flyGuyAssets, 'fly');
 	loadAnimationAssets(toiletAssets, 'toiletGuy');
+	loadAnimationAssets(cloudToiletAssets, 'cloudPop');
+	loadAnimationAssets(alienAssets, 'alienM');
+	loadAnimationAssets(alienGirlAssets, 'alienCute');
 
 }
 
@@ -246,7 +268,16 @@ function createObject(object, assetsFrames){
 			flyGuy = new Entity( -200, 45, 0, 0, assetsFrames, 5, [0.3,0]);
 			break;
 		case 'toiletGuy':
-			toilet = new Entity( 100, -100, 0, 0, assetsFrames, 5,  [ 0.1, 0.1]);
+			toilet = new Entity( 100, -150, 0, 0, assetsFrames, 5,  [ 0.1, 0.1]);
+			break;
+		case 'cloudPop':
+			cloudToilet = new Entity( 100, -100, 0, 0, assetsFrames, 6, [ 0.1, 0.15]);
+			break;
+		case 'alienM':
+			alien = new Entity( -200, 45, 0, 0, assetsFrames, 5,  [ 0.2, 0.1]);
+			break;
+		case 'alienCute':
+			alienGirl = new Entity(canvas.width - 125, 0 , 0, 0, assetsFrames, 1, [0, 0.2], 'first');
 			break;
 	}
 }
@@ -345,6 +376,9 @@ function update(delta){
 		if(boosAlien !== undefined) boosAlien.updateAnimation(delta, canvas, 'right','xAxis','one');
 		if(flyGuy !== undefined)flyGuy.updateAnimation(delta, canvas, 'right','yAxis', 'one');
 		if(toilet !== undefined)toilet.updateAnimation(delta, canvas, 'right','yAxis', 'two');
+		if(cloudToilet !== undefined)cloudToilet.updateAttachObject( delta, canvas,  toilet.getPositionX(), toilet.getPositionY() );
+		if(alien !== undefined)alien.updateAnimation(delta, canvas, 'right','yAxis', 'one');
+		if(alienGirl !== undefined)alienGirl.updateWindow(delta, canvas );
 	}
 	
 
@@ -361,19 +395,25 @@ function render(){
 	// World Objects
 	if(background !== undefined)background.render( canvas, canvasctx);
 	if(flyGuy !== undefined)flyGuy.renderAnimation(canvas, canvasctx);
+	if(alien !== undefined)alien.renderAnimation(canvas, canvasctx);
 	if(lowerBackWindow !== undefined)lowerBackWindow.render(canvas, canvasctx);
 	if(uperBackWindow !== undefined)uperBackWindow.render(canvas, canvasctx);
+	if(alienGirl !== undefined)alienGirl.renderAnimation(canvas, canvasctx);
 	if(building !== undefined)building.render(canvas, canvasctx);
 	if(floor !== undefined)floor.render(canvas, canvasctx);
 
 	// Entities Objects
 
-	
+	if(cloudToilet !== undefined){
+		if(cloudToilet.getPositionY() - 100 < (canvas.height - 165))
+			cloudToilet.renderAnimation(canvas, canvasctx);
+	}
 	if(toilet !== undefined)toilet.renderAnimation(canvas, canvasctx);
 	if(guyPerv !== undefined) guyPerv.renderAnimation(canvas, canvasctx);
 	if(papa !== undefined) papa.renderAnimation(canvas, canvasctx);
 	if(boosAlien !== undefined) boosAlien.renderAnimation(canvas, canvasctx);
 	if(papaTwo !== undefined) papaTwo.renderAnimation(canvas, canvasctx);
+
 	
 	
 

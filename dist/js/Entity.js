@@ -17,13 +17,19 @@ class Entity{
 		switch(arguments.length){
 			case 5: 
 			this.firstConstructor(
-				arguments[0],arguments[1],
+				arguments[0], arguments[1],
 				arguments[2], arguments[3], arguments[4]); break;
 			case 7: 
 			this.secondConstructor(
-				arguments[0],arguments[1],
+				arguments[0], arguments[1],
 				arguments[2], arguments[3], 
 				arguments[4], arguments[5], arguments[6]); break;
+			case 8: 
+			this.secondConstructor(
+				arguments[0], arguments[1],
+				arguments[2], arguments[3], 
+				arguments[4], arguments[5], 
+				arguments[6], arguments[7]); break;
 
 			default: break;
 		}
@@ -57,11 +63,45 @@ class Entity{
 		this.currentImg = asset[0];
 		this.direction = ['TOP', 'MIDDLE', 'DOWN'];
 		this.directionIndex = 0;
+		this.temporalPositionY = 0;
+		this.restartValueY = false;
+		this.tempValueX = postionX;
+		this.endLoop = false;
 		//this.currentImg = asset[0];
-		
-
 	}
 
+	secondConstructor(postionX, postionY, width, height, asset, animationSpeed, velocity, window){
+		this.postionX = postionX;
+		this.postionY = postionY;
+		this.width = width;
+		this.height = height;
+		this.asset = asset;
+		this.frame = 0;
+ 		this.index = 0;
+		this.count = 0;
+		this.speed = animationSpeed;;
+		this.currentImg = new Image();
+		this.ofScreen = false;
+		this.movementVelocity = velocity;
+		this.offscreenXPosition = -100;
+		this.frames = asset.length;
+		this.currentImg = asset[0];
+		this.direction = ['TOP', 'MIDDLE', 'DOWN'];
+		this.directionIndex = 0;
+		this.temporalPositionY = 0;
+		this.restartValueY = false;
+		this.tempValueX = postionX;
+		this.endLoop = false;
+		this.window = window;
+		/*y 115 first window and (canvas.height / 2) for second;*/
+		switch(window){
+			case 'first':  this.postionY = 115; break;
+			case 'second': this.postionY = (canvas.height / 2);
+		}
+		//this.currentImg = asset[0];
+	}
+
+	
 	
 	loopingAnimation(){
 		this.asset.push(this.asset[1]);
@@ -70,9 +110,55 @@ class Entity{
 
 
 	update(delta){
+
+	
 		
+
 	}
 
+	updateWindow(delta, canvas){
+
+		switch(this.window){
+			case 'first' :  this.peekWindow(delta); break;
+			case 'second':  this.peekWindowSecond(delta, canvas); break;
+			default: break;
+		}
+		
+		
+
+	}
+
+	peekWindow(delta){
+		if(this.postionY > 36){
+			this.postionY -= this.movementVelocity[1] * delta;
+		}
+
+		if(this.postionY < 80){
+			this.tweenWidth(delta);
+		}
+
+	}	
+
+	peekWindowSecond(delta, canvas){
+		if(this.postionY > (canvas.height / 2) - 75){
+			this.postionY -= this.movementVelocity[1] * delta;
+		}
+
+		if(this.postionY < (canvas.height / 2) - 40){
+			this.tweenWidth(delta);
+		}
+	}
+
+	tweenWidth(delta){
+		if(this.index === 0 && !this.endLoop){
+			this.postionX -= 3;
+		}
+
+		if(this.count >= this.frames){
+			this.postionX = this.tempValueX - 15;
+		}
+		this.runAnimationSingleLoop();
+	}
 
 	updateAnimation(delta, canvas, direction, orientantion, mixMove){
 		
@@ -88,12 +174,34 @@ class Entity{
 			}
 			
 		}
-		
-
-		
+				
 		this.runAnimation();
 
 	}
+
+
+	updateAttachObject(delta, canvas, x, y ){	
+		
+		this.postionX = x + 15;
+
+		if(!this.restartValueY){
+			this.postionY = y + 80;
+			this.restartValueY = true;
+		}
+		
+		this.postionY += this.movementVelocity[1] * delta;
+		
+		if(this.postionY >  (y + 150)){
+			this.restartValueY  = false;
+		}
+	
+		this.runAnimation();
+		
+
+		
+	}
+
+
 
 	movementXRight(delta, canvas){
 
@@ -118,7 +226,6 @@ class Entity{
 
 
 	movementYDown(delta, canvas){
-		
 		if(this.postionY >= (canvas.height - 165)){
 			this.movementXRight(delta, canvas);
 		}else{
@@ -162,6 +269,15 @@ class Entity{
 		}
 	}
 
+	runAnimationSingleLoop(){
+		if(this.endLoop)return;
+		this.index++;
+		if(this.index > this.speed){
+			this.index = 0;
+			this.nextFrameSimgle();
+		}
+	}
+
 	nextFrame(){
 
 		if(this.count >= this.frames){
@@ -171,6 +287,19 @@ class Entity{
 		this.count++;
 		
 	}
+
+	nextFrameSimgle(){
+
+		if(this.count >= this.frames){
+			this.count = 0;
+			this.endLoop = true;
+			return;
+		}
+		this.currentImg = this.asset[this.count % this.frames];
+		this.count++;
+		
+	}
+
 
 
 	render( canvas ,ctx){
@@ -194,6 +323,9 @@ class Entity{
 
 
 
+	getPositionX(){return this.postionX;}
+
+	getPositionY(){return this.postionY;}
 
 
 
