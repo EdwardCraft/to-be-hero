@@ -103,6 +103,9 @@ class Entity{
 		this.endReposition = false;
 		this.xAxis = 0;
 		this.yAxis = 0;
+		this.isArrow = false;
+		this.section = 'top';
+		this.arroOfScreen = false;
 		/*y 115 first window and (canvas.height / 2) for second;*/
 		switch(window){
 			case 'first':  this.postionY = 115; break;
@@ -130,7 +133,14 @@ class Entity{
 
 	update(delta){
 
-	
+	}
+
+	updateArrow(delta, canvas){
+		if(this.postionX + 110 > 0){
+			this.postionX -= this.movementVelocity[0] * delta;
+		}else if(this.postionX + 110 < 0){
+			this.arroOfScreen = true;
+		}
 		
 
 	}
@@ -269,7 +279,8 @@ class Entity{
 		console.log('position Y', this.postionY);*/
 
 		if( !this.isTop && (this.yAxis <= 130 && this.yAxis >= 43 && this.xAxis >= 670 && this.xAxis <= 770)){
-			console.log('hello top');
+			
+			this.section = 'TOP';
 			this.isTop = true;
 			this.isMiddle = false;
 			this.isDown = false;
@@ -281,7 +292,8 @@ class Entity{
 		}
 
 		if(!this.isMiddle && (this.yAxis <= 296 && this.yAxis >= 209 && this.xAxis >= 670 && this.xAxis <= 770)){
-			console.log('hello middle');
+			
+			this.section = 'MIDDLE';
 			this.isMiddle = true;
 			this.isTop = false;
 			this.isDown = false;
@@ -292,7 +304,9 @@ class Entity{
 			this.currentImg = this.asset[this.count % this.frames];
 		}
 
-		if(!this.isDown && (this.yAxis <= 458 && yAxis >= 368 && xAxis >= 670 && xAxis <= 770)){
+		if(!this.isDown && (this.yAxis <= 458 && this.yAxis >= 368 && this.xAxis >= 670 && this.xAxis <= 770)){
+			
+			this.section = 'DOWN';
 			this.isDown = true;
 			this.isTop = false;
 			this.isMiddle = false;
@@ -323,6 +337,9 @@ class Entity{
 		}
 		if(this.count === 6 && this.index === 0){
 			this.postionX  += 4;
+		}
+		if(this.count === 7 && this.index == 0){
+			this.postionX += 26;
 		}
 	}
 
@@ -406,6 +423,7 @@ class Entity{
 
 		if(this.count >= this.frames){
 			this.count = 0;
+
 		}
 		this.currentImg = this.asset[this.count % this.frames];
 		this.count++;
@@ -417,6 +435,12 @@ class Entity{
 		if(this.count >= this.frames){
 			this.count = 0;
 			this.endLoop = true;
+			this.isDown = false;
+			this.isMiddle = false;
+			this.isTop = false;
+			this.xAxis = 0;
+			this.yAxis = 0;
+			this.isArrow = true;
 			return;
 		}
 		this.currentImg = this.asset[this.count % this.frames];
@@ -430,9 +454,7 @@ class Entity{
 		ctx.drawImage(
 			this.asset, 
 			this.postionX, 
-			this.postionY,
-			this.width,  
-			this.height 
+			this.postionY
 			);
 	}
 
@@ -451,9 +473,10 @@ class Entity{
 	getPositionY(){return this.postionY;}
 	setXAxis(xAxis){this.xAxis = xAxis;}
 	setYAxis(yAxis){this.yAxis = yAxis;}
-
-
-
+	isShoot(){return this.isArrow;}
+	setShoot(isArrow){this.isArrow = isArrow;}
+	getArrowPosition(){return this.section;}
+	isOfScreen(){return this.arroOfScreen;}
 
 
 

@@ -44,6 +44,7 @@ var boosAlienLoaded = false;
 var xCoordinates = 0;
 var yCoordinates = 0;
 
+var arrowImg;
 var papaAssets = [
 	'assets/papa-1.png',
 	'assets/papa-2.png',
@@ -99,8 +100,11 @@ var minChanAssets = [
 	'assets/min-chan-4.png',
 	'assets/min-chan-5.png',
 	'assets/min-chan-6.png',
+	'assets/min-chan-7.png'
 ];
 
+
+	
 let papa;
 let guyPerv;
 let papaTwo;
@@ -111,8 +115,9 @@ let cloudToilet;
 let alien;
 let alienGirl;
 let minChan;
+let arrow;
 
-
+var arrows = [];
 
 
 
@@ -221,6 +226,10 @@ function getAssets(){
 	}
 	backWindowImg.src = 'assets/backWindow.png';
 
+	arrowImg = new Image();
+	arrowImg.onload = function(){
+	}
+	arrowImg.src = 'assets/arroflush.png';
 	
 	getAnimationsAssets();
 
@@ -229,8 +238,8 @@ function getAssets(){
 }
 
 function getAnimationsAssets(){
-
-	loadAnimationAssets(papaAssets, 'papa');
+	
+	/*loadAnimationAssets(papaAssets, 'papa');
 	loadAnimationAssets(guyPervAssets, 'perv');
 	loadAnimationAssets(papaTwoAssets, 'papaTwo');
 	loadAnimationAssets(boosAlienAssets, 'boos');
@@ -238,7 +247,7 @@ function getAnimationsAssets(){
 	loadAnimationAssets(toiletAssets, 'toiletGuy');
 	loadAnimationAssets(cloudToiletAssets, 'cloudPop');
 	loadAnimationAssets(alienAssets, 'alienM');
-	loadAnimationAssets(alienGirlAssets, 'alienCute');
+	loadAnimationAssets(alienGirlAssets, 'alienCute');*/
 	loadAnimationAssets(minChanAssets, 'min');
 
 }
@@ -295,9 +304,55 @@ function createObject(object, assetsFrames){
 			alienGirl = new Entity(canvas.width - 125, 0 , 0, 0, assetsFrames, 1, [0, 0.2], 'first');
 			break;
 		case 'min':
-			minChan = new  Entity((canvas.width / 2) + 200, 208, 0, 0, assetsFrames, 5, [ 0, 0 ]);
+			minChan = new  Entity((canvas.width / 2) + 200, 208, 0, 0, assetsFrames, 4, [ 0, 0 ]);
 			break;
 	}
+}
+
+
+
+function createArrow(){
+		//console.log(arrows.length);
+		if(minChan !== undefined){
+			if(minChan.isShoot()){
+				switch(minChan.getArrowPosition()){
+				case 'TOP'   :  
+					arrows.push(new Entity((canvas.width / 2) + 140, 97, 0, 0, arrowImg, 0, [0.7, 0.1]));
+					//arrow = new Entity((canvas.width / 2) + 140, 97, 0, 0, arrowImg, 0, [0.7, 0.1]);
+					break;
+				case 'MIDDLE':  
+					arrows.push(new Entity((canvas.width / 2) + 140, 265, 0, 0, arrowImg, 0, [0.7, 0.1]));
+					//arrow = new Entity((canvas.width / 2) + 140, 265, 0, 0, arrowImg, 0, [0.7, 0.1]); 
+					break;
+				case 'DOWN'  :  
+					arrows.push(new Entity((canvas.width / 2) + 140, (canvas.height) - 135, 0, 0, arrowImg, 0, [0.7, 0.1]));
+					//arrow = new Entity((canvas.width / 2) + 140, (canvas.height) - 135, 0, 0, arrowImg, 0, [0.7, 0.1]);     
+					break;
+				}
+				minChan.setShoot(false);	
+			}
+		}
+
+	
+}
+
+
+function removeArrows(){
+	var key = 0;
+	for(var i = 0; i < arrows.length; i++){
+		if(arrows[i].isOfScreen()){
+			arrows[i] = undefined;
+			key = 1;
+		}
+		if(key === 1){
+			arrows[i] = arrows[i + 1];
+		}
+	}
+	
+	if(key === 1){
+		arrows.length -= 1;
+	}
+
 }
 
 
@@ -313,8 +368,8 @@ function onClick(e){
 	xCoordinates = e.pageX - canvas.offsetLeft;
 	yCoordinates = e.pageY - canvas.offsetTop;
 
-	console.log('new x: ', xCoordinates);
-	console.log('new y: ', yCoordinates);
+	/*console.log('new x: ', xCoordinates);
+	console.log('new y: ', yCoordinates);*/
 	if(minChan !== undefined){
 		minChan.setXAxis(xCoordinates);
 		minChan.setYAxis(yCoordinates);
@@ -396,7 +451,8 @@ function mainLoop(timestamp){
 
 function update(delta){
 
-	
+	createArrow();
+	removeArrows();
 	/*
 		@params
 		@delta: delta value for everything that updates;
@@ -413,6 +469,10 @@ function update(delta){
 		if(alien !== undefined)alien.updateAnimation(delta, canvas, 'right','yAxis', 'one');
 		if(alienGirl !== undefined)alienGirl.updateWindow(delta, canvas );
 		if(minChan !== undefined)minChan.updateMinChan(delta, canvas, xCoordinates, yCoordinates);
+		for(var i = 0; i < arrows.length; i++){
+			if(arrows[i] !== undefined)
+				arrows[i].updateArrow(delta, canvas);
+		}
 	}
 	
 
@@ -449,6 +509,12 @@ function render(){
 	if(boosAlien !== undefined) boosAlien.renderAnimation(canvas, canvasctx);
 	if(papaTwo !== undefined) papaTwo.renderAnimation(canvas, canvasctx);
 
+
+	for(var i = 0; i < arrows.length; i++){
+		if(arrows[i] !== undefined)
+			arrows[i].render(canvas, canvasctx);
+	}
+	
 	
 	
 
