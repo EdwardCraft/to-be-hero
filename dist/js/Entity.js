@@ -8,7 +8,7 @@ class Entity{
 	 2-argument = postion Y
 	 3-argument = width
 	 4-argument = height
-	 5-argument = image of images
+	 5-argument = arry of images
 	 6.argument = animation speed;
 	*/	
 
@@ -93,6 +93,16 @@ class Entity{
 		this.tempValueX = postionX;
 		this.endLoop = false;
 		this.window = window;
+		this.totaltime = 2000;
+		this.second = 0;
+		this.timerFinish = false;
+		this.onWindow = false;
+		this.isTop = false;
+		this.isMiddle = false;
+		this.isDown = false;
+		this.endReposition = false;
+		this.xAxis = 0;
+		this.yAxis = 0;
 		/*y 115 first window and (canvas.height / 2) for second;*/
 		switch(window){
 			case 'first':  this.postionY = 115; break;
@@ -109,6 +119,15 @@ class Entity{
 	}
 
 
+	init(){
+		this.totaltime = 600;
+		this.second = 0;
+		this.timerFinish = true;
+		this.onWindow = false;
+	}
+
+
+
 	update(delta){
 
 	
@@ -119,34 +138,77 @@ class Entity{
 	updateWindow(delta, canvas){
 
 		switch(this.window){
-			case 'first' :  this.peekWindow(delta); break;
+			case 'first' :  this.peekWindow(delta);  break;
 			case 'second':  this.peekWindowSecond(delta, canvas); break;
 			default: break;
 		}
 		
+		this.timerIdle(delta);
+
 		
 
 	}
 
 	peekWindow(delta){
-		if(this.postionY > 36){
-			this.postionY -= this.movementVelocity[1] * delta;
+
+		if(!this.onWindow){
+			if(this.postionY > 36){
+				this.postionY -= this.movementVelocity[1] * delta;
+			}else{
+				this.onWindow = true;
+			}
+
+			if(this.postionY < 80){
+				this.tweenWidth(delta);
+			}
+		}
+		
+		if(this.onWindow && this.timerFinish){
+			if(this.postionY  < 113){
+				this.postionY += this.movementVelocity[1] * delta;
+			}
 		}
 
-		if(this.postionY < 80){
-			this.tweenWidth(delta);
-		}
 
 	}	
 
 	peekWindowSecond(delta, canvas){
-		if(this.postionY > (canvas.height / 2) - 75){
-			this.postionY -= this.movementVelocity[1] * delta;
+
+		if(!this.onWindow){
+			if(this.postionY > (canvas.height / 2) - 75){
+				this.postionY -= this.movementVelocity[1] * delta;
+			}else{
+				this.onWindow = true;
+			}
+
+			if(this.postionY < (canvas.height / 2) - 40){
+				this.tweenWidth(delta);
+			}
 		}
 
-		if(this.postionY < (canvas.height / 2) - 40){
-			this.tweenWidth(delta);
+		if(this.onWindow && this.timerFinish){
+			if(this.postionY < (canvas.height / 2)){
+				this.postionY += this.movementVelocity[1] * delta;
+			}
 		}
+			
+	}
+
+	timerIdle(delta){
+
+		if(this.onWindow && !this.timerFinish){
+
+			if(this.totaltime > 0){
+				this.totaltime -= delta;
+				this.seconds = this.totaltime % 60;
+				
+			}else if(this.totaltime <= 0 ){
+				this.seconds = 0;
+				this.timerFinish = true;
+
+			}
+		}
+		
 	}
 
 	tweenWidth(delta){
@@ -195,12 +257,74 @@ class Entity{
 			this.restartValueY  = false;
 		}
 	
-		this.runAnimation();
-		
 
+
+		this.runAnimation();
 		
 	}
 
+	updateMinChan(delta, canvas, xAxis, yAxis){
+
+		/*console.log('position X', this.postionX);
+		console.log('position Y', this.postionY);*/
+
+		if( !this.isTop && (this.yAxis <= 130 && this.yAxis >= 43 && this.xAxis >= 670 && this.xAxis <= 770)){
+			console.log('hello top');
+			this.isTop = true;
+			this.isMiddle = false;
+			this.isDown = false;
+			this.postionY = 40;
+			this.postionX = (canvas.width / 2) + 200;
+			this.endLoop = false;
+			this.count = 0;
+			this.currentImg = this.asset[this.count % this.frames];
+		}
+
+		if(!this.isMiddle && (this.yAxis <= 296 && this.yAxis >= 209 && this.xAxis >= 670 && this.xAxis <= 770)){
+			console.log('hello middle');
+			this.isMiddle = true;
+			this.isTop = false;
+			this.isDown = false;
+			this.postionY = 208;
+			this.postionX = (canvas.width / 2) + 200;
+			this.endLoop = false;
+			this.count = 0;
+			this.currentImg = this.asset[this.count % this.frames];
+		}
+
+		if(!this.isDown && (this.yAxis <= 458 && yAxis >= 368 && xAxis >= 670 && xAxis <= 770)){
+			this.isDown = true;
+			this.isTop = false;
+			this.isMiddle = false;
+			this.postionX = (canvas.width / 2) + 200;
+			this.postionY = (canvas.height) - 193;
+			this.endLoop = false;
+			this.count = 0;
+			this.currentImg = this.asset[this.count % this.frames];
+		}
+
+
+		this.runAnimationSingleLoop();
+		this.repositionFrames(delta);
+	}
+	
+
+	repositionFrames(delta){
+
+		
+
+		if(this.count === 4 && this.index === 0){
+			this.postionY  += 4;
+			this.postionX  += 11;
+		}
+		if(this.count === 5 && this.index === 0){
+			this.postionY  -= 4;
+			this.postionX  -= 38;
+		}
+		if(this.count === 6 && this.index === 0){
+			this.postionX  += 4;
+		}
+	}
 
 
 	movementXRight(delta, canvas){
@@ -324,9 +448,9 @@ class Entity{
 
 
 	getPositionX(){return this.postionX;}
-
 	getPositionY(){return this.postionY;}
-
+	setXAxis(xAxis){this.xAxis = xAxis;}
+	setYAxis(yAxis){this.yAxis = yAxis;}
 
 
 
