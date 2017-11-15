@@ -35,73 +35,11 @@ let building;
 let lowerBackWindow;
 let uperBackWindow;
 
-//Entity Objects
-var papaLoaded = false;
-var perLoaded = false;
-var papaTwoLoaded = false;
-var boosAlienLoaded = false;
+
 
 var xCoordinates = 0;
 var yCoordinates = 0;
 
-var arrowImg;
-var papaAssets = [
-	'assets/papa-1.png',
-	'assets/papa-2.png',
-    'assets/papa-3.png'
-];
-var guyPervAssets = [
-	'assets/perv-1.png',
-	'assets/perv-2.png'
-];
-var papaTwoAssets = [
-	'assets/papaTwo-1.png',
-	'assets/papaTwo-2.png',
-	'assets/papaTwo-3.png'
-];
-var boosAlienAssets = [
-	'assets/boosalien-1.png',
-	'assets/boosalien-2.png',
-	'assets/boosalien-3.png',
-	'assets/boosalien-4.png'
-];
-var flyGuyAssets = [
-	'assets/fly-1.png',
-	'assets/fly-2.png',
-	'assets/fly-3.png'
-];
-var toiletAssets = [
-	'assets/toilet-1.png',
-	'assets/toilet-2.png',
-	'assets/toilet-3.png',
-	'assets/toilet-4.png',
-];
-var cloudToiletAssets = [
-	'assets/pop-cloud-3.png',
-	'assets/pop-cloud-1.png',
-	'assets/pop-cloud-2.png',
-	'assets/pop-cloud-1.png',
-];
-var alienAssets = [
-	'assets/alien-1.png',
-	'assets/alien-2.png',
-];
-var alienGirlAssets = [
-	'assets/aliengirl-1.png',
-	'assets/aliengirl-2.png',
-	'assets/aliengirl-3.png',
-	'assets/aliengirl-4.png'
-];
-
-var minChanAssets = [
-	'assets/min-chan-1.png',
-	'assets/min-chan-2.png',
-	'assets/min-chan-3.png',
-	'assets/min-chan-4.png',
-	'assets/min-chan-5.png',
-	'assets/min-chan-6.png',
-	'assets/min-chan-7.png'
-];
 
 
 	
@@ -118,6 +56,7 @@ let minChan;
 let arrow;
 
 var arrows = [];
+var enemies = [];
 
 
 
@@ -187,95 +126,11 @@ function resize(){
 }
 
 
-function getAssets(){
-	img = new Image();
-	img.onload = function(){
-		background = new Entity( 0 , 0,  canvas.width,  canvas.height, img);
-	}
-
-	var hour = (new Date()).getHours();
-	if(hour >= 19){  // if the time is around 7pm,  use the night background
-		img.src = 'assets/backgroundNight.jpg';
-	}else{
-		img.src = 'assets/backgroundDay.jpg';
-	}
-	
-	floorImg = new Image();
-	floorImg.onload = function(){
-		floor = new  Entity( 0 , canvas.height - 50, 960, 50, floorImg);
-	}
-	floorImg.src = 'assets/flor.png';
-
-	buildingImg = new Image();
-	buildingImg.onload = function(){
-		
-		building = new Entity(canvas.width - 294, 0, 294, 560, buildingImg);
-	}
-	buildingImg.src = 'assets/building.png';
-
-	backWindowImg = new Image();
-	backWindowImg.onload = function(){
-		
-		lowerBackWindow = new Entity(
-			canvas.width - 126, 42, 
-			85, 81, backWindowImg);
-		uperBackWindow = new Entity(
-			canvas.width - 126, (canvas.height / 2) - 72,
-			85, 81, backWindowImg);
-
-	}
-	backWindowImg.src = 'assets/backWindow.png';
-
-	arrowImg = new Image();
-	arrowImg.onload = function(){
-	}
-	arrowImg.src = 'assets/arroflush.png';
-	
-	getAnimationsAssets();
-
-
-
-}
-
-function getAnimationsAssets(){
-	
-	/*loadAnimationAssets(papaAssets, 'papa');
-	loadAnimationAssets(guyPervAssets, 'perv');
-	loadAnimationAssets(papaTwoAssets, 'papaTwo');
-	loadAnimationAssets(boosAlienAssets, 'boos');
-	loadAnimationAssets(flyGuyAssets, 'fly');
-	loadAnimationAssets(toiletAssets, 'toiletGuy');
-	loadAnimationAssets(cloudToiletAssets, 'cloudPop');
-	loadAnimationAssets(alienAssets, 'alienM');
-	loadAnimationAssets(alienGirlAssets, 'alienCute');*/
-	loadAnimationAssets(minChanAssets, 'min');
-
-}
-
-
-function loadAnimationAssets(assets, object){
-	var assetsFrames = [];
-	var loaded = 0;
-	for(var i = 0; i < assets.length; i++){
-		var img = new Image();
-		img.onload = function(){
-			++loaded;
-			if(loaded >= assets.length){
-				createObject(object, assetsFrames);
-				//return true;
-			}
-		}
-		img.src = assets[i];
-		assetsFrames.push(img);
-	}
-}
-
 
 function createObject(object, assetsFrames){
 	switch(object){
 		case 'papa':  
-		 	papa = new Entity(0 , canvas.height - 140, 0, 0, assetsFrames, 20, [0.1,0]);
-			papa.loopingAnimation();
+		 	papa = new Entity( -100 , canvas.height - 145, 0, 0, assetsFrames, 20, [0.1,0]);
 			break;
 		case 'perv':
 			guyPerv = new Entity( -200 , canvas.height - 140, 0, 0, assetsFrames, 10, [0.05,0]);
@@ -289,7 +144,8 @@ function createObject(object, assetsFrames){
 			boosAlien = new Entity( -200, canvas.height - 155, 0, 0,assetsFrames, 5,  [0.2,0] );
 			break;
 		case 'fly': 
-			flyGuy = new Entity( -200, 45, 0, 0, assetsFrames, 5, [0.3,0]);
+			flyGuy = new Entity( -200, 0, 0, 0, assetsFrames, 5, [0.3,0]);
+			flyGuy.setBeginigPosition(canvas);
 			break;
 		case 'toiletGuy':
 			toilet = new Entity( 100, -150, 0, 0, assetsFrames, 5,  [ 0.1, 0.1]);
@@ -304,56 +160,17 @@ function createObject(object, assetsFrames){
 			alienGirl = new Entity(canvas.width - 125, 0 , 0, 0, assetsFrames, 1, [0, 0.2], 'first');
 			break;
 		case 'min':
-			minChan = new  Entity((canvas.width / 2) + 200, 208, 0, 0, assetsFrames, 4, [ 0, 0 ]);
+			minChan = new  Entity((canvas.width / 2) + 200, 208, 0, 0, 
+				assetsFrames, 4, [ 0, 0 ]);
 			break;
 	}
 }
 
 
 
-function createArrow(){
-		//console.log(arrows.length);
-		if(minChan !== undefined){
-			if(minChan.isShoot()){
-				switch(minChan.getArrowPosition()){
-				case 'TOP'   :  
-					arrows.push(new Entity((canvas.width / 2) + 140, 97, 0, 0, arrowImg, 0, [0.7, 0.1]));
-					//arrow = new Entity((canvas.width / 2) + 140, 97, 0, 0, arrowImg, 0, [0.7, 0.1]);
-					break;
-				case 'MIDDLE':  
-					arrows.push(new Entity((canvas.width / 2) + 140, 265, 0, 0, arrowImg, 0, [0.7, 0.1]));
-					//arrow = new Entity((canvas.width / 2) + 140, 265, 0, 0, arrowImg, 0, [0.7, 0.1]); 
-					break;
-				case 'DOWN'  :  
-					arrows.push(new Entity((canvas.width / 2) + 140, (canvas.height) - 135, 0, 0, arrowImg, 0, [0.7, 0.1]));
-					//arrow = new Entity((canvas.width / 2) + 140, (canvas.height) - 135, 0, 0, arrowImg, 0, [0.7, 0.1]);     
-					break;
-				}
-				minChan.setShoot(false);	
-			}
-		}
-
-	
-}
 
 
-function removeArrows(){
-	var key = 0;
-	for(var i = 0; i < arrows.length; i++){
-		if(arrows[i].isOfScreen()){
-			arrows[i] = undefined;
-			key = 1;
-		}
-		if(key === 1){
-			arrows[i] = arrows[i + 1];
-		}
-	}
-	
-	if(key === 1){
-		arrows.length -= 1;
-	}
 
-}
 
 
 function onClick(e){
@@ -449,10 +266,14 @@ function mainLoop(timestamp){
 
 
 
+
+
 function update(delta){
 
 	createArrow();
+	collisions();
 	removeArrows();
+
 	/*
 		@params
 		@delta: delta value for everything that updates;
@@ -465,10 +286,12 @@ function update(delta){
 		if(boosAlien !== undefined) boosAlien.updateAnimation(delta, canvas, 'right','xAxis','one');
 		if(flyGuy !== undefined)flyGuy.updateAnimation(delta, canvas, 'right','yAxis', 'one');
 		if(toilet !== undefined)toilet.updateAnimation(delta, canvas, 'right','yAxis', 'two');
-		if(cloudToilet !== undefined)cloudToilet.updateAttachObject( delta, canvas,  toilet.getPositionX(), toilet.getPositionY() );
 		if(alien !== undefined)alien.updateAnimation(delta, canvas, 'right','yAxis', 'one');
+
+		if(cloudToilet !== undefined)cloudToilet.updateAttachObject( delta, canvas,  toilet.getPositionX(), toilet.getPositionY() );
 		if(alienGirl !== undefined)alienGirl.updateWindow(delta, canvas );
 		if(minChan !== undefined)minChan.updateMinChan(delta, canvas, xCoordinates, yCoordinates);
+
 		for(var i = 0; i < arrows.length; i++){
 			if(arrows[i] !== undefined)
 				arrows[i].updateArrow(delta, canvas);
@@ -524,7 +347,7 @@ function render(){
 
 
 function clearScreen(leftX, topY, width, height, color){
-
+	canvasctx.clearRect(0, 0, canvas.width, canvas.height);
 	canvasctx.fillStyle = color;
 	canvasctx.fillRect( leftX, topY, width, height);
 

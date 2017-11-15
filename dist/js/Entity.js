@@ -393,6 +393,15 @@ class Entity{
 		}
 	}
 
+	setBeginigPosition(canvas, directionIndex){
+		switch(this.direction[this.checkPosition(Math.floor(Math.random() * 3), directionIndex)]){
+				case'TOP':   this.postionY = 45; break;
+				case'MIDDLE': this.postionY = (canvas.height / 2) - 70;  break;
+				case'DOWN':  this.postionY = canvas.height - 190;  break;
+				default: break;
+		}
+	}
+
 	checkPosition(value, index){
 		if(value !== index ){
 			this.directionIndex = value;
@@ -477,7 +486,14 @@ class Entity{
 	setShoot(isArrow){this.isArrow = isArrow;}
 	getArrowPosition(){return this.section;}
 	isOfScreen(){return this.arroOfScreen;}
+	setOfScreen(arroOfScreen){this.arroOfScreen = arroOfScreen;}
+	getDirrectionIndex(){return this.directionIndex;}
+	setDirrectionIndex(directionIndex){this.directionIndex;}
 
+
+	getBounds(){
+		return [this.postionX, this.postionY, this.width, this.height];
+	}
 
 
 }
