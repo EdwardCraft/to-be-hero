@@ -135,10 +135,9 @@ function getAssets(){
 
 function getAnimationsAssets(){
 	
-	/*
-	loadAnimationAssets(papaTwoAssets, 'papaTwo');
 	
-	loadAnimationAssets(alienGirlAssets, 'alienCute');*/
+	//loadAnimationAssets(papaTwoAssets, 'papaTwo');
+	//loadAnimationAssets(alienGirlAssets, 'alienCute');
 
 	loadAnimationAssets(toiletAssets, 'toiletGuy', toiletFrames, false);
 	loadAnimationAssets(cloudToiletAssets, 'cloudPop', cloudToiletFrames, true);
