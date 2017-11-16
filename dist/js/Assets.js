@@ -135,25 +135,25 @@ function getAssets(){
 
 function getAnimationsAssets(){
 	
-	/*loadAnimationAssets(papaAssets, 'papa');
-	loadAnimationAssets(guyPervAssets, 'perv');
+	/*
 	loadAnimationAssets(papaTwoAssets, 'papaTwo');
-	loadAnimationAssets(boosAlienAssets, 'boos');
-	loadAnimationAssets(toiletAssets, 'toiletGuy');
-	loadAnimationAssets(cloudToiletAssets, 'cloudPop');
+	
 	loadAnimationAssets(alienGirlAssets, 'alienCute');*/
 
-	loadAnimationAssets(toiletAssets, 'toiletGuy', toiletFrames);
-	loadAnimationAssets(cloudToiletAssets, 'cloudPop', cloudToiletFrames);
-	loadAnimationAssets(papaAssets, 'papa', papaFrames);
-	loadAnimationAssets(alienAssets, 'alienM', alienFlyFrames);
-	loadAnimationAssets(flyGuyAssets, 'fly', flyGuyFrames);
-	loadAnimationAssets(minChanAssets, 'min', minChanFrames);
+	loadAnimationAssets(toiletAssets, 'toiletGuy', toiletFrames, false);
+	loadAnimationAssets(cloudToiletAssets, 'cloudPop', cloudToiletFrames, true);
+	loadAnimationAssets(alienAssets, 'alienM', alienFlyFrames, true);
+	loadAnimationAssets(flyGuyAssets, 'fly', flyGuyFrames, false);
+
+	loadAnimationAssets(papaAssets, 'papa', papaFrames, true);
+	loadAnimationAssets(boosAlienAssets, 'boos', boosAlienFrames, false);
+	loadAnimationAssets(guyPervAssets, 'perv', guyPervFrames, false);
+	loadAnimationAssets(minChanAssets, 'min', minChanFrames, true);
 
 }
 
 
-function loadAnimationAssets(assets, object, assetArray){
+function loadAnimationAssets(assets, object, assetArray, initializeObject){
 
 
 	var assetsFrames = [];
@@ -166,10 +166,64 @@ function loadAnimationAssets(assets, object, assetArray){
 				for(var i = 0; i < assetsFrames.length; i++){
 					assetArray.push(assetsFrames[i]);
 				}
-				createObject(object, assetsFrames);
+				if(initializeObject)
+					createObject(object, assetsFrames);
 			}
 		}
 		img.src = assets[i];
 		assetsFrames.push(img);
+	}
+}
+
+
+function createObject(object, assetsFrames){
+	switch(object){
+		case 'papa':  
+		 	papa = new Entity(  X_AXIS_STARTING_POSITION , PAPA_GROUND_OFFSET , 
+		 						PAPA_IMAGE_WIDTH, PAPA_IMAGE_HEIGHT, assetsFrames, 
+		 						PAPA_ANIMATION_VELOCITY, PAPA_MOVEMENT_VELOCITY);
+			break;
+		case 'perv':
+			guyPerv = new Entity( X_AXIS_STARTING_POSITION , PERV_GROUND_OFFSET, 
+									PERV_IMAGE_WIDTH, PERV_IMAGE_HEIGHT, assetsFrames, 
+									PERV_ANIMATION_VELOCITY, PERV_MOVEMENT_VELOCITY);
+			break;
+		case 'papaTwo': 
+			papaTwo = new Entity(
+				canvas.width + 100, canvas.height - 135, 0, 0, 
+				assetsFrames, 10,  [0.03,0] );
+			break;
+		case 'boos':
+			boosAlien = new Entity( X_AXIS_STARTING_POSITION, BOSS_GROUND_OFFSET, 
+									BOSS_IMAGE_WIDTH, BOSS_IMAGE_HEIGHT ,assetsFrames, 
+									BOSS_ANIMATION_VELOCITY, BOSS_MOVEMENT_VELOCITY);
+			break;
+		case 'fly': 
+			flyGuy = new Entity( X_AXIS_STARTING_POSITION, 0, 
+								 GUY_FLY_IMAGE_WIDTH, GUY_FLY_IMAGE_HEIGHT, assetsFrames, 
+								 GUY_FLY_ANIMATION_VELOCITY, GUY_FLY_MOVEMENT_VELOCITY);
+			flyGuy.setBeginigPosition(canvas);
+			break;
+		case 'toiletGuy':
+			toilet = new Entity( TOILET_SKY_X_OFFSET , X_AXIS_STARTING_POSITION, 
+								 TOILET_IMAGE_WIDTH, TOILET_IMAGE_HEIGHT, assetsFrames, 
+								 TOILET_ANIMATION_VELOCITY,  TOILET_MOVEMENT_VELOCITY);
+			break;
+		case 'cloudPop':
+			cloudToilet = new Entity( 100, -100, 0, 0, assetsFrames, 6, [ 0.1, 0.15]);
+			break;
+		case 'alienM':
+			alien = new Entity( X_AXIS_STARTING_POSITION, 0 , 
+								ALIEN_FLY_IMAGE_WIDTH, ALIEN_FLY_IMAGE_HEIGHT, assetsFrames, 
+								ALIEN_FLY_ANIMATION_VELOCITY,  ALIEN_FLY_MOVEMENT_VELOCITY);
+			alien.setBeginigPosition(canvas);
+			break;
+		case 'alienCute':
+			alienGirl = new Entity(canvas.width - 125, 0 , 0, 0, assetsFrames, 1, [0, 0.2], 'first');
+			break;
+		case 'min':
+			minChan = new  Entity((canvas.width / 2) + 200, 208, 0, 0, 
+				assetsFrames, 4, [ 0, 0 ]);
+			break;
 	}
 }

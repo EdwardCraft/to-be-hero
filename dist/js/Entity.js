@@ -367,7 +367,7 @@ class Entity{
 
 
 	movementYDown(delta, canvas){
-		if(this.postionY >= (canvas.height - 165)){
+		if(this.postionY >= (TOILET_GROUND_OFFSET)){
 			this.movementXRight(delta, canvas);
 		}else{
 			this.postionY += this.movementVelocity[1] * delta;
@@ -382,10 +382,10 @@ class Entity{
 
 	getNewPosition(canvas){
 		if(this.ofScreen){
-			switch(this.direction[this.checkPosition(Math.floor(Math.random() * 3), this.directionIndex)]){
-				case'TOP':   this.postionY = 45; break;
+			switch(this.direction[this.checkPosition(Math.floor(Math.random() * 2), this.directionIndex)]){
+				case'TOP':   this.postionY = 44; break;
 				case'MIDDLE': this.postionY = (canvas.height / 2) - 70;  break;
-				case'DOWN':  this.postionY = canvas.height - 190;  break;
+				//case'DOWN':  this.postionY = canvas.height - 190;  break;
 				default: break;
 			}
 			
@@ -394,10 +394,11 @@ class Entity{
 	}
 
 	setBeginigPosition(canvas, directionIndex){
-		switch(this.direction[this.checkPosition(Math.floor(Math.random() * 3), directionIndex)]){
-				case'TOP':   this.postionY = 45; break;
+
+		switch(this.direction[this.checkPosition(Math.floor(Math.random() * 2), directionIndex)]){
+				case'TOP':   this.postionY = 44; break;
 				case'MIDDLE': this.postionY = (canvas.height / 2) - 70;  break;
-				case'DOWN':  this.postionY = canvas.height - 190;  break;
+				//case'DOWN':  this.postionY = canvas.height - 190;  break;
 				default: break;
 		}
 	}
@@ -407,7 +408,7 @@ class Entity{
 			this.directionIndex = value;
 			return value ;
 		}else{
-			return this.checkPosition(Math.floor(Math.random() * 3), index);
+			return this.checkPosition(Math.floor(Math.random() * 2), index);
 		}
 	}
 

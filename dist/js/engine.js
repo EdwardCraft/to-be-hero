@@ -127,51 +127,6 @@ function resize(){
 
 
 
-function createObject(object, assetsFrames){
-	switch(object){
-		case 'papa':  
-		 	papa = new Entity( -100 , canvas.height - 145, 0, 0, assetsFrames, 20, [0.1,0]);
-			break;
-		case 'perv':
-			guyPerv = new Entity( -200 , canvas.height - 140, 0, 0, assetsFrames, 10, [0.05,0]);
-			break;
-		case 'papaTwo': 
-			papaTwo = new Entity(
-				canvas.width + 100, canvas.height - 135, 0, 0, 
-				assetsFrames, 10,  [0.03,0] );
-			break;
-		case 'boos':
-			boosAlien = new Entity( -200, canvas.height - 155, 0, 0,assetsFrames, 5,  [0.2,0] );
-			break;
-		case 'fly': 
-			flyGuy = new Entity( -200, 0, 0, 0, assetsFrames, 5, [0.3,0]);
-			flyGuy.setBeginigPosition(canvas);
-			break;
-		case 'toiletGuy':
-			toilet = new Entity( 100, -150, 0, 0, assetsFrames, 5,  [ 0.1, 0.1]);
-			break;
-		case 'cloudPop':
-			cloudToilet = new Entity( 100, -100, 0, 0, assetsFrames, 6, [ 0.1, 0.15]);
-			break;
-		case 'alienM':
-			alien = new Entity( -200, 45, 0, 0, assetsFrames, 5,  [ 0.2, 0.1]);
-			break;
-		case 'alienCute':
-			alienGirl = new Entity(canvas.width - 125, 0 , 0, 0, assetsFrames, 1, [0, 0.2], 'first');
-			break;
-		case 'min':
-			minChan = new  Entity((canvas.width / 2) + 200, 208, 0, 0, 
-				assetsFrames, 4, [ 0, 0 ]);
-			break;
-	}
-}
-
-
-
-
-
-
-
 
 function onClick(e){
 
@@ -287,8 +242,8 @@ function update(delta){
 		if(flyGuy !== undefined)flyGuy.updateAnimation(delta, canvas, 'right','yAxis', 'one');
 		if(toilet !== undefined)toilet.updateAnimation(delta, canvas, 'right','yAxis', 'two');
 		if(alien !== undefined)alien.updateAnimation(delta, canvas, 'right','yAxis', 'one');
-
-		if(cloudToilet !== undefined)cloudToilet.updateAttachObject( delta, canvas,  toilet.getPositionX(), toilet.getPositionY() );
+		if(cloudToilet !== undefined && toilet !== undefined)
+			cloudToilet.updateAttachObject( delta, canvas,  toilet.getPositionX(), toilet.getPositionY() );
 		if(alienGirl !== undefined)alienGirl.updateWindow(delta, canvas );
 		if(minChan !== undefined)minChan.updateMinChan(delta, canvas, xCoordinates, yCoordinates);
 
@@ -322,7 +277,7 @@ function render(){
 
 	// Entities Objects
 
-	if(cloudToilet !== undefined){
+	if(cloudToilet !== undefined && toilet !== undefined){
 		if(cloudToilet.getPositionY() - 100 < (canvas.height - 165))
 			cloudToilet.renderAnimation(canvas, canvasctx);
 	}
