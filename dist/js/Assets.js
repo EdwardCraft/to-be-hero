@@ -85,6 +85,20 @@ var minChanAssets = [
 ];
 var minChanFrames = [];
 
+var papaAttackAssets = [
+	'assets/papa-two-attack-1.png',
+	'assets/papa-two-attack-2.png',
+	'assets/papa-two-attack-3.png',
+	'assets/papa-two-attack-4.png',
+	'assets/papa-two-attack-5.png',
+	'assets/papa-two-attack-6.png',
+	'assets/papa-two-attack-7.png'
+];
+var papaAttackFrames = [];
+
+
+var bottleImg;
+
 function getAssets(){
 	img = new Image();
 	img.onload = function(){
@@ -130,13 +144,19 @@ function getAssets(){
 	arrowImg.src = 'assets/arroflush.png';
 	
 	getAnimationsAssets();
+
+	bottleImg = new Image();
+	bottleImg.onload = function(){
+	}
+	bottleImg.src = 'assets/bottle.png';
+
 }
 
 
 function getAnimationsAssets(){
 	
 	
-	//loadAnimationAssets(papaTwoAssets, 'papaTwo');
+	loadAnimationAssets(papaAttackAssets, 'papaTwo', papaAttackFrames, true);
 	//loadAnimationAssets(alienGirlAssets, 'alienCute');
 
 	loadAnimationAssets(toiletAssets, 'toiletGuy', toiletFrames, false);
@@ -153,7 +173,6 @@ function getAnimationsAssets(){
 
 
 function loadAnimationAssets(assets, object, assetArray, initializeObject){
-
 
 	var assetsFrames = [];
 	var loaded = 0;
@@ -188,9 +207,9 @@ function createObject(object, assetsFrames){
 									PERV_ANIMATION_VELOCITY, PERV_MOVEMENT_VELOCITY);
 			break;
 		case 'papaTwo': 
-			papaTwo = new Entity(
-				canvas.width + 100, canvas.height - 135, 0, 0, 
-				assetsFrames, 10,  [0.03,0] );
+			papaTwo = new Entity( WINDOW_X_STARTING_POSITION, (canvas.height / 2) - 70, 
+				PAPA_TWO_IMAGE_WIDTH, PAPA_TWO_IMAGE_HEIGHT, assetsFrames, 
+				PAPA_TWO_ANIMATION_VELOCITY,  PAPA_TWO_MOVEMENT_VELOCITY, 'second' );
 			break;
 		case 'boos':
 			boosAlien = new Entity( X_AXIS_STARTING_POSITION, BOSS_GROUND_OFFSET, 

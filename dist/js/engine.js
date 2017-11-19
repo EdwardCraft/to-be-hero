@@ -147,6 +147,11 @@ function onClick(e){
 		minChan.setYAxis(yCoordinates);
 	}
 
+	if(papaTwo !== undefined){
+		papaTwo.setXAxis(xCoordinates);
+		papaTwo.setYAxis(yCoordinates);
+	}
+
 }
 
 
@@ -237,7 +242,8 @@ function update(delta){
 	if(startGame){
 		if(papa !== undefined) papa.updateAnimation(delta, canvas, 'right','xAxis', 'one');
 		if(guyPerv !== undefined) guyPerv.updateAnimation(delta, canvas, 'right','xAxis', 'one');
-		if(papaTwo !== undefined) papaTwo.updateAnimation(delta, canvas, 'left','xAxis','one');
+		//if(papaTwo !== undefined) papaTwo.updateAnimation(delta, canvas, 'left','xAxis','one');
+		if(papaTwo !== undefined) papaTwo.updateWindow(delta, canvas );
 		if(boosAlien !== undefined) boosAlien.updateAnimation(delta, canvas, 'right','xAxis','one');
 		if(flyGuy !== undefined)flyGuy.updateAnimation(delta, canvas, 'right','yAxis', 'one');
 		if(toilet !== undefined)toilet.updateAnimation(delta, canvas, 'right','yAxis', 'two');
@@ -271,6 +277,7 @@ function render(){
 	if(lowerBackWindow !== undefined)lowerBackWindow.render(canvas, canvasctx);
 	if(uperBackWindow !== undefined)uperBackWindow.render(canvas, canvasctx);
 	if(alienGirl !== undefined)alienGirl.renderAnimation(canvas, canvasctx);
+	if(papaTwo !== undefined) papaTwo.renderAnimation(canvas, canvasctx);
 	if(minChan !== undefined)minChan.renderAnimation(canvas, canvasctx);
 	if(building !== undefined)building.render(canvas, canvasctx);
 	if(floor !== undefined)floor.render(canvas, canvasctx);
@@ -285,7 +292,7 @@ function render(){
 	if(guyPerv !== undefined) guyPerv.renderAnimation(canvas, canvasctx);
 	if(papa !== undefined) papa.renderAnimation(canvas, canvasctx);
 	if(boosAlien !== undefined) boosAlien.renderAnimation(canvas, canvasctx);
-	if(papaTwo !== undefined) papaTwo.renderAnimation(canvas, canvasctx);
+	
 
 
 	for(var i = 0; i < arrows.length; i++){

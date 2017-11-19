@@ -27,7 +27,7 @@ function collisions(){
 				flyGuy = null;
 				flyGuy = undefined;
 				creteFlyingEntities(newIndex);
-				break;
+				return;
 			}
 		}
 	}
@@ -43,7 +43,7 @@ function collisions(){
 				alien = null;
 				alien = undefined;
 				creteFlyingEntities(newIndex);
-				break;
+				return;
 			}
 		}
 	}
@@ -58,7 +58,7 @@ function collisions(){
 				papa = null;
 				papa = undefined;
 				createEntitie();
-				break;
+				return;
 			}
 		}
 	}
@@ -73,7 +73,7 @@ function collisions(){
 				guyPerv = null;
 				guyPerv = undefined;
 				createEntitie();
-				break;
+				return;
 			}
 		}
 	}
@@ -88,7 +88,7 @@ function collisions(){
 				boosAlien = null;
 				boosAlien = undefined;
 				createEntitie();
-				break;
+				return;
 			}
 		}
 	}
@@ -103,10 +103,24 @@ function collisions(){
 				toilet = null;
 				toilet = undefined;
 				createEntitie();
-				break;
+				return;
 			}
 		}
 	}
+
+
+	if(papaTwo !== undefined){
+		if(papaTwo.getOnWindow() && !papaTwo.getTimerFinish()){
+			if(papaTwo.getXAxis() <= (papaTwo.getBounds()[0]  + PAPA_TWO_IMAGE_WIDTH) &&
+				papaTwo.getXAxis() >= papaTwo.getBounds()[0] && 
+				papaTwo.getYAxis() >= papaTwo.getBounds()[1] &&
+				papaTwo.getYAxis() <= ( papaTwo.getBounds()[1] + (PAPA_TWO_IMAGE_HEIGHT - 55 ) )){
+				papaTwo.setStayOnWindow(true);
+			}
+		}
+	}
+
+
 
 }
 
@@ -201,17 +215,48 @@ function createArrow(){
 		if(minChan.isShoot()){
 			switch(minChan.getArrowPosition()){
 			case 'TOP'   :  
-				arrows.push(new Entity((canvas.width / 2) + 140, 97, 111, 24, arrowImg, 0, [0.7, 0.1]));
+				arrows.push(new Entity(ARROW_POSITION_X, ARROW_TOP_SECTION, 
+					ARROW_IMAGE_WIDTH, ARROW_IMAGE_HEIGHT, arrowImg, 
+					ARROW_ANIMATION_VELOCITY, ARROW_MOVEMENT_VELOCITY));
 				break;
 			case 'MIDDLE':  
-				arrows.push(new Entity((canvas.width / 2) + 140, 265, 111, 24, arrowImg, 0, [0.7, 0.1]));
+				arrows.push(new Entity(ARROW_POSITION_X, ARROW_MIDDLE_SECTION, 
+					ARROW_IMAGE_WIDTH, ARROW_IMAGE_HEIGHT, arrowImg, 
+					ARROW_ANIMATION_VELOCITY, ARROW_MOVEMENT_VELOCITY));
 				break;
 			case 'DOWN'  :  
-				arrows.push(new Entity((canvas.width / 2) + 140, (canvas.height) - 135, 111, 24, arrowImg, 0, [0.7, 0.1]));     
+				arrows.push(new Entity(ARROW_POSITION_X, ARROW_DOWN_SECTION, 
+					ARROW_IMAGE_WIDTH, ARROW_IMAGE_HEIGHT, arrowImg, 
+					ARROW_ANIMATION_VELOCITY, ARROW_MOVEMENT_VELOCITY));     
 				break;
 			}
 			minChan.setShoot(false);	
 		}
-	}	
+	}
+
+	if(papaTwo !== undefined){
+		if(papaTwo.isShoot()){
+			switch(papaTwo.getArrowPosition()){
+			case 'TOP'   :  
+				arrows.push(new Entity(BOTTLE_POSITION_X, BOTTLE_TOP_SECTION, 
+					BOTTLE_IMAGE_WIDTH, BOTTLE_IMAGE_HEIGHT, bottleImg, 
+					BOTTLE_ANIMATION_VELOCITY, BOTTLE_MOVEMENT_VELOCITY));
+				break;
+			case 'MIDDLE':  
+				arrows.push(new Entity(BOTTLE_POSITION_X, BOTTLE_MIDDLE_SECTION, 
+					BOTTLE_IMAGE_WIDTH, BOTTLE_IMAGE_HEIGHT, bottleImg, 
+					BOTTLE_ANIMATION_VELOCITY, BOTTLE_MOVEMENT_VELOCITY));
+				break;
+			case 'DOWN'  :  
+				arrows.push(new Entity(ARROW_POSITION_X, ARROW_DOWN_SECTION, 
+					ARROW_IMAGE_WIDTH, ARROW_IMAGE_HEIGHT, bottleImg, 
+					ARROW_ANIMATION_VELOCITY, ARROW_MOVEMENT_VELOCITY));     
+				break;
+			}
+			papaTwo.shootAgain();
+		}
+	}
+
+
 }
 
