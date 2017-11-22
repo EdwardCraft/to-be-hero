@@ -21,12 +21,15 @@ function collisions(){
 			if(arrows[i].getBounds()[0] <= (flyGuy.getBounds()[0] + GUY_FLY_IMAGE_WIDTH) && 
 					arrows[i].getBounds()[1] >= flyGuy.getBounds()[1]   && 
 					arrows[i].getBounds()[1] <= (flyGuy.getBounds()[1] + GUY_FLY_IMAGE_HEIGHT)){
-				console.log('hit fly guy ');
+
+				flyGuy.setHealth(flyGuy.getHealth() - 1);
 				arrows[i].setOfScreen(true);
-				var newIndex = flyGuy.getDirrectionIndex();
-				flyGuy = null;
-				flyGuy = undefined;
-				creteFlyingEntities(newIndex);
+				if(flyGuy.getHealth() <= 0){	
+					var newIndex = flyGuy.getDirrectionIndex();
+					flyGuy = null;
+					flyGuy = undefined;
+					creteFlyingEntities(newIndex);
+				}
 				return;
 			}
 		}
@@ -37,13 +40,15 @@ function collisions(){
 			if(arrows[i].getBounds()[0] <= (alien.getBounds()[0] + ALIEN_FLY_IMAGE_WIDTH) && 
 					arrows[i].getBounds()[1] >= alien.getBounds()[1]   && 
 					arrows[i].getBounds()[1] <= (alien.getBounds()[1] + ALIEN_FLY_IMAGE_HEIGHT)){
-				console.log('hit alien');
+				alien.setHealth(alien.getHealth() - 1);
 				arrows[i].setOfScreen(true);
-				var newIndex = alien.getDirrectionIndex();
-				alien = null;
-				alien = undefined;
-				creteFlyingEntities(newIndex);
-				return;
+				if(alien.getHealth() <= 0 ){
+					var newIndex = alien.getDirrectionIndex();
+					alien = null;
+					alien = undefined;
+					creteFlyingEntities(newIndex);
+				}
+				return;	
 			}
 		}
 	}
@@ -120,6 +125,17 @@ function collisions(){
 		}
 	}
 
+	if(alienGirl !== undefined){
+		if(alienGirl.getOnWindow() && !alienGirl.getTimerFinish()){
+			if(alienGirl.getXAxis() <= (alienGirl.getBounds()[0]  + ALIEN_GIRL_IMAGE_WIDTH) &&
+				alienGirl.getXAxis() >= alienGirl.getBounds()[0] && 
+				alienGirl.getYAxis() >= alienGirl.getBounds()[1] &&
+				alienGirl.getYAxis() <= ( alienGirl.getBounds()[1] + ALIEN_GIRL_IMAGE_HEIGHT ) ){
+				//console.log('hit');
+				alienGirl.setStayOnWindow(true);
+			}
+		}
+	}
 
 
 }
@@ -156,23 +172,25 @@ function createEntitie(){
 
 
 function creteFlyingEntities(yAxis){
-	console.log('fly id old ', currentFlyId);
+
 	currentFlyId =  getNewId(currentFlyId,  Math.floor(Math.random() * randOffsetFly), randOffsetFly);
-	console.log('fly id new ', currentFlyId);
+	console.log('id fly:', currentFlyId);
 	switch(currentFlyId){
 		case FLY_ID:
-			console.log("fly ", currentFlyId);
+	
 			alien = new Entity( X_AXIS_STARTING_POSITION, 0 , 
 								ALIEN_FLY_IMAGE_WIDTH, ALIEN_FLY_IMAGE_HEIGHT, alienFlyFrames, 
 								ALIEN_FLY_ANIMATION_VELOCITY,  ALIEN_FLY_MOVEMENT_VELOCITY);
 			alien.setBeginigPosition(canvas, yAxis);
+			alien.setHealth(ALIEN_FLY_HEALTH);
 			break;
 		case FLY_GUY_ID:
-			console.log("guy fly ", currentFlyId);
+	
 			flyGuy = new Entity( X_AXIS_STARTING_POSITION, 0, 
 								 GUY_FLY_IMAGE_WIDTH, GUY_FLY_IMAGE_HEIGHT, flyGuyFrames, 
 								 GUY_FLY_ANIMATION_VELOCITY, GUY_FLY_MOVEMENT_VELOCITY);
 			flyGuy.setBeginigPosition(canvas, yAxis);
+			flyGuy.setHealth(FLY_GUY_HEALTH);
 			break;
 	}
 }
@@ -248,14 +266,35 @@ function createArrow(){
 					BOTTLE_ANIMATION_VELOCITY, BOTTLE_MOVEMENT_VELOCITY));
 				break;
 			case 'DOWN'  :  
-				arrows.push(new Entity(ARROW_POSITION_X, ARROW_DOWN_SECTION, 
-					ARROW_IMAGE_WIDTH, ARROW_IMAGE_HEIGHT, bottleImg, 
-					ARROW_ANIMATION_VELOCITY, ARROW_MOVEMENT_VELOCITY));     
+			    
 				break;
 			}
 			papaTwo.shootAgain();
 		}
 	}
+
+
+	if(alienGirl !== undefined){
+		if(alienGirl.isShoot()){
+			switch(alienGirl.getArrowPosition()){
+			case 'TOP'   :  
+				arrows.push(new Entity(BLAST_POSITION_X, BLAST_TOP_SECTION, 
+					BLAST_IMAGE_WIDTH, BLAST_IMAGE_HEIGHT, blastImage, 
+					0, BLAST_MOVEMENT_VELOCITY));
+				break;
+			case 'MIDDLE':  
+				arrows.push(new Entity(BLAST_POSITION_X, BLAST_MIDDLE_SECTION, 
+					BLAST_IMAGE_WIDTH, BLAST_IMAGE_HEIGHT, blastImage, 
+					0, BLAST_MOVEMENT_VELOCITY));
+				break;
+			case 'DOWN'  :  
+				 
+				break;
+			}
+			alienGirl.shootAgainGirl();
+		}
+	}
+
 
 
 }

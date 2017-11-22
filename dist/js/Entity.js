@@ -67,7 +67,8 @@ class Entity{
 		this.restartValueY = false;
 		this.tempValueX = postionX;
 		this.endLoop = false;
-		//this.currentImg = asset[0];
+		this.health
+
 	}
 
 	secondConstructor(postionX, postionY, width, height, asset, animationSpeed, velocity, window){
@@ -107,11 +108,58 @@ class Entity{
 		this.section = 'MIDDLE';
 		this.arroOfScreen = false;
 		this.stayOnWindow= false;
-		
-		//this.currentImg = asset[0];
+		this.isAttack = false;
+		this.assetAttack = [];
+		this.health
 	}
 
 	
+
+	setPositionAlienGirl(){
+		switch(this.window){	
+			case 'TOP'   :  
+				this.postionY = ALIEN_GIRL_Y_TOP; 
+				this.section = 'TOP';    
+				break;
+			case 'MIDDLE':  
+				this.postionY =  ALIEN_GIRL_Y_MIDDLE; 
+				this.section = 'MIDDLE';
+				break;
+			default: break;
+		}
+	}
+
+	setPositionPapaTwo(){
+		switch(this.window){	
+			case 'TOP'   :  
+				this.postionY = PAPA_TWO_Y_TOP; 
+				this.section = 'TOP';    
+				break;
+			case 'MIDDLE':  
+				this.postionY =  PATA_TWO_Y_MIDDLE; 
+				this.section = 'MIDDLE';
+				break;
+			default: break;
+		}
+	}
+
+	reOrderTheAssets(){
+
+		for(var i = 0; i < this.asset.length; i++){
+			if(i > 6){
+				this.assetAttack.push(this.asset[i]);
+			}
+		}
+		for(var i = 0; i < this.assetAttack.length; i++){
+			console.log(this.assetAttack[i]);
+		}
+
+		this.count = 0;
+		this.index = 0;
+		this.frames = this.assetAttack.length;
+		this.currentImg = this.assetAttack[this.count % this.frames];
+		this.speed = ALIEN_GIRL_ATTACK_ANIMATION_VELOCITY;
+	}
 	
 	loopingAnimation(){
 		this.asset.push(this.asset[1]);
@@ -145,11 +193,32 @@ class Entity{
 
 	updateWindow(delta, canvas){
 
+		if(this.stayOnWindow && !this.isAttack){
+			this.runAnimationSingleLoop();
+		}
+
 		this.peekWindow(delta);
+
+		if(!this.onWindow && !this.timerFinish && !this.stayOnWindow){
+			if(this.postionX > PAPA_WINDOW_X_POSITION){
+				this.postionX -= this.movementVelocity[0];
+			}else if(this.postionX <= PAPA_WINDOW_X_POSITION){
+				this.onWindow = true;
+			}
+		}
+
 		
+
 	}
 
-	peekWindow(delta){
+	updateWindowGirl(delta, canvas){
+
+		if(this.stayOnWindow && !this.isAttack){
+			this.runAnimationSingleLoop();
+			this.repositionFramesAlienGirl();
+		}
+
+		this.peekWindow(delta);
 
 		if(!this.onWindow && !this.timerFinish && !this.stayOnWindow){
 			if(this.postionX > WINDOW_X_POSITION){
@@ -158,7 +227,25 @@ class Entity{
 				this.onWindow = true;
 			}
 		}
-		
+
+		if(this.isAttack){
+			this.runAnimationAttack();
+		}
+
+	}
+
+	peekWindow(delta){
+		if(this.onWindow && !this.timerFinish && !this.stayOnWindow){
+			this.timerIdle(delta);
+		}
+		if(this.onWindow && this.timerFinish && !this.stayOnWindow){
+			if(this.postionX < WINDOW_X_STARTING_POSITION){
+				this.postionX += this.movementVelocity[0];
+			}
+		}
+	}	
+
+	peekWindowGirl(delta){
 		if(this.onWindow && !this.timerFinish && !this.stayOnWindow){
 			this.timerIdle(delta);
 		}
@@ -168,13 +255,8 @@ class Entity{
 				this.postionX += this.movementVelocity[0];
 			}
 		}
-
-		if(this.stayOnWindow){
-			this.runAnimationSingleLoop();
-		}
-
-	}	
-
+		
+	}
 	
 
 	timerIdle(delta){
@@ -293,8 +375,6 @@ class Entity{
 
 	repositionFrames(delta){
 
-		
-
 		if(this.count === 4 && this.index === 0){
 			this.postionY  += 4;
 			this.postionX  += 11;
@@ -311,6 +391,42 @@ class Entity{
 		}
 	}
 
+	repositionFramesAlienGirl(){
+		if(this.count === 2 && this.index === 0){
+			this.postionY -= 1;
+		}
+
+		if(this.count === 3 && this.index === 0){
+			this.postionY += 10;
+		}
+
+		if(this.count === 4 && this.index === 0){
+			this.postionY -= 10;
+		}
+
+		if(this.count === 5 && this.index === 0){
+			this.postionX += 5;
+			this.postionY += 1;
+		}
+
+		if(this.count === 6 && this.index === 0){
+			this.postionX -= 5;
+		}
+
+		if(this.count === 7 && this.index === 0){
+			this.postionX += 1;
+		}
+
+		if(this.count === 8 && this.index === 0){
+			this.postionX -= 1;
+		
+		}
+
+		if(this.count === 9 && this.index === 0){
+			this.isAttack = true;
+			this.reOrderTheAssets();
+		}
+	}
 
 	movementXRight(delta, canvas){
 
@@ -388,6 +504,33 @@ class Entity{
 		}
 	}
 
+	runAnimationAttack(){
+		if(this.endLoop)return;
+		this.index++;
+		if(this.index > this.speed){
+			this.index = 0;
+			this.nextFrameAttack();
+		}
+	}
+
+	nextFrameAttack(){
+
+		if(this.count >= this.frames){
+			this.count = 0;
+			this.endLoop = true;
+			this.isDown = false;
+			this.isMiddle = false;
+			this.isTop = false;
+			this.xAxis = 0;
+			this.yAxis = 0;
+			this.isArrow = true;
+			return;
+		}
+		this.currentImg = this.assetAttack[this.count % this.frames];
+		this.count++;
+		
+	}
+
 	runAnimationSingleLoop(){
 		if(this.endLoop)return;
 		this.index++;
@@ -436,6 +579,8 @@ class Entity{
 			);
 	}
 
+
+
 	renderAnimation( canvas ,ctx){
 
 		ctx.drawImage(
@@ -463,14 +608,23 @@ class Entity{
 	getOnWindow(){return this.onWindow; }
 	getTimerFinish(){return this.timerFinish; }
 	setStayOnWindow(stayOnWindow){this.stayOnWindow = stayOnWindow;}
-	getStayOnWindow(){this.stayOnWindow;}
-
+	getStayOnWindow(){return this.stayOnWindow;}
+	getEntitieState(){return this.isAttack;}
+	setHealth(health){this.health = health;}
+	getHealth(){return this.health;}
 
 	shootAgain(){
 		this.isArrow = false;
 		this.endLoop = false;
 		this.count = 0;
 		this.currentImg = this.asset[this.count % this.frames];
+	}
+
+	shootAgainGirl(){
+		this.isArrow = false;
+		this.endLoop = false;
+		this.count = 0;
+		this.currentImg = this.assetAttack[this.count % this.frames];
 	}
 
 

@@ -70,7 +70,14 @@ var alienGirlAssets = [
 	'assets/aliengirl-1.png',
 	'assets/aliengirl-2.png',
 	'assets/aliengirl-3.png',
-	'assets/aliengirl-4.png'
+	'assets/aliengirl-4.png',
+	'assets/aliengirl-5.png',
+	'assets/aliengirl-6.png',
+	'assets/aliengirl-7.png',
+	'assets/aliengirl-attack-1.png',
+	'assets/aliengirl-attack-2.png',
+	'assets/aliengirl-attack-3.png',
+	'assets/aliengirl-attack-4.png',
 ];
 var alienGirlFrames = [];
 
@@ -98,6 +105,13 @@ var papaAttackFrames = [];
 
 
 var bottleImg;
+var hideLowerImage;
+var blastImage;
+var towerImage;
+
+let hideLower;
+let hideLowerOne;
+let towers;
 
 function getAssets(){
 	img = new Image();
@@ -150,6 +164,25 @@ function getAssets(){
 	}
 	bottleImg.src = 'assets/bottle.png';
 
+	hideLowerImage = new Image();
+	hideLowerImage.onload = function(){
+		hideLower = new Entity( GAME_WORLD_WIDTH - 145, (GAME_WORLD_HEIGHT / 2) + 10, 
+			0, 0, hideLowerImage);
+		hideLowerOne = new Entity( GAME_WORLD_WIDTH - 145, 123, 
+			0, 0, hideLowerImage);
+	}
+	hideLowerImage.src = 'assets/hide-button.png';
+
+	blastImage = new Image();
+	blastImage.onload = function(){}
+	blastImage.src = 'assets/blast.png';
+
+	towerImage = new Image();
+	towerImage.onload = function(){
+		towers = new  Entity(0, 0, 0, 0, towerImage);
+	}
+	towerImage.src = 'assets/towers.png';
+
 }
 
 
@@ -157,7 +190,7 @@ function getAnimationsAssets(){
 	
 	
 	loadAnimationAssets(papaAttackAssets, 'papaTwo', papaAttackFrames, true);
-	//loadAnimationAssets(alienGirlAssets, 'alienCute');
+	loadAnimationAssets(alienGirlAssets, 'alienCute', alienGirlFrames, true);
 
 	loadAnimationAssets(toiletAssets, 'toiletGuy', toiletFrames, false);
 	loadAnimationAssets(cloudToiletAssets, 'cloudPop', cloudToiletFrames, true);
@@ -207,9 +240,10 @@ function createObject(object, assetsFrames){
 									PERV_ANIMATION_VELOCITY, PERV_MOVEMENT_VELOCITY);
 			break;
 		case 'papaTwo': 
-			papaTwo = new Entity( WINDOW_X_STARTING_POSITION, (canvas.height / 2) - 70, 
+			papaTwo = new Entity( WINDOW_X_STARTING_POSITION, 0, 
 				PAPA_TWO_IMAGE_WIDTH, PAPA_TWO_IMAGE_HEIGHT, assetsFrames, 
-				PAPA_TWO_ANIMATION_VELOCITY,  PAPA_TWO_MOVEMENT_VELOCITY, 'second' );
+				PAPA_TWO_ANIMATION_VELOCITY,  PAPA_TWO_MOVEMENT_VELOCITY, 'TOP' );
+				papaTwo.setPositionPapaTwo();
 			break;
 		case 'boos':
 			boosAlien = new Entity( X_AXIS_STARTING_POSITION, BOSS_GROUND_OFFSET, 
@@ -221,6 +255,7 @@ function createObject(object, assetsFrames){
 								 GUY_FLY_IMAGE_WIDTH, GUY_FLY_IMAGE_HEIGHT, assetsFrames, 
 								 GUY_FLY_ANIMATION_VELOCITY, GUY_FLY_MOVEMENT_VELOCITY);
 			flyGuy.setBeginigPosition(canvas);
+			flyGuy.setHealth(FLY_GUY_HEALTH);
 			break;
 		case 'toiletGuy':
 			toilet = new Entity( TOILET_SKY_X_OFFSET , X_AXIS_STARTING_POSITION, 
@@ -235,9 +270,13 @@ function createObject(object, assetsFrames){
 								ALIEN_FLY_IMAGE_WIDTH, ALIEN_FLY_IMAGE_HEIGHT, assetsFrames, 
 								ALIEN_FLY_ANIMATION_VELOCITY,  ALIEN_FLY_MOVEMENT_VELOCITY);
 			alien.setBeginigPosition(canvas);
+			alien.setHealth(ALIEN_FLY_HEALTH);
 			break;
 		case 'alienCute':
-			alienGirl = new Entity(canvas.width - 125, 0 , 0, 0, assetsFrames, 1, [0, 0.2], 'first');
+			alienGirl = new Entity(WINDOW_X_STARTING_POSITION, 0, 
+					ALIEN_GIRL_IMAGE_WIDTH, ALIEN_GIRL_IMAGE_HEIGHT, assetsFrames, 
+					ALIEN_GIRL_ANIMATION_VELOCITY, ALIEN_GIRL_MOVEMENT_VELOCITY, 'MIDDLE');
+			alienGirl.setPositionAlienGirl();
 			break;
 		case 'min':
 			minChan = new  Entity((canvas.width / 2) + 200, 208, 0, 0, 

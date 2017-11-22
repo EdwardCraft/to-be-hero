@@ -152,6 +152,11 @@ function onClick(e){
 		papaTwo.setYAxis(yCoordinates);
 	}
 
+	if(alienGirl !== undefined){
+		alienGirl.setXAxis(xCoordinates);
+		alienGirl.setYAxis(yCoordinates);
+	}
+
 }
 
 
@@ -250,7 +255,7 @@ function update(delta){
 		if(alien !== undefined)alien.updateAnimation(delta, canvas, 'right','yAxis', 'one');
 		if(cloudToilet !== undefined && toilet !== undefined)
 			cloudToilet.updateAttachObject( delta, canvas,  toilet.getPositionX(), toilet.getPositionY() );
-		if(alienGirl !== undefined)alienGirl.updateWindow(delta, canvas );
+		if(alienGirl !== undefined)alienGirl.updateWindowGirl(delta, canvas);
 		if(minChan !== undefined)minChan.updateMinChan(delta, canvas, xCoordinates, yCoordinates);
 
 		for(var i = 0; i < arrows.length; i++){
@@ -272,14 +277,25 @@ function render(){
 	
 	// World Objects
 	if(background !== undefined)background.render( canvas, canvasctx);
+	if(towers !== undefined)towers.render( canvas, canvasctx);
 	if(flyGuy !== undefined)flyGuy.renderAnimation(canvas, canvasctx);
 	if(alien !== undefined)alien.renderAnimation(canvas, canvasctx);
 	if(lowerBackWindow !== undefined)lowerBackWindow.render(canvas, canvasctx);
 	if(uperBackWindow !== undefined)uperBackWindow.render(canvas, canvasctx);
-	if(alienGirl !== undefined)alienGirl.renderAnimation(canvas, canvasctx);
+	if(alienGirl !== undefined){
+		if(!alienGirl.getStayOnWindow())
+			alienGirl.renderAnimation(canvas, canvasctx);
+	}
 	if(papaTwo !== undefined) papaTwo.renderAnimation(canvas, canvasctx);
 	if(minChan !== undefined)minChan.renderAnimation(canvas, canvasctx);
 	if(building !== undefined)building.render(canvas, canvasctx);
+	if(alienGirl !== undefined){
+		if(alienGirl.getStayOnWindow()){
+			alienGirl.renderAnimation(canvas, canvasctx);
+		}
+	}
+	if(hideLower !== undefined)hideLower.render(canvas, canvasctx);
+	if(hideLowerOne !== undefined)hideLowerOne.render(canvas, canvasctx);
 	if(floor !== undefined)floor.render(canvas, canvasctx);
 
 	// Entities Objects
