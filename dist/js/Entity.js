@@ -150,10 +150,7 @@ class Entity{
 				this.assetAttack.push(this.asset[i]);
 			}
 		}
-		for(var i = 0; i < this.assetAttack.length; i++){
-			console.log(this.assetAttack[i]);
-		}
-
+	
 		this.count = 0;
 		this.index = 0;
 		this.frames = this.assetAttack.length;
@@ -228,8 +225,10 @@ class Entity{
 			}
 		}
 
-		if(this.isAttack){
+		if(this.isAttack && this.onWindow){
 			this.runAnimationAttack();
+		}else if(this.isAttack && !this.onWindow){
+			this.currentImg = this.asset[0];
 		}
 
 	}
@@ -243,6 +242,17 @@ class Entity{
 				this.postionX += this.movementVelocity[0];
 			}
 		}
+	}
+
+	hideWindow(delta){
+		if(this.stayOnWindow){
+			if(this.postionX < GAME_WORLD_WIDTH){
+				this.postionX +=  this.movementVelocity[0];
+			}else if(this.postionX >= GAME_WORLD_WIDTH){
+				this.stayOnWindow = false;
+			}
+		}
+		
 	}	
 
 	peekWindowGirl(delta){
@@ -267,7 +277,6 @@ class Entity{
 			this.seconds = 0;
 			this.timerFinish = true;
 		}
-		
 		
 	}
 
@@ -430,7 +439,7 @@ class Entity{
 
 	movementXRight(delta, canvas){
 
-		this.postionX += this.movementVelocity[0] * delta;
+		this.postionX += VELOCITY_X_ENTITIES * delta;
 
 		if(this.postionX - 100 > canvas.width){
 			this.postionX = this.offscreenXPosition;
@@ -441,7 +450,7 @@ class Entity{
 
 	movementXLeft(delta, canvas){
 
-		this.postionX -= this.movementVelocity[0] * delta;
+		this.postionX -= VELOCITY_X_ENTITIES * delta;
 
 		if(this.postionX  < -100 ){
 			this.postionX = canvas.width + 100;
@@ -604,7 +613,8 @@ class Entity{
 	isOfScreen(){return this.arroOfScreen;}
 	setOfScreen(arroOfScreen){this.arroOfScreen = arroOfScreen;}
 	getDirrectionIndex(){return this.directionIndex;}
-	setDirrectionIndex(directionIndex){this.directionIndex;}
+	setDirrectionIndex(directionIndex){this.directionIndex = directionIndex;}
+	setOnWindow(onWindow){this.onWindow = onWindow;}
 	getOnWindow(){return this.onWindow; }
 	getTimerFinish(){return this.timerFinish; }
 	setStayOnWindow(stayOnWindow){this.stayOnWindow = stayOnWindow;}

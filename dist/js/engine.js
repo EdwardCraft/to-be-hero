@@ -39,10 +39,10 @@ let uperBackWindow;
 
 var xCoordinates = 0;
 var yCoordinates = 0;
+var totaltime = TIMER_TO_RESIZE_SCORE;
+var seconds = 0;
 
 
-
-	
 let papa;
 let guyPerv;
 let papaTwo;
@@ -58,23 +58,28 @@ let arrow;
 var arrows = [];
 var enemies = [];
 
-
+var videoTest;
+var scoreCount;
+var fontSize = 35;
+var originalFontSize = fontSize;
 
 window.onload = function() {
 	
 	onMobile();
-	
 
 }
 
 
 function startEngine(device){
-
+	//videoTest = document.getElementById('video-test');
 	console.log("hero from page loaded function");
+	
 	canvas = document.getElementById(device);
 	canvasctx = canvas.getContext('2d');
+	canvasctx.font = originalFontSize +"px" + " Passion One";
+	scoreCount = 0;
 	window.addEventListener('orientationchange', doOnOrientationChange);
-	canvas.addEventListener("click", onClick, false);
+	canvas.addEventListener("click", onClick, false);;
 	if(device == 'canvasMobile'){
 		doOnOrientationChange();
 	}
@@ -235,10 +240,16 @@ function mainLoop(timestamp){
 
 function update(delta){
 
+	difficultyUpdate();
 	createArrow();
 	collisions();
 	removeArrows();
-
+	checkWindowObject(delta);
+	if(hit){
+		console.log('hola:', hit);
+		timerIdle(delta);
+	}
+	
 	/*
 		@params
 		@delta: delta value for everything that updates;
@@ -277,20 +288,21 @@ function render(){
 	
 	// World Objects
 	if(background !== undefined)background.render( canvas, canvasctx);
+	//if(videoTest !== undefined)canvasctx.drawImage(videoTest, 0, 0, canvas.width, canvas.height);
 	if(towers !== undefined)towers.render( canvas, canvasctx);
 	if(flyGuy !== undefined)flyGuy.renderAnimation(canvas, canvasctx);
 	if(alien !== undefined)alien.renderAnimation(canvas, canvasctx);
 	if(lowerBackWindow !== undefined)lowerBackWindow.render(canvas, canvasctx);
 	if(uperBackWindow !== undefined)uperBackWindow.render(canvas, canvasctx);
 	if(alienGirl !== undefined){
-		if(!alienGirl.getStayOnWindow())
+		if(!alienGirl.getOnWindow())
 			alienGirl.renderAnimation(canvas, canvasctx);
 	}
 	if(papaTwo !== undefined) papaTwo.renderAnimation(canvas, canvasctx);
 	if(minChan !== undefined)minChan.renderAnimation(canvas, canvasctx);
 	if(building !== undefined)building.render(canvas, canvasctx);
 	if(alienGirl !== undefined){
-		if(alienGirl.getStayOnWindow()){
+		if(alienGirl.getOnWindow()){
 			alienGirl.renderAnimation(canvas, canvasctx);
 		}
 	}
@@ -317,12 +329,39 @@ function render(){
 	}
 	
 	
-	
+	renderText();
 
 
 
 }
 
+function renderText(){
+
+	canvasctx.strokeStyle = 'white';
+	canvasctx.lineWidth = 8;
+	canvasctx.strokeText("SCORE   " + scoreCount, 10, 50);
+	canvasctx.fillStyle = '#FFA4EE';
+	canvasctx.fillText("SCORE   "  + scoreCount, 10, 50);
+
+}
+
+
+function timerIdle(delta){
+
+	if(totaltime > 0){
+		totaltime -= delta;
+		seconds = totaltime % 60;
+		fontSize += delta / 20;
+		canvasctx.font = fontSize +"px" + " Passion One";
+	}else if(this.totaltime <= 0){
+		hit = false;
+		totaltime =  TIMER_TO_RESIZE_SCORE;
+		seconds = 0;
+		fontSize = originalFontSize;
+		canvasctx.font = fontSize + "px" + " Passion One";
+	}
+
+}
 
 function clearScreen(leftX, topY, width, height, color){
 	canvasctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -335,3 +374,4 @@ function rebuild(){
 	delta = 0; //discard the unsimulated time
 	//... snap the player to the  authoritative state
 }
+

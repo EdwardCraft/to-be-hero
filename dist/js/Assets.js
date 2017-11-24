@@ -189,12 +189,12 @@ function getAssets(){
 function getAnimationsAssets(){
 	
 	
-	loadAnimationAssets(papaAttackAssets, 'papaTwo', papaAttackFrames, true);
-	loadAnimationAssets(alienGirlAssets, 'alienCute', alienGirlFrames, true);
+	loadAnimationAssets(papaAttackAssets, 'papaTwo', papaAttackFrames, false);
+	loadAnimationAssets(alienGirlAssets, 'alienCute', alienGirlFrames, false);
 
 	loadAnimationAssets(toiletAssets, 'toiletGuy', toiletFrames, false);
 	loadAnimationAssets(cloudToiletAssets, 'cloudPop', cloudToiletFrames, true);
-	loadAnimationAssets(alienAssets, 'alienM', alienFlyFrames, true);
+	loadAnimationAssets(alienAssets, 'alienM', alienFlyFrames, false);
 	loadAnimationAssets(flyGuyAssets, 'fly', flyGuyFrames, false);
 
 	loadAnimationAssets(papaAssets, 'papa', papaFrames, true);
@@ -263,7 +263,7 @@ function createObject(object, assetsFrames){
 								 TOILET_ANIMATION_VELOCITY,  TOILET_MOVEMENT_VELOCITY);
 			break;
 		case 'cloudPop':
-			cloudToilet = new Entity( 100, -100, 0, 0, assetsFrames, 6, [ 0.1, 0.15]);
+			cloudToilet = new Entity( 100, -100, 0, 0, assetsFrames, 6, [ VELOCITY_X_ENTITIES, VELOCITY_Y_CLOUD]);
 			break;
 		case 'alienM':
 			alien = new Entity( X_AXIS_STARTING_POSITION, 0 , 
