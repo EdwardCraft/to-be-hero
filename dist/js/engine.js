@@ -39,8 +39,8 @@ let uperBackWindow;
 
 var xCoordinates = 0;
 var yCoordinates = 0;
-var totaltime = TIMER_TO_RESIZE_SCORE;
-var seconds = 0;
+var totalTimeResize = TIMER_TO_RESIZE_SCORE;
+var secondsResize = 0;
 
 
 let papa;
@@ -61,6 +61,7 @@ var enemies = [];
 var videoTest;
 var scoreCount;
 var fontSize = 35;
+var addSize = 0;
 var originalFontSize = fontSize;
 
 window.onload = function() {
@@ -137,6 +138,8 @@ function onClick(e){
 
 	if(!startGame){
 		startGame = !startGame;
+		fontSize = originalFontSize;
+		canvasctx.font = fontSize + "px" + " Passion One";
 	}
 	/*console.log('x: ', e.x);
 	console.log('y: ', e.y);*/
@@ -247,7 +250,7 @@ function update(delta){
 	checkWindowObject(delta);
 	if(hit){
 		console.log('hola:', hit);
-		timerIdle(delta);
+		timerResize(delta);
 	}
 	
 	/*
@@ -287,8 +290,15 @@ function render(){
 	clearScreen(0, 0, canvas.width, canvas.height, 'black');
 	
 	// World Objects
+	canvasctx.globalAlpha = 1;
 	if(background !== undefined)background.render( canvas, canvasctx);
-	//if(videoTest !== undefined)canvasctx.drawImage(videoTest, 0, 0, canvas.width, canvas.height);
+
+	/*if(videoTest !== undefined){
+		canvasctx.globalAlpha = 0.5;
+		canvasctx.drawImage(videoTest, 0, 0, canvas.width, canvas.height);
+	}*/
+
+	canvasctx.globalAlpha = 1;
 	if(towers !== undefined)towers.render( canvas, canvasctx);
 	if(flyGuy !== undefined)flyGuy.renderAnimation(canvas, canvasctx);
 	if(alien !== undefined)alien.renderAnimation(canvas, canvasctx);
@@ -337,26 +347,37 @@ function render(){
 
 function renderText(){
 
-	canvasctx.strokeStyle = 'white';
-	canvasctx.lineWidth = 8;
-	canvasctx.strokeText("SCORE   " + scoreCount, 10, 50);
-	canvasctx.fillStyle = '#FFA4EE';
-	canvasctx.fillText("SCORE   "  + scoreCount, 10, 50);
+	
+
+	if(!startGame){
+		canvasctx.font = 120 +"px" + " Passion One";
+		canvasctx.strokeStyle = 'white';
+		canvasctx.lineWidth = 20;
+		canvasctx.strokeText(" PRESS  START ", 160, (canvas.height / 2) + 20);
+		canvasctx.fillStyle = '#FFA4EE';
+		canvasctx.fillText(" PRESS  START ", 160, (canvas.height / 2) + 20);
+	}else{
+		canvasctx.strokeStyle = 'white';
+		canvasctx.lineWidth = 8;
+		canvasctx.strokeText("SCORE   " + scoreCount, 50 - (fontSize / 2), 30 + (fontSize / 2));
+		canvasctx.fillStyle = '#FFA4EE';
+		canvasctx.fillText("SCORE   "  + scoreCount, 50 - (fontSize / 2), 30 + (fontSize / 2));
+	}
 
 }
 
 
-function timerIdle(delta){
+function timerResize(delta){
 
-	if(totaltime > 0){
-		totaltime -= delta;
-		seconds = totaltime % 60;
-		fontSize += delta / 20;
+	if(totalTimeResize > 0){
+		totalTimeResize -= delta;
+		secondsResize = totalTimeResize % 60;
+		fontSize += delta / 25;
 		canvasctx.font = fontSize +"px" + " Passion One";
-	}else if(this.totaltime <= 0){
+	}else if(this.totalTimeResize <= 0){
 		hit = false;
-		totaltime =  TIMER_TO_RESIZE_SCORE;
-		seconds = 0;
+		totalTimeResize =  TIMER_TO_RESIZE_SCORE;
+		secondsResize = 0;
 		fontSize = originalFontSize;
 		canvasctx.font = fontSize + "px" + " Passion One";
 	}

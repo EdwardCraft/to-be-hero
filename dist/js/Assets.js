@@ -279,7 +279,7 @@ function createObject(object, assetsFrames){
 			alienGirl.setPositionAlienGirl();
 			break;
 		case 'min':
-			minChan = new  Entity((canvas.width / 2) + 200, 208, 0, 0, 
+			minChan = new  Entity((canvas.width / 2) + 200, 40, 0, 0, 
 				assetsFrames, 4, [ 0, 0 ]);
 			break;
 	}
