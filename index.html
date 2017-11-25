@@ -14,6 +14,7 @@
 	<!-- Boostrap core CSS -->
 	<link href="dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="dist/css/game.css" rel="stylesheet">
+    <link href="dist/css/bootstrap-slider.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Passion+One" rel="stylesheet">
     
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
@@ -40,9 +41,35 @@
         <div class="container col-centered showBorder">
             <div class="row center-child">
                 Options
-            </div>
-            <div class="row center-child">
-                <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14"/> 
+                <div class="row">
+                    <div class="col-12 col-md-8">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <label for="usr">SHOOTING VELOCITY </label>
+                            </div>
+                            <div class="row">
+                                <label for="usr">ENEMIES VELOCITY </label>
+                            </div>
+                            <div class="row">
+                                <label for="usr">ANIMATIONS VELOCITY </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="1" data-slider-max="20" data-slider-step="1" data-slider-value="7"/> 
+                            </div>
+                            <div class="row">
+                                <input id="enemyVel" data-slider-id='ex1Slider' type="text" data-slider-min="1" data-slider-max="20" data-slider-step="1" data-slider-value="1"/> 
+                            </div>
+                            <div class="row">
+                                <input id="animationVel" data-slider-id='ex1Slider' type="text" data-slider-min="1" data-slider-max="20" data-slider-step="1" data-slider-value="1"/> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        hello
+                    </div>
+                </div>
             </div>
         </div>
     </div> 
@@ -71,11 +98,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="dist/js/bootstrap.min.js"></script>
+    <script src="dist/js/bootstrap-slider.min.js"></script>
     <script src="dist/js/Utils.js"></script>
     <script src="dist/js/Assets.js"></script>
     <script src="dist/js/Collisions.js"></script>
     <script src="dist/js/Entity.js"></script>
     <script src="dist/js/engine.js"></script>
+  
 
 </body>
 </html>

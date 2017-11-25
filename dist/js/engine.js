@@ -64,9 +64,21 @@ var fontSize = 35;
 var addSize = 0;
 var originalFontSize = fontSize;
 
+/*Slider options*/
+var SHOOTING_VALUE = 0.7;
+var ARROW_MOVEMENT_VELOCITY = [ SHOOTING_VALUE , 0.1];
+var VELOCITY_X_ENTITIES = 0.1;
+var VELOCITY_Y_CLOUD = VELOCITY_X_ENTITIES * 2;
+var PAPA_MOVEMENT_VELOCITY  = [ VELOCITY_X_ENTITIES, 0 ];
+var PERV_MOVEMENT_VELOCITY  = [ VELOCITY_X_ENTITIES, 0 ];
+var BOSS_MOVEMENT_VELOCITY  = [ VELOCITY_X_ENTITIES, 0 ];
+var TOILET_MOVEMENT_VELOCITY  = [ VELOCITY_X_ENTITIES, VELOCITY_X_ENTITIES ];
+
 window.onload = function() {
 	
 	onMobile();
+
+
 
 }
 
@@ -85,6 +97,10 @@ function startEngine(device){
 		doOnOrientationChange();
 	}
 	
+
+
+
+
 	getAssets();
 	start();
 
@@ -249,7 +265,6 @@ function update(delta){
 	removeArrows();
 	checkWindowObject(delta);
 	if(hit){
-		console.log('hola:', hit);
 		timerResize(delta);
 	}
 	
@@ -279,7 +294,34 @@ function update(delta){
 	}
 	
 
+	/*Get Shooting animation value from the slider */
+    $('#ex1').slider({
+       formatter: function(value) {
+       SHOOTING_VALUE = value / 10;
+       ARROW_MOVEMENT_VELOCITY = [ SHOOTING_VALUE , 0.1];
+       return 'Current value: ' + value;
+       }
+    });
 
+    $('#enemyVel').slider({
+       formatter: function(value) {
+       VELOCITY_X_ENTITIES = value / 10;
+ 	   VELOCITY_Y_CLOUD = VELOCITY_X_ENTITIES * 2;
+       PAPA_MOVEMENT_VELOCITY  = [ VELOCITY_X_ENTITIES, 0 ];
+       PERV_MOVEMENT_VELOCITY  = [ VELOCITY_X_ENTITIES, 0 ];
+       BOSS_MOVEMENT_VELOCITY  = [ VELOCITY_X_ENTITIES, 0 ];
+       TOILET_MOVEMENT_VELOCITY  = [ VELOCITY_X_ENTITIES, VELOCITY_X_ENTITIES ];
+       return 'Current value: ' + value;
+       }
+    });
+
+    $('#animationVel').slider({
+    	formatter: function(value){
+    		
+    		return 'Current value' + value;
+    	}
+    });
+	
 }
 
 
