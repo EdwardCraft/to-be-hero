@@ -149,7 +149,6 @@ function collisions(){
 				alienGirl.getXAxis() >= alienGirl.getBounds()[0] && 
 				alienGirl.getYAxis() >= alienGirl.getBounds()[1] &&
 				alienGirl.getYAxis() <= ( alienGirl.getBounds()[1] + ALIEN_GIRL_IMAGE_HEIGHT ) ){
-				//console.log('hit');
 				alienGirl.setStayOnWindow(true);
 
 			}

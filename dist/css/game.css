@@ -23,9 +23,15 @@ body {
 	margin-left: 9%;
 }
 
+.jutify-text{
+    text-align: justify;
+    text-justify: inter-word;
+}
+
 
 #container { display:block; }
 
+/*
 @media only screen and (orientation:portrait){
 
   #container {
@@ -61,4 +67,4 @@ body {
   }
 
 }
-
+*/

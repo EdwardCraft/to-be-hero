@@ -622,6 +622,8 @@ class Entity{
 	getEntitieState(){return this.isAttack;}
 	setHealth(health){this.health = health;}
 	getHealth(){return this.health;}
+	setAnimationVelocity(speed){this.speed = speed;}
+
 
 	shootAgain(){
 		this.isArrow = false;

@@ -63,6 +63,7 @@ var scoreCount;
 var fontSize = 35;
 var addSize = 0;
 var originalFontSize = fontSize;
+var fullScreen = false; 
 
 /*Slider options*/
 var SHOOTING_VALUE = 0.7;
@@ -73,6 +74,7 @@ var PAPA_MOVEMENT_VELOCITY  = [ VELOCITY_X_ENTITIES, 0 ];
 var PERV_MOVEMENT_VELOCITY  = [ VELOCITY_X_ENTITIES, 0 ];
 var BOSS_MOVEMENT_VELOCITY  = [ VELOCITY_X_ENTITIES, 0 ];
 var TOILET_MOVEMENT_VELOCITY  = [ VELOCITY_X_ENTITIES, VELOCITY_X_ENTITIES ];
+
 
 window.onload = function() {
 	
@@ -317,10 +319,27 @@ function update(delta){
 
     $('#animationVel').slider({
     	formatter: function(value){
-    		
+    		if(minChan !== undefined)
+    			minChan.setAnimationVelocity(value);
+    		if(alienGirl !== undefined)
+    			alienGirl.setAnimationVelocity(value);
+    		if(papaTwo !== undefined)
+    			papaTwo.setAnimationVelocity(value);
     		return 'Current value' + value;
     	}
     });
+
+    /*if($('#fullScreen').is(':checked')){
+    	if(!fullScreen){
+    		document.getElementById('mobile').style.display = 'block';
+    		document.getElementById('desktop').style.display = 'none';
+    		startEngine('canvasMobile');
+    		resize();
+    		fullScreen = true;
+    	}
+    	
+    }*/
+  
 	
 }
 
@@ -333,7 +352,13 @@ function render(){
 	
 	// World Objects
 	canvasctx.globalAlpha = 1;
-	if(background !== undefined)background.render( canvas, canvasctx);
+
+	if($('#backgroundChange').is(":checked")){
+		if(backgroundDay !== undefined)backgroundDay.render(canvas, canvasctx);
+    }else{
+    	if(backgroundNight !== undefined)backgroundNight.render(canvas, canvasctx);
+    }
+	
 
 	/*if(videoTest !== undefined){
 		canvasctx.globalAlpha = 0.5;

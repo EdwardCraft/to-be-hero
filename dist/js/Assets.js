@@ -108,23 +108,25 @@ var bottleImg;
 var hideLowerImage;
 var blastImage;
 var towerImage;
+let backgroundNight;
+let backgroundDay;
 
 let hideLower;
 let hideLowerOne;
 let towers;
 
 function getAssets(){
-	img = new Image();
-	img.onload = function(){
-		background = new Entity( 0 , 0,  canvas.width,  canvas.height, img);
+	var backgroundNightImg = new Image();
+	backgroundNightImg.onload = function(){
+		backgroundNight = new Entity(0, 0, 0, 0, backgroundNightImg);
 	}
+	backgroundNightImg.src = 'assets/backgroundNight.jpg';
 
-	var hour = (new Date()).getHours();
-	if(hour >= 19){  // if the time is around 7pm,  use the night background
-		img.src = 'assets/backgroundNight.jpg';
-	}else{
-		img.src = 'assets/backgroundDay.jpg';
+	var backgroundDayImg = new Image();
+	backgroundDayImg.onload = function(){
+		backgroundDay = new  Entity(0, 0, 0, 0, backgroundDayImg);
 	}
+	backgroundDayImg.src = 'assets/backgroundDay.jpg';
 	
 	floorImg = new Image();
 	floorImg.onload = function(){
@@ -279,8 +281,9 @@ function createObject(object, assetsFrames){
 			alienGirl.setPositionAlienGirl();
 			break;
 		case 'min':
-			minChan = new  Entity((canvas.width / 2) + 200, 40, 0, 0, 
-				assetsFrames, 4, [ 0, 0 ]);
+			minChan = new  Entity(MIN_POSITION_X, INITIAL_Y_POSITION, 
+				MIN_CHAN_WIDHT, MIN_CHAN_HEIGHT, assetsFrames, 
+				MIN_ANIMATION_VELOCITY, MIN_MOVEMENT_VELOCITY);
 			break;
 	}
 }
