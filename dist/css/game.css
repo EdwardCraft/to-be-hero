@@ -1,14 +1,28 @@
 body {
   /*padding-top: 50px;*/
+
+  background: url('../../assets/blur-image.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+
+
   font-family: 'Passion One', cursive;
   font-size: 30px;
+
 }
 
 .disaper {
 	display: none;
 }
 
-
+.canvas-position{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden
+}
 
 .col-centered{
 	padding-top: 50px;
@@ -16,9 +30,28 @@ body {
 }
 
 .showBorder{
-	border:1px solid black;
+	/*border:1px solid black;*/
 }
 
+/* Glyph, by Harry Roberts */
+
+hr { 
+  border : 0;
+  height: 1px; 
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0)); 
+}
+
+.outline {
+  text-shadow: 4px 0 0 #fff, -4px 0 0 #fff, 0 4px 0 #fff, 0 -4px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+}
+
+.color-container {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.color-text{
+  color: #FFA5FA;
+}
 .center-child{
 	margin-left: 9%;
 }

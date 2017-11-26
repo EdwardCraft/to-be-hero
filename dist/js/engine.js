@@ -108,6 +108,9 @@ function startEngine(device){
 
 }
 
+
+
+
 function doOnOrientationChange() {
 	switch(window.orientation) {  
       	case -90 || 90:
