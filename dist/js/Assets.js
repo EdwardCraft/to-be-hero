@@ -281,7 +281,10 @@ function createObject(object, assetsFrames){
 			alienGirl.setPositionAlienGirl();
 			break;
 		case 'min':
-			minChan = new  Entity(MIN_POSITION_X, INITIAL_Y_POSITION, 
+			/*minChan = new  Entity(MIN_POSITION_X, INITIAL_Y_POSITION, 
+				MIN_CHAN_WIDHT, MIN_CHAN_HEIGHT, assetsFrames, 
+				MIN_ANIMATION_VELOCITY, MIN_MOVEMENT_VELOCITY);*/
+			minChan = new  MinChan(MIN_POSITION_X, INITIAL_Y_POSITION, 
 				MIN_CHAN_WIDHT, MIN_CHAN_HEIGHT, assetsFrames, 
 				MIN_ANIMATION_VELOCITY, MIN_MOVEMENT_VELOCITY);
 			break;

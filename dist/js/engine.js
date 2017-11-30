@@ -290,7 +290,7 @@ function update(delta){
 		if(cloudToilet !== undefined && toilet !== undefined)
 			cloudToilet.updateAttachObject( delta, canvas,  toilet.getPositionX(), toilet.getPositionY() );
 		if(alienGirl !== undefined)alienGirl.updateWindowGirl(delta, canvas);
-		if(minChan !== undefined)minChan.updateMinChan(delta, canvas, xCoordinates, yCoordinates);
+		if(minChan !== undefined)minChan.update(delta, canvas);
 
 		for(var i = 0; i < arrows.length; i++){
 			if(arrows[i] !== undefined)
@@ -379,7 +379,7 @@ function render(){
 			alienGirl.renderAnimation(canvas, canvasctx);
 	}
 	if(papaTwo !== undefined) papaTwo.renderAnimation(canvas, canvasctx);
-	if(minChan !== undefined)minChan.renderAnimation(canvas, canvasctx);
+	if(minChan !== undefined)minChan.render(canvas, canvasctx);
 	if(building !== undefined)building.render(canvas, canvasctx);
 	if(alienGirl !== undefined){
 		if(alienGirl.getOnWindow()){
