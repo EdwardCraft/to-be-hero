@@ -7,6 +7,26 @@ var papaTwoLoaded = false;
 var boosAlienLoaded = false;
 
 
+//World objects
+let background;
+let floor;
+let building;
+let lowerBackWindow;
+let uperBackWindow;
+
+//entities
+let papa;
+let guyPerv;
+let papaTwo;
+let boosAlien;
+let flyGuy;
+let toilet;
+let cloudToilet;
+let alien;
+let alienGirl;
+let minChan;
+let arrow;
+
 var arrowImg;
 var papaAssets = [
 	'assets/papa-1.png',
@@ -195,7 +215,7 @@ function getAnimationsAssets(){
 	loadAnimationAssets(alienGirlAssets, 'alienCute', alienGirlFrames, false);
 
 	loadAnimationAssets(toiletAssets, 'toiletGuy', toiletFrames, false);
-	loadAnimationAssets(cloudToiletAssets, 'cloudPop', cloudToiletFrames, true);
+	//loadAnimationAssets(cloudToiletAssets, 'cloudPop', cloudToiletFrames, true);
 	loadAnimationAssets(alienAssets, 'alienM', alienFlyFrames, false);
 	loadAnimationAssets(flyGuyAssets, 'fly', flyGuyFrames, false);
 
@@ -232,46 +252,46 @@ function loadAnimationAssets(assets, object, assetArray, initializeObject){
 function createObject(object, assetsFrames){
 	switch(object){
 		case 'papa':  
-		 	papa = new Entity(  X_AXIS_STARTING_POSITION , PAPA_GROUND_OFFSET , 
-		 						PAPA_IMAGE_WIDTH, PAPA_IMAGE_HEIGHT, assetsFrames, 
-		 						PAPA_ANIMATION_VELOCITY, PAPA_MOVEMENT_VELOCITY);
+		 	papa = new EnemyGround(  X_AXIS_STARTING_POSITION , PAPA_GROUND_OFFSET , 
+		 			PAPA_IMAGE_WIDTH, PAPA_IMAGE_HEIGHT, assetsFrames, PAPA_ANIMATION_VELOCITY, 
+		 			PAPA_MOVEMENT_VELOCITY, 'xAxis');
 			break;
 		case 'perv':
-			guyPerv = new Entity( X_AXIS_STARTING_POSITION , PERV_GROUND_OFFSET, 
+			guyPerv = new EnemyGround( X_AXIS_STARTING_POSITION , PERV_GROUND_OFFSET, 
 									PERV_IMAGE_WIDTH, PERV_IMAGE_HEIGHT, assetsFrames, 
-									PERV_ANIMATION_VELOCITY, PERV_MOVEMENT_VELOCITY);
+									PERV_ANIMATION_VELOCITY, PERV_MOVEMENT_VELOCITY, 'xAxis');
 			break;
 		case 'papaTwo': 
-			papaTwo = new Entity( WINDOW_X_STARTING_POSITION, 0, 
+			papaTwo = new DadTwo( WINDOW_X_STARTING_POSITION, 0, 
 				PAPA_TWO_IMAGE_WIDTH, PAPA_TWO_IMAGE_HEIGHT, assetsFrames, 
-				PAPA_TWO_ANIMATION_VELOCITY,  PAPA_TWO_MOVEMENT_VELOCITY, 'TOP' );
-				papaTwo.setPositionPapaTwo();
+				PAPA_TWO_ANIMATION_VELOCITY,  PAPA_TWO_MOVEMENT_VELOCITY);
+				papaTwo.setPositionPapaTwo('TOP');
 			break;
 		case 'boos':
-			boosAlien = new Entity( X_AXIS_STARTING_POSITION, BOSS_GROUND_OFFSET, 
+			boosAlien = new EntEnemyGroundity( X_AXIS_STARTING_POSITION, BOSS_GROUND_OFFSET, 
 									BOSS_IMAGE_WIDTH, BOSS_IMAGE_HEIGHT ,assetsFrames, 
-									BOSS_ANIMATION_VELOCITY, BOSS_MOVEMENT_VELOCITY);
+									BOSS_ANIMATION_VELOCITY, BOSS_MOVEMENT_VELOCITY, 'xAxis');
 			break;
 		case 'fly': 
-			flyGuy = new Entity( X_AXIS_STARTING_POSITION, 0, 
+			flyGuy = new EnemyFlying( X_AXIS_STARTING_POSITION, 0, 
 								 GUY_FLY_IMAGE_WIDTH, GUY_FLY_IMAGE_HEIGHT, assetsFrames, 
 								 GUY_FLY_ANIMATION_VELOCITY, GUY_FLY_MOVEMENT_VELOCITY);
-			flyGuy.setBeginigPosition(canvas);
+			flyGuy.getNewPosition(canvas);
 			flyGuy.setHealth(FLY_GUY_HEALTH);
 			break;
 		case 'toiletGuy':
-			toilet = new Entity( TOILET_SKY_X_OFFSET , X_AXIS_STARTING_POSITION, 
+			toilet = new EnemyGround( TOILET_SKY_X_OFFSET , X_AXIS_STARTING_POSITION, 
 								 TOILET_IMAGE_WIDTH, TOILET_IMAGE_HEIGHT, assetsFrames, 
-								 TOILET_ANIMATION_VELOCITY,  TOILET_MOVEMENT_VELOCITY);
+								 TOILET_ANIMATION_VELOCITY,  TOILET_MOVEMENT_VELOCITY,'yAxis');
 			break;
 		case 'cloudPop':
-			cloudToilet = new Entity( 100, -100, 0, 0, assetsFrames, 6, [ VELOCITY_X_ENTITIES, VELOCITY_Y_CLOUD]);
+			cloudToilet = new EnemyGround( 100, -100, 0, 0, assetsFrames, 6, [ VELOCITY_X_ENTITIES, VELOCITY_Y_CLOUD], 'yAxis');
 			break;
 		case 'alienM':
-			alien = new Entity( X_AXIS_STARTING_POSITION, 0 , 
+			alien = new EnemyFlying( X_AXIS_STARTING_POSITION, 0 , 
 								ALIEN_FLY_IMAGE_WIDTH, ALIEN_FLY_IMAGE_HEIGHT, assetsFrames, 
 								ALIEN_FLY_ANIMATION_VELOCITY,  ALIEN_FLY_MOVEMENT_VELOCITY);
-			alien.setBeginigPosition(canvas);
+			alien.getNewPosition(canvas);
 			alien.setHealth(ALIEN_FLY_HEALTH);
 			break;
 		case 'alienCute':

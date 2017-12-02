@@ -3,17 +3,14 @@ class MinChan extends AbstractEntity{
 
 	constructor(positionX, positionY, width, height, 
 		assets, animationVelocity, movementVelocity){
-		super();
-		this.setPositionX(positionX);
-		this.setPositionY(positionY);
-		this.setAssets(assets);
-		this.setMovementVelocity(movementVelocity);
-		this.setAnimationVelocity(animationVelocity);
+		super(positionX, positionY, width, height, assets, animationVelocity, movementVelocity);
+		
 		this.setFrames();
 		this.setCurrentImg(assets[0]);
 		this.isDown = false;
 		this.isTop = false;
 		this.isMiddle = false;
+		this.ofScreen = false;
 	}
 
 

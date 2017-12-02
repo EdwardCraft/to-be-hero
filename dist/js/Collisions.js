@@ -20,6 +20,7 @@ var seconds = 0;
 var totaltime = TIMER_TO_STAY_ON_WINDOW;
 var lvlStastes = [false, false, false, false];
 var hit = false;
+var arrows = [];
 
 function collisions(){
 
@@ -156,8 +157,31 @@ function collisions(){
 	}
 
 
+	chekOfScreenWindow();
 }
 
+
+function chekOfScreenWindow(){
+	if(papaTwo != undefined){
+		if(papaTwo.getOfScree()){
+			papaTwo = null;
+			papaTwo = undefined;
+			createCute = false;
+		}
+	}
+
+	if(alienGirl != undefined){
+		if(alienGirl.getOfScree()){
+			alienGirl = null;
+			alienGirl = undefined;
+			createCute = false;
+		}
+	}
+
+
+
+
+}
 
 
 function createEntitie(){
@@ -165,24 +189,24 @@ function createEntitie(){
 	curremtId =  getNewId(curremtId,  Math.floor(Math.random() * randOffset), randOffset);
 	switch(curremtId){
 		case PAPA_ID: 
-			papa = new Entity(  X_AXIS_STARTING_POSITION , PAPA_GROUND_OFFSET, 
-		 						PAPA_IMAGE_WIDTH, PAPA_IMAGE_HEIGHT, papaFrames, 
-		 						PAPA_ANIMATION_VELOCITY, PAPA_MOVEMENT_VELOCITY);	
+			papa = new EnemyGround(  X_AXIS_STARTING_POSITION , PAPA_GROUND_OFFSET , 
+		 			PAPA_IMAGE_WIDTH, PAPA_IMAGE_HEIGHT,  papaFrames, PAPA_ANIMATION_VELOCITY, 
+		 			PAPA_MOVEMENT_VELOCITY, 'xAxis');	
 			break;
 		case PERV_ID: 
-			guyPerv = new Entity( X_AXIS_STARTING_POSITION , PERV_GROUND_OFFSET, 
-									PERV_IMAGE_WIDTH, PERV_IMAGE_HEIGHT, guyPervFrames, 
-									PERV_ANIMATION_VELOCITY, PERV_MOVEMENT_VELOCITY);
+			guyPerv = new EnemyGround( X_AXIS_STARTING_POSITION , PERV_GROUND_OFFSET, 
+									PERV_IMAGE_WIDTH, PERV_IMAGE_HEIGHT,  guyPervFrames, 
+									PERV_ANIMATION_VELOCITY, PERV_MOVEMENT_VELOCITY, 'xAxis');
 			break;
 		case BOSS_ID: 
-			boosAlien = new Entity( X_AXIS_STARTING_POSITION, BOSS_GROUND_OFFSET, 
-									BOSS_IMAGE_WIDTH, BOSS_IMAGE_HEIGHT ,boosAlienFrames, 
-									BOSS_ANIMATION_VELOCITY, BOSS_MOVEMENT_VELOCITY);
+			boosAlien = new EnemyGround( X_AXIS_STARTING_POSITION, BOSS_GROUND_OFFSET, 
+									BOSS_IMAGE_WIDTH, BOSS_IMAGE_HEIGHT , boosAlienFrames, 
+									BOSS_ANIMATION_VELOCITY, BOSS_MOVEMENT_VELOCITY, 'xAxis');
 			break;
 		case TOILET_ID:
-			toilet = new Entity( TOILET_SKY_X_OFFSET , X_AXIS_STARTING_POSITION, 
-								 TOILET_IMAGE_WIDTH, TOILET_IMAGE_HEIGHT, toiletFrames, 
-								 TOILET_ANIMATION_VELOCITY,  TOILET_MOVEMENT_VELOCITY);
+			toilet = new EnemyGround( TOILET_SKY_X_OFFSET , X_AXIS_STARTING_POSITION, 
+								 TOILET_IMAGE_WIDTH, TOILET_IMAGE_HEIGHT, toiletFrames , 
+								 TOILET_ANIMATION_VELOCITY,  TOILET_MOVEMENT_VELOCITY,'yAxis');
 			break;
 	}
 
@@ -194,19 +218,20 @@ function creteFlyingEntities(yAxis){
 	currentFlyId =  getNewId(currentFlyId,  Math.floor(Math.random() * randOffsetFly), randOffsetFly);
 	switch(currentFlyId){
 		case FLY_ID:
-	
-			alien = new Entity( X_AXIS_STARTING_POSITION, 0 , 
+			alien = new EnemyFlying( X_AXIS_STARTING_POSITION, 0 , 
 								ALIEN_FLY_IMAGE_WIDTH, ALIEN_FLY_IMAGE_HEIGHT, alienFlyFrames, 
 								ALIEN_FLY_ANIMATION_VELOCITY,  ALIEN_FLY_MOVEMENT_VELOCITY);
-			alien.setBeginigPosition(canvas, yAxis);
+			alien.setDirrectionIndex(yAxis);
+			alien.getNewPosition(canvas);
 			alien.setHealth(ALIEN_FLY_HEALTH);
 			break;
 		case FLY_GUY_ID:
 	
-			flyGuy = new Entity( X_AXIS_STARTING_POSITION, 0, 
+			flyGuy = new EnemyFlying( X_AXIS_STARTING_POSITION, 0, 
 								 GUY_FLY_IMAGE_WIDTH, GUY_FLY_IMAGE_HEIGHT, flyGuyFrames, 
 								 GUY_FLY_ANIMATION_VELOCITY, GUY_FLY_MOVEMENT_VELOCITY);
-			flyGuy.setBeginigPosition(canvas, yAxis);
+			flyGuy.setDirrectionIndex(yAxis);
+			flyGuy.getNewPosition(canvas);
 			flyGuy.setHealth(FLY_GUY_HEALTH);
 			break;
 	}
@@ -324,7 +349,7 @@ function difficultyUpdate(){
 		console.log('update');
 	}
 
-	if(!lvlStastes[1] && scoreCount > 20 ){
+	if(!lvlStastes[1] && scoreCount > 30 ){
 		lvlStastes[1] = true;
 	}
 
@@ -338,6 +363,7 @@ function difficultyUpdate(){
 function checkWindowObject(delta){
 
 	if( scoreCount > 0 &&  scoreCount % 10 === 0){
+		console.log('create  if creation is instance: ', createCute);
 		if(!createCute){
 			if(!lvlStastes[1]){
 				console.log('one');
@@ -386,16 +412,16 @@ function createWindowObject(){
 		var position = Math.floor(Math.random() * 2);
 		switch(position){
 			case 0: 
-				alienGirl = new Entity(WINDOW_X_STARTING_POSITION, 0, 
-					ALIEN_GIRL_IMAGE_WIDTH, ALIEN_GIRL_IMAGE_HEIGHT, alienGirlFrames, 
-					ALIEN_GIRL_ANIMATION_VELOCITY, ALIEN_GIRL_MOVEMENT_VELOCITY, 'TOP');
-				alienGirl.setPositionAlienGirl();
+				papaTwo = new DadTwo( WINDOW_X_STARTING_POSITION, 0, 
+				PAPA_TWO_IMAGE_WIDTH, PAPA_TWO_IMAGE_HEIGHT, papaAttackFrames, 
+				PAPA_TWO_ANIMATION_VELOCITY,  PAPA_TWO_MOVEMENT_VELOCITY);
+				papaTwo.setPositionPapaTwo('TOP');
 				break;
 			case 1: 
-				alienGirl = new Entity(WINDOW_X_STARTING_POSITION, 0, 
-					ALIEN_GIRL_IMAGE_WIDTH, ALIEN_GIRL_IMAGE_HEIGHT, alienGirlFrames, 
-					ALIEN_GIRL_ANIMATION_VELOCITY, ALIEN_GIRL_MOVEMENT_VELOCITY, 'MIDDLE');
-				alienGirl.setPositionAlienGirl();
+				papaTwo = new DadTwo( WINDOW_X_STARTING_POSITION, 0, 
+				PAPA_TWO_IMAGE_WIDTH, PAPA_TWO_IMAGE_HEIGHT, papaAttackFrames, 
+				PAPA_TWO_ANIMATION_VELOCITY,  PAPA_TWO_MOVEMENT_VELOCITY);
+				papaTwo.setPositionPapaTwo('TOP');
 				break;
 		}
 	}
@@ -474,7 +500,6 @@ function timerIdle(delta){
 		totaltime -= delta;
 		seconds = totaltime % 60;
 	}else if(this.totaltime <= 0){
-
 		if(alienGirl !== undefined && papaTwo === undefined){
 			alienGirl.setOnWindow(false);
 			alienGirl.hideWindow(delta);
@@ -488,7 +513,7 @@ function timerIdle(delta){
 				return;
 			}
 		}
-		if(papaTwo !== undefined && alienGirl === undefined){
+		if(papaTwo !== undefined && alienGirl === undefined){;
 			papaTwo.setOnWindow(false);
 			papaTwo.hideWindow(delta);
 			if(!papaTwo.getStayOnWindow()){

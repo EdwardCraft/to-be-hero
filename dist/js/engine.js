@@ -2,12 +2,9 @@
 
 var canvas;
 var canvasctx;
-var img;
-
 
 var FPS = 60;
 var fps = 60;
-//var fpsDisplay = document.getElementById('fpsDisplay');
 
 var lastFrameTimeMs = 0; // last time the was run
 var maxFPS = FPS; // the maximun FPS we want to allow
@@ -28,35 +25,12 @@ var timestep = 1000 / FPS;
 
 
 
-//World objects
-let background;
-let floor;
-let building;
-let lowerBackWindow;
-let uperBackWindow;
-
-
 
 var xCoordinates = 0;
 var yCoordinates = 0;
 var totalTimeResize = TIMER_TO_RESIZE_SCORE;
 var secondsResize = 0;
 
-
-let papa;
-let guyPerv;
-let papaTwo;
-let boosAlien;
-let flyGuy;
-let toilet;
-let cloudToilet;
-let alien;
-let alienGirl;
-let minChan;
-let arrow;
-
-var arrows = [];
-var enemies = [];
 
 var videoTest;
 var scoreCount;
@@ -189,15 +163,6 @@ function onClick(e){
 }
 
 
-onImageLoad = function(){
-	
-}
-
-
-
-
-
-
 function stop(){
 	running = false;
 	started = false;
@@ -276,17 +241,17 @@ function update(delta){
 	/*
 		@params
 		@delta: delta value for everything that updates;
-		@canvas: the canvas if 
+		@canvas: the canvas 
 	*/
 	if(startGame){
-		if(papa !== undefined) papa.updateAnimation(delta, canvas, 'right','xAxis', 'one');
-		if(guyPerv !== undefined) guyPerv.updateAnimation(delta, canvas, 'right','xAxis', 'one');
+		if(papa !== undefined) papa.update(delta, canvas);
+		if(guyPerv !== undefined) guyPerv.update(delta, canvas);
 		//if(papaTwo !== undefined) papaTwo.updateAnimation(delta, canvas, 'left','xAxis','one');
-		if(papaTwo !== undefined) papaTwo.updateWindow(delta, canvas );
-		if(boosAlien !== undefined) boosAlien.updateAnimation(delta, canvas, 'right','xAxis','one');
-		if(flyGuy !== undefined)flyGuy.updateAnimation(delta, canvas, 'right','yAxis', 'one');
-		if(toilet !== undefined)toilet.updateAnimation(delta, canvas, 'right','yAxis', 'two');
-		if(alien !== undefined)alien.updateAnimation(delta, canvas, 'right','yAxis', 'one');
+		if(papaTwo !== undefined) papaTwo.update(delta, canvas );
+		if(boosAlien !== undefined) boosAlien.update(delta, canvas);
+		if(flyGuy !== undefined)flyGuy.update(delta, canvas);
+		if(toilet !== undefined)toilet.update(delta, canvas);
+		if(alien !== undefined)alien.update(delta, canvas);
 		if(cloudToilet !== undefined && toilet !== undefined)
 			cloudToilet.updateAttachObject( delta, canvas,  toilet.getPositionX(), toilet.getPositionY() );
 		if(alienGirl !== undefined)alienGirl.updateWindowGirl(delta, canvas);
@@ -331,8 +296,8 @@ function update(delta){
     		return 'Current value' + value;
     	}
     });
-
-    /*if($('#fullScreen').is(':checked')){
+    
+    if($('#fullScreen').is(':checked')){
     	if(!fullScreen){
     		document.getElementById('mobile').style.display = 'block';
     		document.getElementById('desktop').style.display = 'none';
@@ -341,14 +306,13 @@ function update(delta){
     		fullScreen = true;
     	}
     	
-    }*/
+    }
   
 	
 }
 
 
 function render(){
-	//fpsDisplay.textContent = Math.round(fps) + ' FPS'; // display the FPS
 
 	//clear background
 	clearScreen(0, 0, canvas.width, canvas.height, 'black');
@@ -370,15 +334,15 @@ function render(){
 
 	canvasctx.globalAlpha = 1;
 	if(towers !== undefined)towers.render( canvas, canvasctx);
-	if(flyGuy !== undefined)flyGuy.renderAnimation(canvas, canvasctx);
-	if(alien !== undefined)alien.renderAnimation(canvas, canvasctx);
+	if(flyGuy !== undefined)flyGuy.render(canvas, canvasctx);
+	if(alien !== undefined)alien.render(canvas, canvasctx);
 	if(lowerBackWindow !== undefined)lowerBackWindow.render(canvas, canvasctx);
 	if(uperBackWindow !== undefined)uperBackWindow.render(canvas, canvasctx);
 	if(alienGirl !== undefined){
 		if(!alienGirl.getOnWindow())
 			alienGirl.renderAnimation(canvas, canvasctx);
 	}
-	if(papaTwo !== undefined) papaTwo.renderAnimation(canvas, canvasctx);
+	if(papaTwo !== undefined)papaTwo.render(canvas, canvasctx);
 	if(minChan !== undefined)minChan.render(canvas, canvasctx);
 	if(building !== undefined)building.render(canvas, canvasctx);
 	if(alienGirl !== undefined){
@@ -396,10 +360,10 @@ function render(){
 		if(cloudToilet.getPositionY() - 100 < (canvas.height - 165))
 			cloudToilet.renderAnimation(canvas, canvasctx);
 	}
-	if(toilet !== undefined)toilet.renderAnimation(canvas, canvasctx);
-	if(guyPerv !== undefined) guyPerv.renderAnimation(canvas, canvasctx);
-	if(papa !== undefined) papa.renderAnimation(canvas, canvasctx);
-	if(boosAlien !== undefined) boosAlien.renderAnimation(canvas, canvasctx);
+	if(toilet !== undefined)toilet.render(canvas, canvasctx);
+	if(guyPerv !== undefined) guyPerv.render(canvas, canvasctx);
+	if(papa !== undefined) papa.render(canvas, canvasctx);
+	if(boosAlien !== undefined) boosAlien.render(canvas, canvasctx);
 	
 
 

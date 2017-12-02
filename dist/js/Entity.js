@@ -300,7 +300,7 @@ class Entity{
 			}
 		}else{
 			switch(mixMove){
-				case 'one': this.movementY(delta, canvas);break;
+				case 'one': this.movementY(delta, canvas);break;	
 				case 'two': this.movementYDown(delta, canvas); break;
 			}
 			
@@ -469,7 +469,7 @@ class Entity{
 
 
 	movementY(delta, canvas){
-		this.getNewPosition(canvas);
+		//this.getNewPosition(canvas);
 		this.movementXRight(delta, canvas);
 	}
 
