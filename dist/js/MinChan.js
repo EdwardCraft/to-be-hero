@@ -27,8 +27,8 @@ class MinChan extends AbstractEntity{
 			this.isTop = true;
 			this.isMiddle = false;
 			this.isDown = false;
-			this.postionY = 40;
-			this.postionX = (canvas.width / 2) + 200;
+			this.positionY = 40;
+			this.positionX = (canvas.width / 2) + 200;
 			this.endLoop = false;
 			this.count = 0;
 			this.currentImg = this.assets[this.count % this.frames];
@@ -40,8 +40,8 @@ class MinChan extends AbstractEntity{
 			this.isMiddle = true;
 			this.isTop = false;
 			this.isDown = false;
-			this.postionY = 208;
-			this.postionX = (canvas.width / 2) + 200;
+			this.positionY = 208;
+			this.positionX = (canvas.width / 2) + 200;
 			this.endLoop = false;
 			this.count = 0;
 			this.currentImg = this.assets[this.count % this.frames];
@@ -53,8 +53,8 @@ class MinChan extends AbstractEntity{
 			this.isDown = true;
 			this.isTop = false;
 			this.isMiddle = false;
-			this.postionX = (canvas.width / 2) + 200;
-			this.postionY = (canvas.height) - 193;
+			this.positionX = (canvas.width / 2) + 200;
+			this.positionY = (canvas.height) - 193;
 			this.endLoop = false;
 			this.count = 0;
 			this.currentImg = this.assets[this.count % this.frames];
@@ -69,18 +69,18 @@ class MinChan extends AbstractEntity{
 	repositionFrames(delta){
 
 		if(this.count === 4 && this.index === 0){
-			this.postionY  += 4;
-			this.postionX  += 11;
+			this.positionY  += 4;
+			this.positionX  += 11;
 		}
 		if(this.count === 5 && this.index === 0){
-			this.postionY  -= 4;
-			this.postionX  -= 38;
+			this.positionY  -= 4;
+			this.positionX  -= 38;
 		}
 		if(this.count === 6 && this.index === 0){
-			this.postionX  += 4;
+			this.positionX  += 4;
 		}
 		if(this.count === 7 && this.index == 0){
-			this.postionX += 26;
+			this.positionX += 26;
 		}
 	}
 
@@ -116,8 +116,8 @@ class MinChan extends AbstractEntity{
 	render(canvas, canvasctx){
 		canvasctx.drawImage(
 			this.currentImg, 
-			this.postionX, 
-			this.postionY
+			this.positionX, 
+			this.positionY
 			);
 	}
 

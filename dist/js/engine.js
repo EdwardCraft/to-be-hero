@@ -38,6 +38,7 @@ var fontSize = 35;
 var addSize = 0;
 var originalFontSize = fontSize;
 var fullScreen = false; 
+var fullScreenSlider;
 
 /*Slider options*/
 var SHOOTING_VALUE = 0.7;
@@ -68,7 +69,8 @@ function startEngine(device){
 	canvasctx.font = originalFontSize +"px" + " Passion One";
 	scoreCount = 0;
 	window.addEventListener('orientationchange', doOnOrientationChange);
-	canvas.addEventListener("click", onClick, false);;
+	canvas.addEventListener("click", onClick, false);
+	canvas.addEventListener("keypress", onkeydown, false);
 	if(device == 'canvasMobile'){
 		doOnOrientationChange();
 	}
@@ -114,19 +116,28 @@ function resize(){
 	//Our canvas must cover the full height of screen.
 	//regardles of the resolution.
 	var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-	
 	//Calculate the height with the value of the width.
 	var height = (canvas.height * width) / canvas.width;
-	console.log("window width : ", width);
-	console.log("window height: ", height);
 	canvas.style.width = width+'px';
 	canvas.style.height = height+'px';
-
 
 
 }
 
 
+function onkeydown(e){
+	var keyCode = e.keyCode;
+    if(keyCode == ESCAPE) {
+       if(fullScreen){
+       		document.getElementById('mobile').style.display = 'none';
+    		document.getElementById('desktop').style.display = 'block';
+    		//startEngine('canvasMobile');
+    		//resize();
+    		document.getElementById("fullScreen").checked = false;		
+    		fullScreen = false;
+       }
+    }
+}
 
 
 function onClick(e){
@@ -136,6 +147,8 @@ function onClick(e){
 		fontSize = originalFontSize;
 		canvasctx.font = fontSize + "px" + " Passion One";
 	}
+
+
 	/*console.log('x: ', e.x);
 	console.log('y: ', e.y);*/
 	/*xCoordinates  = (e.x / canvas.width) * canvas.width;
@@ -234,6 +247,8 @@ function update(delta){
 	collisions();
 	removeArrows();
 	checkWindowObject(delta);
+	removeExplosion();
+
 	if(hit){
 		timerResize(delta);
 	}
@@ -254,13 +269,20 @@ function update(delta){
 		if(alien !== undefined)alien.update(delta, canvas);
 		if(cloudToilet !== undefined && toilet !== undefined)
 			cloudToilet.updateAttachObject( delta, canvas,  toilet.getPositionX(), toilet.getPositionY() );
-		if(alienGirl !== undefined)alienGirl.updateWindowGirl(delta, canvas);
+		if(alienGirl !== undefined)alienGirl.update(delta, canvas);
 		if(minChan !== undefined)minChan.update(delta, canvas);
 
 		for(var i = 0; i < arrows.length; i++){
 			if(arrows[i] !== undefined)
 				arrows[i].updateArrow(delta, canvas);
 		}
+
+		for(var i = 0; i < explosions.length; i++){
+			if(explosions[i] != undefined){
+				explosions[i].update(delta, canvas);
+			}
+		}
+
 	}
 	
 
@@ -298,13 +320,6 @@ function update(delta){
     });
     
     if($('#fullScreen').is(':checked')){
-    	if(!fullScreen){
-    		document.getElementById('mobile').style.display = 'block';
-    		document.getElementById('desktop').style.display = 'none';
-    		startEngine('canvasMobile');
-    		resize();
-    		fullScreen = true;
-    	}
     	
     }
   
@@ -340,14 +355,14 @@ function render(){
 	if(uperBackWindow !== undefined)uperBackWindow.render(canvas, canvasctx);
 	if(alienGirl !== undefined){
 		if(!alienGirl.getOnWindow())
-			alienGirl.renderAnimation(canvas, canvasctx);
+			alienGirl.render(canvas, canvasctx);
 	}
 	if(papaTwo !== undefined)papaTwo.render(canvas, canvasctx);
 	if(minChan !== undefined)minChan.render(canvas, canvasctx);
 	if(building !== undefined)building.render(canvas, canvasctx);
 	if(alienGirl !== undefined){
 		if(alienGirl.getOnWindow()){
-			alienGirl.renderAnimation(canvas, canvasctx);
+			alienGirl.render(canvas, canvasctx);
 		}
 	}
 	if(hideLower !== undefined)hideLower.render(canvas, canvasctx);
@@ -372,6 +387,11 @@ function render(){
 			arrows[i].render(canvas, canvasctx);
 	}
 	
+	for(var i = 0; i < explosions.length; i++){
+		if(explosions[i] !== undefined){
+			explosions[i].render(canvas, canvasctx);
+		}
+	}
 	
 	renderText();
 

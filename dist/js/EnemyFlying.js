@@ -68,7 +68,6 @@ class EnemyFlying extends AbstractEntity{
 	checkPosition(value, index){
 		if(value !== index ){
 			this.directionIndex = value;
-			console.log('value: ', value);
 			return value ;
 		}else{
 			return this.checkPosition(Math.floor(Math.random() * 2), index);

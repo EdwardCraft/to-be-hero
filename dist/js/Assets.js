@@ -27,6 +27,7 @@ let alienGirl;
 let minChan;
 let arrow;
 
+
 var arrowImg;
 var papaAssets = [
 	'assets/papa-1.png',
@@ -123,6 +124,17 @@ var papaAttackAssets = [
 ];
 var papaAttackFrames = [];
 
+var explosionAssets = [
+	'assets/explotion-1.png',
+	'assets/explotion-2.png',
+	'assets/explotion-2.png',
+	'assets/explotion-3.png',
+	'assets/explotion-3.png',
+	'assets/explotion-4.png',
+	'assets/explotion-4.png'
+]
+var explosionFrames = [];
+
 
 var bottleImg;
 var hideLowerImage;
@@ -213,16 +225,16 @@ function getAnimationsAssets(){
 	
 	loadAnimationAssets(papaAttackAssets, 'papaTwo', papaAttackFrames, false);
 	loadAnimationAssets(alienGirlAssets, 'alienCute', alienGirlFrames, false);
-
 	loadAnimationAssets(toiletAssets, 'toiletGuy', toiletFrames, false);
 	//loadAnimationAssets(cloudToiletAssets, 'cloudPop', cloudToiletFrames, true);
 	loadAnimationAssets(alienAssets, 'alienM', alienFlyFrames, false);
 	loadAnimationAssets(flyGuyAssets, 'fly', flyGuyFrames, false);
-
 	loadAnimationAssets(papaAssets, 'papa', papaFrames, true);
 	loadAnimationAssets(boosAlienAssets, 'boos', boosAlienFrames, false);
 	loadAnimationAssets(guyPervAssets, 'perv', guyPervFrames, false);
 	loadAnimationAssets(minChanAssets, 'min', minChanFrames, true);
+	loadAnimationAssets(explosionAssets, ' ', explosionFrames, false);
+
 
 }
 
