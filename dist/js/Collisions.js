@@ -30,7 +30,13 @@ function collisions(){
 			if(arrows[i].getBounds()[0] <= (flyGuy.getBounds()[0] + GUY_FLY_IMAGE_WIDTH) && 
 					arrows[i].getBounds()[1] >= flyGuy.getBounds()[1]   && 
 					arrows[i].getBounds()[1] <= (flyGuy.getBounds()[1] + GUY_FLY_IMAGE_HEIGHT)){
-				flyGuy.setHealth(flyGuy.getHealth() - 1);
+				
+				switch(arrows[i].getID()){
+					case ARROW_ID : flyGuy.setHealth(flyGuy.getHealth() - 10); break;
+					case BOTTLE_ID: flyGuy.setHealth(flyGuy.getHealth() - 1); break;
+					case BLAST_ID : flyGuy.setHealth(flyGuy.getHealth() - 1); break;
+				}
+
 				arrows[i].setOfScreen(true);
 				if(flyGuy.getHealth() <= 0){
 					explosions.push(
@@ -54,7 +60,13 @@ function collisions(){
 			if(arrows[i].getBounds()[0] <= (alien.getBounds()[0] + ALIEN_FLY_IMAGE_WIDTH) && 
 					arrows[i].getBounds()[1] >= alien.getBounds()[1]   && 
 					arrows[i].getBounds()[1] <= (alien.getBounds()[1] + ALIEN_FLY_IMAGE_HEIGHT)){
-				alien.setHealth(alien.getHealth() - 1);
+				
+				switch(arrows[i].getID()){
+					case ARROW_ID : alien.setHealth(alien.getHealth() - 10); break;
+					case BOTTLE_ID: alien.setHealth(alien.getHealth() - 1); break;
+					case BLAST_ID : alien.setHealth(alien.getHealth() - 1); break;
+				}
+				
 				arrows[i].setOfScreen(true);
 				if(alien.getHealth() <= 0 ){
 					explosions.push(
@@ -183,7 +195,7 @@ function collisions(){
 
 
 function chekOfScreenWindow(){
-	if(papaTwo != undefined){
+	if(papaTwo !== undefined){
 		if(papaTwo.getOfScree()){
 			papaTwo = null;
 			papaTwo = undefined;
@@ -191,7 +203,7 @@ function chekOfScreenWindow(){
 		}
 	}
 
-	if(alienGirl != undefined){
+	if(alienGirl !== undefined){
 		if(alienGirl.getOfScree()){
 			alienGirl = null;
 			alienGirl = undefined;
@@ -199,8 +211,72 @@ function chekOfScreenWindow(){
 		}
 	}
 
+	if(papa !== undefined){
+		if(papa.getOfScree()){
+			papa = undefined;
+			buildingHit = new BuildingHit([canvas.width - 294, 0]);
+			health.setLives(health.getLives() - 1);
+			createEntitie();
+		}
+	}
+
+	if(guyPerv !== undefined){
+		if(guyPerv.getOfScree()){
+			guyPerv = undefined;
+			buildingHit = new BuildingHit([canvas.width - 294, 0]);
+			health.setLives(health.getLives() - 1);
+			createEntitie();
+		}
+	}
+
+	if(boosAlien !== undefined){
+		if(boosAlien.getOfScree()){
+			boosAlien = undefined;
+			buildingHit = new BuildingHit([canvas.width - 294, 0]);
+			health.setLives(health.getLives() - 1);
+			createEntitie();
+		}
+	}
+
+	if(toilet !== undefined){
+		if(toilet.getOfScree()){
+			toilet = undefined;
+			buildingHit = new BuildingHit([canvas.width - 294, 0]);
+			health.setLives(health.getLives() - 1);
+			createEntitie();
+		}
+	}
+
+	if(flyGuy !== undefined){
+		if(flyGuy.getOfScree()){
+			console.log('of screen');
+			var newIndex = flyGuy.getDirrectionIndex();
+			flyGuy = null;
+			flyGuy = undefined;
+			buildingHit = new BuildingHit([canvas.width - 294, 0]);
+			health.setLives(health.getLives() - 1);
+			creteFlyingEntities(newIndex);
+		}
+	}
+
+	if(alien !== undefined){
+		if(alien.getOfScree()){
+			var newIndex = alien.getDirrectionIndex();
+			alien = null;
+			alien = undefined;
+			buildingHit = new BuildingHit([canvas.width - 294, 0]);
+			health.setLives(health.getLives() - 1);
+			creteFlyingEntities(newIndex);
+		}
+	}
 
 
+	if(buildingHit !== undefined){
+		if(buildingHit.isEndAnimation()){
+			buildingHit = null;
+			buildingHit = undefined;
+		}
+	}
 
 }
 
@@ -241,7 +317,7 @@ function creteFlyingEntities(yAxis){
 		case FLY_ID:
 			alien = new EnemyFlying( X_AXIS_STARTING_POSITION, 0 , 
 								ALIEN_FLY_IMAGE_WIDTH, ALIEN_FLY_IMAGE_HEIGHT, alienFlyFrames, 
-								ALIEN_FLY_ANIMATION_VELOCITY,  ALIEN_FLY_MOVEMENT_VELOCITY);
+								ALIEN_FLY_ANIMATION_VELOCITY,  [0.05, 0.05]);
 			alien.setDirrectionIndex(yAxis);
 			alien.getNewPosition(canvas);
 			alien.setHealth(ALIEN_FLY_HEALTH);
@@ -250,7 +326,7 @@ function creteFlyingEntities(yAxis){
 	
 			flyGuy = new EnemyFlying( X_AXIS_STARTING_POSITION, 0, 
 								 GUY_FLY_IMAGE_WIDTH, GUY_FLY_IMAGE_HEIGHT, flyGuyFrames, 
-								 GUY_FLY_ANIMATION_VELOCITY, GUY_FLY_MOVEMENT_VELOCITY);
+								 GUY_FLY_ANIMATION_VELOCITY, [0.05, 0.05]);
 			flyGuy.setDirrectionIndex(yAxis);
 			flyGuy.getNewPosition(canvas);
 			flyGuy.setHealth(FLY_GUY_HEALTH);
@@ -275,7 +351,7 @@ function getNewId(id, value, offset){
 function removeArrows(){
 	var key = 0;
 	for(var i = 0; i < arrows.length; i++){
-		if(arrows[i].isOfScreen()){
+		if(arrows[i].getOfScree()){
 			arrows[i] = undefined;
 			key = 1;
 		}
@@ -285,6 +361,7 @@ function removeArrows(){
 	}
 	if(key === 1){
 		arrows.length -= 1;
+		console.log("arrows.length: ", arrows.length);
 	}
 
 }
@@ -313,19 +390,19 @@ function createArrow(){
 		if(minChan.isShoot()){
 			switch(minChan.getArrowPosition()){
 			case 'TOP'   :  
-				arrows.push(new Entity(ARROW_POSITION_X, ARROW_TOP_SECTION, 
+				arrows.push(new Bullet(ARROW_POSITION_X, ARROW_TOP_SECTION, 
 					ARROW_IMAGE_WIDTH, ARROW_IMAGE_HEIGHT, arrowImg, 
-					ARROW_ANIMATION_VELOCITY, ARROW_MOVEMENT_VELOCITY));
+					ARROW_ANIMATION_VELOCITY, ARROW_MOVEMENT_VELOCITY, ARROW_ID));
 				break;
 			case 'MIDDLE':  
-				arrows.push(new Entity(ARROW_POSITION_X, ARROW_MIDDLE_SECTION, 
+				arrows.push(new Bullet(ARROW_POSITION_X, ARROW_MIDDLE_SECTION, 
 					ARROW_IMAGE_WIDTH, ARROW_IMAGE_HEIGHT, arrowImg, 
-					ARROW_ANIMATION_VELOCITY, ARROW_MOVEMENT_VELOCITY));
+					ARROW_ANIMATION_VELOCITY, ARROW_MOVEMENT_VELOCITY, ARROW_ID));
 				break;
 			case 'DOWN'  :  
-				arrows.push(new Entity(ARROW_POSITION_X, ARROW_DOWN_SECTION, 
+				arrows.push(new Bullet(ARROW_POSITION_X, ARROW_DOWN_SECTION, 
 					ARROW_IMAGE_WIDTH, ARROW_IMAGE_HEIGHT, arrowImg, 
-					ARROW_ANIMATION_VELOCITY, ARROW_MOVEMENT_VELOCITY));     
+					ARROW_ANIMATION_VELOCITY, ARROW_MOVEMENT_VELOCITY, ARROW_ID));     
 				break;
 			}
 			minChan.setShoot(false);	
@@ -336,14 +413,14 @@ function createArrow(){
 		if(papaTwo.isShoot()){
 			switch(papaTwo.getArrowPosition()){
 			case 'TOP'   :  
-				arrows.push(new Entity(BOTTLE_POSITION_X, BOTTLE_TOP_SECTION, 
+				arrows.push(new Bullet(BOTTLE_POSITION_X, BOTTLE_TOP_SECTION, 
 					BOTTLE_IMAGE_WIDTH, BOTTLE_IMAGE_HEIGHT, bottleImg, 
-					BOTTLE_ANIMATION_VELOCITY, BOTTLE_MOVEMENT_VELOCITY));
+					BOTTLE_ANIMATION_VELOCITY, BOTTLE_MOVEMENT_VELOCITY, BOTTLE_ID));
 				break;
 			case 'MIDDLE':  
-				arrows.push(new Entity(BOTTLE_POSITION_X, BOTTLE_MIDDLE_SECTION, 
+				arrows.push(new Bullet(BOTTLE_POSITION_X, BOTTLE_MIDDLE_SECTION, 
 					BOTTLE_IMAGE_WIDTH, BOTTLE_IMAGE_HEIGHT, bottleImg, 
-					BOTTLE_ANIMATION_VELOCITY, BOTTLE_MOVEMENT_VELOCITY));
+					BOTTLE_ANIMATION_VELOCITY, BOTTLE_MOVEMENT_VELOCITY, BOTTLE_ID));
 				break;
 			case 'DOWN'  :  
 			    
@@ -358,14 +435,14 @@ function createArrow(){
 		if(alienGirl.isShoot()){
 			switch(alienGirl.getArrowPosition()){
 			case 'TOP'   :  
-				arrows.push(new Entity(BLAST_POSITION_X, BLAST_TOP_SECTION, 
+				arrows.push(new Bullet(BLAST_POSITION_X, BLAST_TOP_SECTION, 
 					BLAST_IMAGE_WIDTH, BLAST_IMAGE_HEIGHT, blastImage, 
-					0, BLAST_MOVEMENT_VELOCITY));
+					0, BLAST_MOVEMENT_VELOCITY, BLAST_ID));
 				break;
 			case 'MIDDLE':  
-				arrows.push(new Entity(BLAST_POSITION_X, BLAST_MIDDLE_SECTION, 
+				arrows.push(new Bullet(BLAST_POSITION_X, BLAST_MIDDLE_SECTION, 
 					BLAST_IMAGE_WIDTH, BLAST_IMAGE_HEIGHT, blastImage, 
-					0, BLAST_MOVEMENT_VELOCITY));
+					0, BLAST_MOVEMENT_VELOCITY, BLAST_ID));
 				break;
 			case 'DOWN'  :  
 				 
@@ -383,14 +460,19 @@ function difficultyUpdate(){
 	if(!lvlStastes[0] && scoreCount > 10){
 		lvlStastes[0] = true;
 		creteFlyingEntities(0);
+		VELOCITY_X_ENTITIES += VELOCITY_X_ENTITIES / 2;
 	}
 
 	if(!lvlStastes[1] && scoreCount > 20){
 		lvlStastes[1] = true;
+		//VELOCITY_X_ENTITIES_FLY
+		VELOCITY_X_ENTITIES += VELOCITY_X_ENTITIES / 2;
 	}
 
 	if(!lvlStastes[2] && scoreCount > 30 && !createCute){
 		lvlStastes[2] = true;
+		VELOCITY_X_ENTITIES_FLY += VELOCITY_X_ENTITIES_FLY / 2;
+		VELOCITY_X_ENTITIES += VELOCITY_X_ENTITIES;
 	}
 
 }

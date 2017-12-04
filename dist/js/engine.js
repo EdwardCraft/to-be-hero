@@ -44,6 +44,7 @@ var fullScreenSlider;
 var SHOOTING_VALUE = 0.7;
 var ARROW_MOVEMENT_VELOCITY = [ SHOOTING_VALUE , 0.1];
 var VELOCITY_X_ENTITIES = 0.1;
+var VELOCITY_X_ENTITIES_FLY = 0.1;
 var VELOCITY_Y_CLOUD = VELOCITY_X_ENTITIES * 2;
 var PAPA_MOVEMENT_VELOCITY  = [ VELOCITY_X_ENTITIES, 0 ];
 var PERV_MOVEMENT_VELOCITY  = [ VELOCITY_X_ENTITIES, 0 ];
@@ -271,10 +272,11 @@ function update(delta){
 			cloudToilet.updateAttachObject( delta, canvas,  toilet.getPositionX(), toilet.getPositionY() );
 		if(alienGirl !== undefined)alienGirl.update(delta, canvas);
 		if(minChan !== undefined)minChan.update(delta, canvas);
-
+		if(buildingHit !== undefined)buildingHit.update(delta, canvas);
+		if(health !== undefined)health.update(delta, canvas);
 		for(var i = 0; i < arrows.length; i++){
 			if(arrows[i] !== undefined)
-				arrows[i].updateArrow(delta, canvas);
+				arrows[i].update(delta, canvas);
 		}
 
 		for(var i = 0; i < explosions.length; i++){
@@ -360,6 +362,7 @@ function render(){
 	if(papaTwo !== undefined)papaTwo.render(canvas, canvasctx);
 	if(minChan !== undefined)minChan.render(canvas, canvasctx);
 	if(building !== undefined)building.render(canvas, canvasctx);
+
 	if(alienGirl !== undefined){
 		if(alienGirl.getOnWindow()){
 			alienGirl.render(canvas, canvasctx);
@@ -367,6 +370,7 @@ function render(){
 	}
 	if(hideLower !== undefined)hideLower.render(canvas, canvasctx);
 	if(hideLowerOne !== undefined)hideLowerOne.render(canvas, canvasctx);
+	if(buildingHit !== undefined)buildingHit.render(canvas, canvasctx);
 	if(floor !== undefined)floor.render(canvas, canvasctx);
 
 	// Entities Objects
@@ -379,7 +383,7 @@ function render(){
 	if(guyPerv !== undefined) guyPerv.render(canvas, canvasctx);
 	if(papa !== undefined) papa.render(canvas, canvasctx);
 	if(boosAlien !== undefined) boosAlien.render(canvas, canvasctx);
-	
+	if(health !== undefined)health.render(canvas, canvasctx);
 
 
 	for(var i = 0; i < arrows.length; i++){

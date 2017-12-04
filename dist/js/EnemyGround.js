@@ -44,7 +44,7 @@ class EnemyGround extends AbstractEntity{
 	movementXRight(delta, canvas){
 
 		this.positionX += VELOCITY_X_ENTITIES * delta;
-		if(this.positionX - 100 > canvas.width){
+		if(this.positionX - 100 > (canvas.width - 220)){
 			this.positionX = this.offscreenXPosition;
 			this.ofScreen = true;
 		}

@@ -26,7 +26,8 @@ let alien;
 let alienGirl;
 let minChan;
 let arrow;
-
+let buildingHit;
+let health;
 
 var arrowImg;
 var papaAssets = [
@@ -168,8 +169,8 @@ function getAssets(){
 
 	buildingImg = new Image();
 	buildingImg.onload = function(){
-		
 		building = new Entity(canvas.width - 294, 0, 294, 560, buildingImg);
+		
 	}
 	buildingImg.src = 'assets/building.png';
 
@@ -313,12 +314,10 @@ function createObject(object, assetsFrames){
 			alienGirl.setPositionAlienGirl();
 			break;
 		case 'min':
-			/*minChan = new  Entity(MIN_POSITION_X, INITIAL_Y_POSITION, 
-				MIN_CHAN_WIDHT, MIN_CHAN_HEIGHT, assetsFrames, 
-				MIN_ANIMATION_VELOCITY, MIN_MOVEMENT_VELOCITY);*/
 			minChan = new  MinChan(MIN_POSITION_X, INITIAL_Y_POSITION, 
 				MIN_CHAN_WIDHT, MIN_CHAN_HEIGHT, assetsFrames, 
 				MIN_ANIMATION_VELOCITY, MIN_MOVEMENT_VELOCITY);
+			health = new Health([ (GAME_WORLD_WIDTH  / 2) + 230, 0], assetsFrames[0]);
 			break;
 	}
 }

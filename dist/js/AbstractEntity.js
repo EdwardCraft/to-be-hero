@@ -54,6 +54,7 @@ class AbstractEntity{
 	setHealth(health){this.health = health;}
 	getHealth(){return this.health;}
 	getOfScree(){return this.ofScreen;}
+	setOfScreen(ofScreen){this.ofScreen = ofScreen;}
 
 	shootAgain(){
 		this.isArrow = false;

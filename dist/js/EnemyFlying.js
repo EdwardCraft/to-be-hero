@@ -28,11 +28,11 @@ class EnemyFlying extends AbstractEntity{
 
 
 	movementXRight(delta, canvas){
-		this.positionX += VELOCITY_X_ENTITIES * delta;
-		if(this.positionX - 100 > canvas.width){
-			this.positionX = this.offscreenXPosition;
+		this.positionX += VELOCITY_X_ENTITIES_FLY * delta;
+		if(this.positionX - 100 > (canvas.width - 250)){
+			//this.positionX = this.offscreenXPosition;
 			this.ofScreen = true;
-			this.getNewPosition(canvas);
+			//this.getNewPosition(canvas);
 		}
 	}
 
