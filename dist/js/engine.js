@@ -50,7 +50,7 @@ var PAPA_MOVEMENT_VELOCITY  = [ VELOCITY_X_ENTITIES, 0 ];
 var PERV_MOVEMENT_VELOCITY  = [ VELOCITY_X_ENTITIES, 0 ];
 var BOSS_MOVEMENT_VELOCITY  = [ VELOCITY_X_ENTITIES, 0 ];
 var TOILET_MOVEMENT_VELOCITY  = [ VELOCITY_X_ENTITIES, VELOCITY_X_ENTITIES ];
-
+var endGame = false;
 
 window.onload = function() {
 	
@@ -147,6 +147,10 @@ function onClick(e){
 		startGame = !startGame;
 		fontSize = originalFontSize;
 		canvasctx.font = fontSize + "px" + " Passion One";
+	}
+
+	if(endGame){
+		init();
 	}
 
 
@@ -260,70 +264,46 @@ function update(delta){
 		@canvas: the canvas 
 	*/
 	if(startGame){
-		if(papa !== undefined) papa.update(delta, canvas);
-		if(guyPerv !== undefined) guyPerv.update(delta, canvas);
-		//if(papaTwo !== undefined) papaTwo.updateAnimation(delta, canvas, 'left','xAxis','one');
-		if(papaTwo !== undefined) papaTwo.update(delta, canvas );
-		if(boosAlien !== undefined) boosAlien.update(delta, canvas);
-		if(flyGuy !== undefined)flyGuy.update(delta, canvas);
-		if(toilet !== undefined)toilet.update(delta, canvas);
-		if(alien !== undefined)alien.update(delta, canvas);
-		if(cloudToilet !== undefined && toilet !== undefined)
-			cloudToilet.updateAttachObject( delta, canvas,  toilet.getPositionX(), toilet.getPositionY() );
-		if(alienGirl !== undefined)alienGirl.update(delta, canvas);
-		if(minChan !== undefined)minChan.update(delta, canvas);
-		if(buildingHit !== undefined)buildingHit.update(delta, canvas);
-		if(health !== undefined)health.update(delta, canvas);
-		for(var i = 0; i < arrows.length; i++){
-			if(arrows[i] !== undefined)
-				arrows[i].update(delta, canvas);
-		}
-
-		for(var i = 0; i < explosions.length; i++){
-			if(explosions[i] != undefined){
-				explosions[i].update(delta, canvas);
-			}
-		}
-
+		if(!endGame)
+			if(level !== undefined)level.update(delta, canvas);
 	}
 	
-
 	/*Get Shooting animation value from the slider */
-    $('#ex1').slider({
-       formatter: function(value) {
-       SHOOTING_VALUE = value / 10;
-       ARROW_MOVEMENT_VELOCITY = [ SHOOTING_VALUE , 0.1];
-       return 'Current value: ' + value;
-       }
-    });
+    	$('#ex1').slider({
+       		formatter: function(value) {
+       		SHOOTING_VALUE = value / 10;
+       		ARROW_MOVEMENT_VELOCITY = [ SHOOTING_VALUE , 0.1];
+       		return 'Current value: ' + value;
+       		}
+    	});
 
-    $('#enemyVel').slider({
-       formatter: function(value) {
-       VELOCITY_X_ENTITIES = value / 10;
- 	   VELOCITY_Y_CLOUD = VELOCITY_X_ENTITIES * 2;
-       PAPA_MOVEMENT_VELOCITY  = [ VELOCITY_X_ENTITIES, 0 ];
-       PERV_MOVEMENT_VELOCITY  = [ VELOCITY_X_ENTITIES, 0 ];
-       BOSS_MOVEMENT_VELOCITY  = [ VELOCITY_X_ENTITIES, 0 ];
-       TOILET_MOVEMENT_VELOCITY  = [ VELOCITY_X_ENTITIES, VELOCITY_X_ENTITIES ];
-       return 'Current value: ' + value;
-       }
-    });
+    	$('#enemyVel').slider({
+       		formatter: function(value) {
+       		VELOCITY_X_ENTITIES = value / 10;
+ 	   		VELOCITY_Y_CLOUD = VELOCITY_X_ENTITIES * 2;
+       		PAPA_MOVEMENT_VELOCITY  = [ VELOCITY_X_ENTITIES, 0 ];
+       		PERV_MOVEMENT_VELOCITY  = [ VELOCITY_X_ENTITIES, 0 ];
+       		BOSS_MOVEMENT_VELOCITY  = [ VELOCITY_X_ENTITIES, 0 ];
+       		TOILET_MOVEMENT_VELOCITY  = [ VELOCITY_X_ENTITIES, VELOCITY_X_ENTITIES ];
+       		return 'Current value: ' + value;
+       		}
+    	});
 
-    $('#animationVel').slider({
-    	formatter: function(value){
-    		if(minChan !== undefined)
-    			minChan.setAnimationVelocity(value);
-    		if(alienGirl !== undefined)
-    			alienGirl.setAnimationVelocity(value);
-    		if(papaTwo !== undefined)
-    			papaTwo.setAnimationVelocity(value);
-    		return 'Current value' + value;
-    	}
-    });
+    	$('#animationVel').slider({
+    		formatter: function(value){
+    			if(minChan !== undefined)
+    				minChan.setAnimationVelocity(value);
+    			if(alienGirl !== undefined)
+    				alienGirl.setAnimationVelocity(value);
+    			if(papaTwo !== undefined)
+    				papaTwo.setAnimationVelocity(value);
+    			return 'Current value' + value;
+    		}
+    	});
     
-    if($('#fullScreen').is(':checked')){
+    	if($('#fullScreen').is(':checked')){
     	
-    }
+    	}
   
 	
 }
@@ -334,70 +314,21 @@ function render(){
 	//clear background
 	clearScreen(0, 0, canvas.width, canvas.height, 'black');
 	
-	// World Objects
-	canvasctx.globalAlpha = 1;
-
-	if($('#backgroundChange').is(":checked")){
-		if(backgroundDay !== undefined)backgroundDay.render(canvas, canvasctx);
-    }else{
-    	if(backgroundNight !== undefined)backgroundNight.render(canvas, canvasctx);
-    }
-	
-
-	/*if(videoTest !== undefined){
-		canvasctx.globalAlpha = 0.5;
-		canvasctx.drawImage(videoTest, 0, 0, canvas.width, canvas.height);
-	}*/
-
-	canvasctx.globalAlpha = 1;
-	if(towers !== undefined)towers.render( canvas, canvasctx);
-	if(flyGuy !== undefined)flyGuy.render(canvas, canvasctx);
-	if(alien !== undefined)alien.render(canvas, canvasctx);
-	if(lowerBackWindow !== undefined)lowerBackWindow.render(canvas, canvasctx);
-	if(uperBackWindow !== undefined)uperBackWindow.render(canvas, canvasctx);
-	if(alienGirl !== undefined){
-		if(!alienGirl.getOnWindow())
-			alienGirl.render(canvas, canvasctx);
-	}
-	if(papaTwo !== undefined)papaTwo.render(canvas, canvasctx);
-	if(minChan !== undefined)minChan.render(canvas, canvasctx);
-	if(building !== undefined)building.render(canvas, canvasctx);
-
-	if(alienGirl !== undefined){
-		if(alienGirl.getOnWindow()){
-			alienGirl.render(canvas, canvasctx);
+	if(health !== undefined){
+		
+		if(level !== undefined)level.render(canvas, canvasctx);
+		renderText();
+		if(health.getLives() <= 0){
+			if(!endGame)endGame = true;
+			if(screenScore !== undefined){
+				screenScore.render(canvas, canvasctx);
+			}
 		}
-	}
-	if(hideLower !== undefined)hideLower.render(canvas, canvasctx);
-	if(hideLowerOne !== undefined)hideLowerOne.render(canvas, canvasctx);
-	if(buildingHit !== undefined)buildingHit.render(canvas, canvasctx);
-	if(floor !== undefined)floor.render(canvas, canvasctx);
-
-	// Entities Objects
-
-	if(cloudToilet !== undefined && toilet !== undefined){
-		if(cloudToilet.getPositionY() - 100 < (canvas.height - 165))
-			cloudToilet.renderAnimation(canvas, canvasctx);
-	}
-	if(toilet !== undefined)toilet.render(canvas, canvasctx);
-	if(guyPerv !== undefined) guyPerv.render(canvas, canvasctx);
-	if(papa !== undefined) papa.render(canvas, canvasctx);
-	if(boosAlien !== undefined) boosAlien.render(canvas, canvasctx);
-	if(health !== undefined)health.render(canvas, canvasctx);
-
-
-	for(var i = 0; i < arrows.length; i++){
-		if(arrows[i] !== undefined)
-			arrows[i].render(canvas, canvasctx);
+	
+		
 	}
 	
-	for(var i = 0; i < explosions.length; i++){
-		if(explosions[i] !== undefined){
-			explosions[i].render(canvas, canvasctx);
-		}
-	}
 	
-	renderText();
 
 
 
@@ -454,3 +385,24 @@ function rebuild(){
 	//... snap the player to the  authoritative state
 }
 
+
+function init(){
+	VELOCITY_X_ENTITIES = 0.1;
+	VELOCITY_X_ENTITIES_FLY = 0.1;
+	for(var i = 0; i < lvlStastes.length; i++)
+		lvlStastes[i] = false;
+	scoreCount = 0;
+	health.setLives(3);
+	papa = new EnemyGround(  X_AXIS_STARTING_POSITION , PAPA_GROUND_OFFSET , 
+		 PAPA_IMAGE_WIDTH, PAPA_IMAGE_HEIGHT, papaFrames, 
+		 PAPA_ANIMATION_VELOCITY,  PAPA_MOVEMENT_VELOCITY, 'xAxis');
+	guyPerv = undefined;
+	papaTwo = undefined;
+	boosAlien = undefined;
+	flyGuy = undefined;
+	toilet = undefined;
+	cloudToilet = undefined;
+	alien = undefined;
+	alienGirl = undefined;
+	endGame = false;
+}

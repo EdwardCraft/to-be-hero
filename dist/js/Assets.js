@@ -29,6 +29,10 @@ let arrow;
 let buildingHit;
 let health;
 
+/*level*/
+let level
+let screenScore;
+
 var arrowImg;
 var papaAssets = [
 	'assets/papa-1.png',
@@ -236,6 +240,9 @@ function getAnimationsAssets(){
 	loadAnimationAssets(minChanAssets, 'min', minChanFrames, true);
 	loadAnimationAssets(explosionAssets, ' ', explosionFrames, false);
 
+	level = new Level();
+	screenScore = new ScoreScreen( 
+		[(GAME_WORLD_WIDTH / 2) - (400 / 2),(GAME_WORLD_HEIGHT / 2) - (300 / 2)], 400, 300);
 
 }
 
