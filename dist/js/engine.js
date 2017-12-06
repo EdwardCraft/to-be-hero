@@ -318,7 +318,7 @@ function render(){
 		
 		if(level !== undefined)level.render(canvas, canvasctx);
 		renderText();
-		if(health.getLives() <= 0){
+		if(health.getLives() <= 0  && buildingHit === undefined){
 			if(!endGame)endGame = true;
 			if(screenScore !== undefined){
 				screenScore.render(canvas, canvasctx);

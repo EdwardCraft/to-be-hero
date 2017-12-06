@@ -138,8 +138,8 @@ var EXPLOSION_HEIGHT = 160;
 var EXPLOSION_ANIMATION_VELOCITY = 3;
 
 /*Enemyes health's*/
-var FLY_GUY_HEALTH = 3;
-var ALIEN_FLY_HEALTH = 3;
+var FLY_GUY_HEALTH = 5;
+var ALIEN_FLY_HEALTH = 5;
 
 
 /*Score values*/

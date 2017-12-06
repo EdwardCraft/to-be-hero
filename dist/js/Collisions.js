@@ -249,7 +249,6 @@ function chekOfScreenWindow(){
 
 	if(flyGuy !== undefined){
 		if(flyGuy.getOfScree()){
-			console.log('of screen');
 			var newIndex = flyGuy.getDirrectionIndex();
 			flyGuy = null;
 			flyGuy = undefined;
@@ -361,7 +360,7 @@ function removeArrows(){
 	}
 	if(key === 1){
 		arrows.length -= 1;
-		console.log("arrows.length: ", arrows.length);
+		
 	}
 
 }

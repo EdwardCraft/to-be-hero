@@ -20,7 +20,7 @@ class ScoreScreen{
 
 	render(canvas, canvasctx){
 
-		canvasctx.globalAlpha = 0.5;
+		canvasctx.globalAlpha = 0.3;
 		canvasctx.fillStyle = "black";
 		canvasctx.fillRect( 0, 0,  canvas.width, canvas.height );
 		canvasctx.globalAlpha = 1;
@@ -28,7 +28,7 @@ class ScoreScreen{
 		canvasctx.lineWidth = 10;
 		canvasctx.strokeStyle = "white";
 		canvasctx.strokeRect( this.position[0], this.position[1], this.width, this.height);
-		canvasctx.fillStyle = "#E6B3FF";
+		canvasctx.fillStyle = "#FFA6EB";
 		canvasctx.fillRect( this.position[0], this.position[1], this.width, this.height);
 
 		canvasctx.font = 70 +"px" + " Passion One";
