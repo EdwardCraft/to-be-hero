@@ -23,6 +23,7 @@ class Level{
 		if(minChan !== undefined)minChan.update(delta, canvas);
 		if(buildingHit !== undefined)buildingHit.update(delta, canvas);
 		if(health !== undefined)health.update(delta, canvas);
+
 		for(var i = 0; i < arrows.length; i++){
 			if(arrows[i] !== undefined)
 				arrows[i].update(delta, canvas);
@@ -104,6 +105,7 @@ class Level{
 				explosions[i].render(canvas, canvasctx);
 			}
 		}
+	
 
 	}
 

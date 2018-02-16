@@ -32,6 +32,8 @@ class MinChan extends AbstractEntity{
 			this.endLoop = false;
 			this.count = 0;
 			this.currentImg = this.assets[this.count % this.frames];
+			this.checkForArrowPointer('TOP');
+
 		}
 
 		if(!this.isMiddle && (this.yAxis <= 296 && this.yAxis >= 209 && this.xAxis >= 670 && this.xAxis <= 770)){
@@ -45,6 +47,8 @@ class MinChan extends AbstractEntity{
 			this.endLoop = false;
 			this.count = 0;
 			this.currentImg = this.assets[this.count % this.frames];
+			this.checkForArrowPointer('MIDDLE');
+			
 		}
 
 		if(!this.isDown && (this.yAxis <= 458 && this.yAxis >= 368 && this.xAxis >= 670 && this.xAxis <= 770)){
@@ -58,6 +62,8 @@ class MinChan extends AbstractEntity{
 			this.endLoop = false;
 			this.count = 0;
 			this.currentImg = this.assets[this.count % this.frames];
+			this.checkForArrowPointer('DOWN');
+
 		}
 
 
@@ -65,6 +71,13 @@ class MinChan extends AbstractEntity{
 		this.repositionFrames(delta);
 	}
 	
+	checkForArrowPointer(sectionPosition){
+		if(arrowPointer !== undefined)
+			if(arrowPointer.getSectionPointer() === sectionPosition){
+				arrowPointer =  undefined;
+		}
+	}
+
 
 	repositionFrames(delta){
 

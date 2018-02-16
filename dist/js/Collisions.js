@@ -287,17 +287,30 @@ function createEntitie(){
 		case PAPA_ID: 
 			papa = new EnemyGround(  X_AXIS_STARTING_POSITION , PAPA_GROUND_OFFSET , 
 		 			PAPA_IMAGE_WIDTH, PAPA_IMAGE_HEIGHT,  papaFrames, PAPA_ANIMATION_VELOCITY, 
-		 			PAPA_MOVEMENT_VELOCITY, 'xAxis');	
+		 			PAPA_MOVEMENT_VELOCITY, 'xAxis');
+			if(scoreCount < 10){
+				arrowPointer = new ArrowPointer((GAME_WORLD_WIDTH / 2) + 240, 0, 100, 100, arrowPointerImage, 0, 0);
+				arrowPointer.setPointerArrow('DOWN');	
+			}
+		 	
 			break;
 		case PERV_ID: 
 			guyPerv = new EnemyGround( X_AXIS_STARTING_POSITION , PERV_GROUND_OFFSET, 
 									PERV_IMAGE_WIDTH, PERV_IMAGE_HEIGHT,  guyPervFrames, 
 									PERV_ANIMATION_VELOCITY, PERV_MOVEMENT_VELOCITY, 'xAxis');
+			if(scoreCount < 10){
+				arrowPointer = new ArrowPointer((GAME_WORLD_WIDTH / 2) + 240, 0, 100, 100, arrowPointerImage, 0, 0);
+				arrowPointer.setPointerArrow('DOWN');	
+			}
 			break;
 		case BOSS_ID: 
 			boosAlien = new EnemyGround( X_AXIS_STARTING_POSITION, BOSS_GROUND_OFFSET, 
 									BOSS_IMAGE_WIDTH, BOSS_IMAGE_HEIGHT , boosAlienFrames, 
 									BOSS_ANIMATION_VELOCITY, BOSS_MOVEMENT_VELOCITY, 'xAxis');
+			if(scoreCount < 10){
+				arrowPointer = new ArrowPointer((GAME_WORLD_WIDTH / 2) + 240, 0, 100, 100, arrowPointerImage, 0, 0);
+				arrowPointer.setPointerArrow('DOWN');	
+			}
 			break;
 		case TOILET_ID:
 			toilet = new EnemyGround( TOILET_SKY_X_OFFSET , X_AXIS_STARTING_POSITION, 
@@ -537,15 +550,19 @@ function createWindowObject(){
 				alienGirl = new AlienCute(WINDOW_X_STARTING_POSITION, 0, 
 					ALIEN_GIRL_IMAGE_WIDTH, ALIEN_GIRL_IMAGE_HEIGHT, alienGirlFrames, 
 					ALIEN_GIRL_ANIMATION_VELOCITY, ALIEN_GIRL_MOVEMENT_VELOCITY);
-
 				alienGirl.setPositionAlienGirl('TOP');
+				
+				arrowPointer = new ArrowPointer( GAME_WORLD_WIDTH - 100, 0, 100, 100, arrowPointerImage, 0, 0);
+				arrowPointer.setPointerArrow('TOP');	
+				
 				break;
 			case 1: 
 				alienGirl = new AlienCute(WINDOW_X_STARTING_POSITION, 0, 
 					ALIEN_GIRL_IMAGE_WIDTH, ALIEN_GIRL_IMAGE_HEIGHT, alienGirlFrames, 
 					ALIEN_GIRL_ANIMATION_VELOCITY, ALIEN_GIRL_MOVEMENT_VELOCITY);
-
 				alienGirl.setPositionAlienGirl('MIDDLE');
+				arrowPointer = new ArrowPointer( GAME_WORLD_WIDTH - 100, 0, 100, 100, arrowPointerImage, 0, 0);
+				arrowPointer.setPointerArrow('MIDDLE');	
 				break;
 		}
 	}

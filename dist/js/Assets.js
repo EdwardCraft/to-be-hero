@@ -28,11 +28,14 @@ let minChan;
 let arrow;
 let buildingHit;
 let health;
+let arrowPointer;
 
 /*level*/
 let level
 let screenScore;
 
+var arrowPointerImage;
+var logoImage;
 var arrowImg;
 var papaAssets = [
 	'assets/papa-1.png',
@@ -159,6 +162,11 @@ function getAssets(){
 	}
 	backgroundNightImg.src = 'assets/backgroundNight.jpg';
 
+	logoImage = new Image();
+	logoImage.onload = function(){}
+	logoImage.src = 'assets/To_Be_Hero_logo.png'
+
+
 	var backgroundDayImg = new Image();
 	backgroundDayImg.onload = function(){
 		backgroundDay = new  Entity(0, 0, 0, 0, backgroundDayImg);
@@ -221,6 +229,12 @@ function getAssets(){
 		towers = new  Entity(0, 0, 0, 0, towerImage);
 	}
 	towerImage.src = 'assets/towers.png';
+
+	arrowPointerImage = new Image();
+	arrowPointerImage.onload = function(){};
+	arrowPointerImage.src = 'assets/arrow.png';
+	arrowPointer = new ArrowPointer((GAME_WORLD_WIDTH / 2) + 240, 0, 100, 100, arrowPointerImage, 0, 0);
+	arrowPointer.setPointerArrow('DOWN');
 
 }
 

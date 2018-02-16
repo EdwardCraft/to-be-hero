@@ -30,10 +30,14 @@ class AlienCute extends AbstractEntity{
 		}
 		if(this.isAttack && this.onWindow){
 			this.runAnimationAttack();
+			if(arrowPointer !== undefined){
+				arrowPointer = undefined;
+			}
 		}else if(this.isAttack && !this.onWindow){
 			this.currentImg = this.assets[0];
 		}
 	}
+
 
 
 	peekWindow(delta){

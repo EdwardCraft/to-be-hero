@@ -62,7 +62,7 @@ window.onload = function() {
 
 
 function startEngine(device){
-	//videoTest = document.getElementById('video-test');
+	videoTest = document.getElementById('video-test');
 	console.log("hero from page loaded function");
 	
 	canvas = document.getElementById(device);
@@ -141,13 +141,18 @@ function onkeydown(e){
 }
 
 
+
+
 function onClick(e){
 
-	if(!startGame){
+	if(!startGame || e.keyCode === 13){
+
 		startGame = !startGame;
 		fontSize = originalFontSize;
 		canvasctx.font = fontSize + "px" + " Passion One";
 	}
+
+
 
 	if(endGame){
 		init();
@@ -177,6 +182,8 @@ function onClick(e){
 		alienGirl.setXAxis(xCoordinates);
 		alienGirl.setYAxis(yCoordinates);
 	}
+
+
 
 }
 
@@ -247,6 +254,8 @@ function mainLoop(timestamp){
 
 function update(delta){
 
+
+
 	difficultyUpdate();
 	createArrow();
 	collisions();
@@ -264,8 +273,10 @@ function update(delta){
 		@canvas: the canvas 
 	*/
 	if(startGame){
-		if(!endGame)
+		if(!endGame){
 			if(level !== undefined)level.update(delta, canvas);
+			if(arrowPointer !== undefined)arrowPointer.update(delta, canvas);
+		}
 	}
 	
 	/*Get Shooting animation value from the slider */
@@ -315,7 +326,6 @@ function render(){
 	clearScreen(0, 0, canvas.width, canvas.height, 'black');
 	
 	if(health !== undefined){
-		
 		if(level !== undefined)level.render(canvas, canvasctx);
 		renderText();
 		if(health.getLives() <= 0  && buildingHit === undefined){
@@ -339,13 +349,20 @@ function renderText(){
 	
 
 	if(!startGame){
-		canvasctx.font = 120 +"px" + " Passion One";
+		
+		canvasctx.drawImage(
+			logoImage, 
+			(canvas.width / 2) - (320), 
+			(canvas.height / 2) - (150)
+			);
+		canvasctx.font = 70 +"px" + " Passion One";
 		canvasctx.strokeStyle = 'white';
-		canvasctx.lineWidth = 20;
-		canvasctx.strokeText(" PRESS  START ", 160, (canvas.height / 2) + 20);
+		canvasctx.lineWidth = 15;
+		canvasctx.strokeText(" PRESS  START ", 280, (canvas.height / 2) + 170);
 		canvasctx.fillStyle = '#FFA4EE';
-		canvasctx.fillText(" PRESS  START ", 160, (canvas.height / 2) + 20);
+		canvasctx.fillText(" PRESS  START ", 280, (canvas.height / 2) + 170);
 	}else{
+		if(arrowPointer !== undefined)arrowPointer.render(canvas, canvasctx);
 		canvasctx.strokeStyle = 'white';
 		canvasctx.lineWidth = 8;
 		canvasctx.strokeText("SCORE   " + scoreCount, 50 - (fontSize / 2), 30 + (fontSize / 2));
